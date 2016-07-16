@@ -167,7 +167,6 @@
 
     }, 250);
     function buttonLoad() {
-        document.getElementById("farmBuild").onclick = build('farms', 1);
+        document.getElementById("buildFarm").onclick = function () { build('farms', 1); };
     }
-    buttonLoad();
 }());
