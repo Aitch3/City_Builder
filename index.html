@@ -3,34 +3,38 @@
 	<head>
         <link href='https://fonts.googleapis.com/css?family=Vollkorn:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" type="text/css" href="interface.css" />
-		<title>City Builder 0.0.2</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script src="main.js"></script>
+		<title>City Builder 0.0.2</title>        
 	</head>
 	<body>
-        <div id="leftColumn" class="column" style="float: left">
+        <div id ="choiceHeader" class="fullScreenDiv">
+            <div id="choice"><span id="choiceText">Welcome to the game!</span></div>
+            <div id="option1" class="option"><button class="btn" id="optionButton1" disabled><span id="optionText1">1</span></button></div>
+            <div id="option2" class="option"><button class="btn" id="optionButton2" disabled><span id="optionText2">2</span></button></div>
+            <div id="option3" class="option"><button class="btn" id="optionButton3" disabled><span id="optionText3">3</span></button></div>
+        </div>    
+        <div id="leftColumn" class="column">
             <div class="header" title="People to do your bidding">Workers</div>
             <hr>
-            <div class="containerWorker">
-                <div class="content">Peons: <span id="peonAmount">10</span></div>
-                <div class="content" id="farmers">
-                    <button class="btn" id="farmerPlus" onclick="assign('farmers', 1)" disabled>Farmers:&nbsp;<span id="farmerAmount">0</span></button>
-                    <button class="btn fire" id="farmerMinus" onclick="assign('farmers', -1)" disabled>Fire</button>
+            <div class="container">
+                <div class="occupation" id="peons"><span id="peonTitle">Peons</span>: <span id="peonAmount">10</span></div>
+                <div class="occupation" id="farmers">
+                    <button class="btn" id="farmerPlus" disabled>Farmers:&nbsp;<span id="farmerAmount">0</span></button>
+                    <button class="btn fire" id="farmerMinus" disabled>Fire</button>
                 </div>
-                <div class="content" id="woodcutters">
-                    <button class="btn" id="woodcutterPlus" onclick="assign('woodcutters', 1)" disabled>Woodcutters:&nbsp;<span id="woodcutterAmount">0</span></button>
-                    <button class="btn fire" id="woodcutterMinus" onclick="assign('woodcutters', -1)" disabled>Fire</button>
+                <div class="occupation" id="woodcutters">
+                    <button class="btn" id="woodcutterPlus" disabled>Woodcutters:&nbsp;<span id="woodcutterAmount">0</span></button>
+                    <button class="btn fire" id="woodcutterMinus" disabled>Fire</button>
                 </div>
-                <div class="content" id="stonecutters">
-                    <button class="btn" id="stonecutterPlus" onclick="assign('stonecutters', 1)" disabled>Stonecutters:&nbsp;<span id="stonecutterAmount">0</span></button>
-                    <button class="btn fire" id="stonecutterMinus" onclick="assign('stonecutters', -1)" disabled>Fire</button>
+                <div class="occupation" id="stonecutters">
+                    <button class="btn" id="stonecutterPlus" disabled>Stonecutters:&nbsp;<span id="stonecutterAmount">0</span></button>
+                    <button class="btn fire" id="stonecutterMinus" disabled>Fire</button>
                 </div>
             </div>
         </div>
         <div id="middleColumn" class="column">
             <div class="header">Resources</div>
             <hr>
-            <div class="containerResources">
+            <div class="container">
                 <div class="content">Food: <span id="food">50</span></div>
                 <div class="content">Wood: <span id="wood">0</span></div>
                 <div class="content">Stone: <span id="stone">0</span></div>
@@ -38,20 +42,31 @@
             <br>
              <div class="header">Technologies</div>
             <hr>
-            <div class="containerTechnologies">
+            <div class="container">
             </div>
         </div>
         <div id="rightColumn" class="column">
-            <div class="header">Buildings</div>
+            <div class="header" title="buildy things!">Buildings</div>
             <hr>
-            <div class="containerBuildings">
-                <div title="" class="content">
+            <div class="container">
+                <div class="building" id="farms">
                     <button class="btn" id="buildFarm" disabled>Farms:&nbsp;<span id="farmAmount">0</span></button>
-                    <div class ="cost">Food: <span id="farms.costFood">0</span>, Wood: <span id="farms.costWood">0</span></div>
+                    <div class ="cost">Food: <span id="farms.costFood">0</span>, Wood: <span id="farms.costWood">0</span>, Stone: <span id="farms.costStone">0</span></div>
+                </div>    
+                <div class="building" id="lumbermills">    
+                    <button class="btn" id="buildLumbermill" disabled>Lumbermills:&nbsp;<span id="lumbermillAmount">0</span></button>
+                    <div class ="cost">Food: <span id="lumbermills.costFood">0</span>, Wood: <span id="lumbermills.costWood">0</span>, Stone: <span id="lumbermills.costStone">0</span></div>
+                </div>
+                <div class="building" id="quarries">                    
+                    <button class="btn" id="buildQuarry" disabled>Quarries:&nbsp;<span id="quarryAmount">0</span></button>
+                    <div class ="cost">Food: <span id="quarries.costFood">0</span>, Wood: <span id="quarries.costWood">0</span>, Stone: <span id="quarries.costStone">0</span></div>
                 </div>
             </div>
         </div>
-          
+        <div>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+            <script src="main.js"></script>  
+        </div>
     </body>
 </html>
 
