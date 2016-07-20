@@ -8,15 +8,15 @@
 	<body>
         <div id ="choiceHeader" class="fullScreenDiv">
             <div id="choice"><span id="choiceText">Welcome to the game!</span></div>
-            <div id="option1" class="option"><button class="btn" id="optionButton1" disabled><span id="optionText1">1</span></button></div>
-            <div id="option2" class="option"><button class="btn" id="optionButton2" disabled><span id="optionText2">2</span></button></div>
-            <div id="option3" class="option"><button class="btn" id="optionButton3" disabled><span id="optionText3">3</span></button></div>
+            <div id="option1" class="option"><button class="btn top" id="optionButton1" disabled><span id="optionText1">1</span></button></div>
+            <div id="option2" class="option"><button class="btn top" id="optionButton2" disabled><span id="optionText2">2</span></button></div>
+            <div id="option3" class="option"><button class="btn top" id="optionButton3" disabled><span id="optionText3">3</span></button></div>
         </div>    
         <div id="leftColumn" class="column">
             <div class="header" title="People to do your bidding">Workers</div>
             <hr>
             <div class="container">
-                <div class="occupation" id="peons"><span id="peonTitle">Peons</span>: <span id="peonAmount">10</span></div>
+                <div class="occupation" id="peons"><span id="peonTitle"></span>: <span id="peonAmount"></span></div>
                 <div class="occupation" id="farmers">
                     <button class="btn" id="farmerPlus" disabled>Farmers:&nbsp;<span id="farmerAmount">0</span></button>
                     <button class="btn fire" id="farmerMinus" disabled>Fire</button>
@@ -62,6 +62,9 @@
                     <div class ="cost">Food: <span id="quarries.costFood">0</span>, Wood: <span id="quarries.costWood">0</span>, Stone: <span id="quarries.costStone">0</span></div>
                 </div>
             </div>
+        </div>
+        <div id="bottomBar" class="container fullScreenDiv">
+            <div class="clock">Minute:&nbsp;<span id= "minute">0</span>&nbsp;&nbsp;&nbsp;&nbsp;Hour:&nbsp;<span id= "hour">0</span>&nbsp;&nbsp;&nbsp;&nbsp;Day:&nbsp;<span id= "day">0</span>&nbsp;&nbsp;&nbsp;&nbsp;Year:&nbsp;<span id= "year">0</span></div>
         </div>
         <div>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

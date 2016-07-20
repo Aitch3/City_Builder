@@ -1,0 +1,24 @@
+    Var wood = {amount: 100};
+
+    function freeStuff(stuff, number) {
+           stuff.amount += number;} 
+
+    document.getElementById('optionButton2').onclick = function () { freeStuff(wood, 500); };
+
+works but
+
+    Var wood = 100;
+
+    function freeStuff(stuff, number) {
+        stuff += number;}
+
+    document.getElementById('optionButton2').onclick = function () { freeStuff(wood, 500); };
+
+doesn't neither does
+
+    Var resource = {wood: 100};
+
+    function freeStuff(stuff, number) {
+    resource.stuff += number;}
+    
+    document.getElementById('optionButton2').onclick = function () { freeStuff(wood, 500); };

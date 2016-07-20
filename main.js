@@ -2,34 +2,37 @@
     'use strict';
 
     var peons = {
-            startPopulation: 10,
-            population: 10,
+            startPopulation: 1,
+            population: 1,
             name: "peons",
-            title: "Peons",
-            foodProd: 0.015,
-            woodProd: 0.0025,
-            stoneProd: 0.00125
+            title: "You",
+            foodProd: 0,
+            woodProd: 0,
+            stoneProd: 0
         },
         farmers = {
             startPopulation: 0,
             population: 0,
             name: "farmers",
             title: "Farmers",
-            foodProd: 0.08
+            foodProd: 0.08,
+            unlocked: 0
         },
         woodcutters = {
             startPopulation: 0,
             population: 0,
             name: "woodcutters",
             title: "Woodcutters",
-            woodProd: 0.01
+            woodProd: 0.01,
+            unlocked: 0
         },
         stonecutters = {
             startPopulation: 0,
             population: 0,
             name: "stonecutters",
             title: "Stonecutters",
-            stoneProd: 0.005
+            stoneProd: 0.005,
+            unlocked: 0
         },
         farms = {
             startAmount: 0,
@@ -40,7 +43,8 @@
             costFood: 1,
             costWood: 4,
             costStone: 0,
-            costIncrement: 1.2
+            costIncrement: 1.2,
+            unlocked: 0
         },
         lumbermills = {
             startAmount: 0,
@@ -51,7 +55,8 @@
             costFood: 0,
             costWood: 1,
             costStone: 4,
-            costIncrement: 1.2
+            costIncrement: 1.2,
+            unlocked: 0
         },
         quarries = {
             startAmount: 0,
@@ -62,7 +67,11 @@
             costFood: 1,
             costWood: 4,
             costStone: 0,
-            costIncrement: 1.2
+            costIncrement: 1.2,
+            unlocked: 0
+        },
+        territory = {
+            cave: 0
         },
         time = {
             min: 0,
@@ -70,10 +79,17 @@
             day: 0,
             year: 0
         },
-        food = {amount: 50},
-        wood = {amount: 104},
+        food = {amount: 1},
+        wood = {amount: 0},
         stone = {amount: 0},
+        military = {rating: 0},
+        nature = {rating: 0},
+        mysticism = {rating: 0},
+        culture = {rating: 0},
+        religion = {rating: 0},
         eventName = "",
+        eventCounter = 0,
+        eventList = [],
         dead = 0;
 
     function prettify(input) {
@@ -82,23 +98,32 @@
     }
     
     function makeVisible() {
-        if (farms.amount >= 1) {
+        if (farms.unlocked >= 1) {
+            document.getElementById('farms').style.display = "block";
+        }
+        if (farmers.unlocked >= 1) {
             document.getElementById('farmers').style.display = "block";
         }
-        if (lumbermills.amount >= 1) {
+        if (lumbermills.unlocked >= 1) {
+            document.getElementById('lumbermills').style.display = "block";
+        }
+        if (woodcutters.unlocked >= 1) {
             document.getElementById('woodcutters').style.display = "block";
         }
-        if (quarries.amount >= 1) {
+        if (quarries.unlocked >= 1) {
+            document.getElementById('quarries').style.display = "block";
+        }
+        if (stonecutters.unlocked >= 1) {
             document.getElementById('stonecutters').style.display = "block";
         }
         if (eventName !== "") {
-            document.getElementById('option1').style.display = "block";
-            document.getElementById('option2').style.display = "block";
-            document.getElementById('option3').style.display = "block";
+            document.getElementById('option1').style.visibility = "visible";
+            document.getElementById('option2').style.visibility = "visible";
+            document.getElementById('option3').style.visibility = "visible";
         } else {
-            document.getElementById('option1').style.display = "none";
-            document.getElementById('option2').style.display = "none";
-            document.getElementById('option3').style.display = "none";
+            document.getElementById('option1').style.visibility = "hidden";
+            document.getElementById('option2').style.visibility = "hidden";
+            document.getElementById('option3').style.visibility = "hidden";
         }
         
     }
@@ -179,12 +204,20 @@
             document.getElementById('buildQuarry').disabled = true;
         }
     }
+    
+    function updateTime() {
+        document.getElementById('minute').innerHTML = prettify(time.min);
+        document.getElementById('hour').innerHTML = prettify(time.hour);
+        document.getElementById('day').innerHTML = prettify(time.day);
+        document.getElementById('year').innerHTML = prettify(time.year);
+    }
 
     function updateAll() {
         updateWorkers();
         updateBuildings();
         updateResources();
         updateButtons();
+        updateTime();
         makeVisible();
     }
 
@@ -230,10 +263,10 @@
         updateAll();
     }
     
-    function freeStuff(stuff, number) {
+    /*function freeStuff(stuff, number) {
         stuff.amount += number;
         eventName = "";
-    }
+    }*/
 
     function produce() {
         food.amount += ((farmers.population * farmers.foodProd) + (peons.population * peons.foodProd));
@@ -243,47 +276,89 @@
     
     function consume() {
         var population = peons.population + farmers.population + woodcutters.population + stonecutters.population;
-        food.amount -= (population * 0.01);
+        food.amount -= (population * 0.1);
     }
     
     function eventRun() {
-        if (eventName === 'FirstChoice') {
+        if (eventName === 'firstChoice') {
             document.getElementById('choiceText').innerHTML = "You have no food and you are very hungry. What would you like to do?";
-            document.getElementById('optionText1').innerHTML = "Go hunting mammoths";
+            document.getElementById('optionText1').innerHTML = "Go hunting deer";
             document.getElementById('optionText2').innerHTML = "Start gathering nuts and berries";
             document.getElementById('optionText3').innerHTML = "Starve";
             document.getElementById('optionButton1').disabled = false;
             document.getElementById('optionButton2').disabled = false;
             document.getElementById('optionButton3').disabled = false;
-            document.getElementById('optionButton1').onclick = function () { freeStuff(food, 500); };
-            document.getElementById('optionButton2').onclick = function () { freeStuff(wood, 500); };
-            document.getElementById('optionButton3').onclick = function () { freeStuff(stone, 500); };
+            document.getElementById('optionButton1').onclick = function () { food.amount += 10; peons.foodProd += 0.25; peons.title = "Hunters"; eventName = ""; document.getElementById('choiceText').innerHTML = "You are now on the path of the Hunter."; };
+            document.getElementById('optionButton2').onclick = function () { food.amount += 5; wood.amount += 2; peons.foodProd += 0.15; peons.woodProd += 0.1; peons.title = "Gatherers"; eventName = ""; document.getElementById('choiceText').innerHTML = "You are now on the path of the Gatherer."; };
+            document.getElementById('optionButton3').onclick = function () { mysticism.rating += 1; peons.title = "Fools"; eventName = ""; document.getElementById('choiceText').innerHTML = "You are a fool."; };
         }
-        
         if (eventName === "") {
-            document.getElementById('choiceText').innerHTML = "You currently have no choices to make.";
             document.getElementById('optionButton1').disabled = true;
             document.getElementById('optionButton2').disabled = true;
             document.getElementById('optionButton3').disabled = true;
         }
-    }
-    
-    function eventCheck() {
-        if (time.hour === 1) {
-            eventName = 'FirstChoice';
+        if (eventName === 'starving') {
+            document.getElementById('choiceText').innerHTML = "You don't have enough food, You will die.";
+        }
+        if (eventName === 'bigHunt') {
+            document.getElementById('choiceText').innerHTML = "You find a mammoth, there's good eating on one of those.";
+            document.getElementById('optionText1').innerHTML = "Find a friend to help hunt it";
+            document.getElementById('optionText2').innerHTML = "Chase it off a cliff";
+            document.getElementById('optionText3').innerHTML = "Try to talk to it";
+            document.getElementById('optionButton1').disabled = false;
+            document.getElementById('optionButton2').disabled = false;
+            document.getElementById('optionButton3').disabled = false;
+            document.getElementById('optionButton1').onclick = function () { peons.population += 1; peons.foodProd += 0.05; eventName = ""; document.getElementById('choiceText').innerHTML = "Your friend joins you and you can hunt much better."; };
+            document.getElementById('optionButton2').onclick = function () { food.amount += 50; territory.cave += 1; eventName = ""; document.getElementById('choiceText').innerHTML = "You succefully harvest a great deal of food, and in doing so, you find a cave."; };
+            document.getElementById('optionButton3').onclick = function () { nature.rating += 1; eventName = ""; document.getElementById('choiceText').innerHTML = "The mammoth teaches you it's secrets."; };
+        }
+        if (eventName === 'specialFind') {
+            document.getElementById('choiceText').innerHTML = "Where would you like to gather food today?";
+            document.getElementById('optionText1').innerHTML = "Off in the forest";
+            document.getElementById('optionText2').innerHTML = "Up by the mountains";
+            document.getElementById('optionText3').innerHTML = "Down in the dirt";
+            document.getElementById('optionButton1').disabled = false;
+            document.getElementById('optionButton2').disabled = false;
+            document.getElementById('optionButton3').disabled = false;
+            document.getElementById('optionButton1').onclick = function () { food.amount += 25; wood.amount += 25; nature.rating += 1; eventName = ""; document.getElementById('choiceText').innerHTML = "The forest provides a bounty of food and wood."; };
+            document.getElementById('optionButton2').onclick = function () { territory.cave += 1; eventName = ""; document.getElementById('choiceText').innerHTML = "In the mountains you find a cave full of bats."; };
+            document.getElementById('optionButton3').onclick = function () { food.amount += 5; stone.amount += 10; eventName = ""; document.getElementById('choiceText').innerHTML = "You spend the afternoon digging in the dirt. You find mushrooms and rocks."; };
         }
     }
     
-    window.setInterval(function () {
-        produce();
-        consume();
-        eventCheck();
-        eventRun();
-        updateAll();
-        time.min += 5;
-        if (time.min === 60) {
+    function wasItDone(name) {
+        var listCheck = eventList.indexOf(name);
+        return listCheck;
+    }
+    
+    function eventCheck() {
+        var population = peons.population + farmers.population + woodcutters.population + stonecutters.population;
+        if (food.amount <= 0.1 && eventCounter === 0 && eventName === "") {
+            eventName = 'firstChoice';
+            eventList.push('firstChoice');
+            eventCounter += 1;
+        }
+        if ((population / 10) >= food.amount && eventCounter >= 1 && eventName === "" && wasItDone('starving') < 0) {
+            eventName = 'starving';
+            eventList.push('starving');
+            eventCounter += 1;
+        }
+        if (food.amount >= 20 && eventCounter >= 1 && eventName === "" && wasItDone('bigHunt') < 0) {
+            eventName = 'bigHunt';
+            eventList.push('bigHunt');
+            eventCounter += 1;
+        }
+        if (wood.amount >= 10 && eventCounter >= 1 && eventName === "" && wasItDone('specialFind') < 0) {
+            eventName = 'specialFind';
+            eventList.push('specialFind');
+            eventCounter += 1;
+        }
+    }
+    
+    function timeGoesOn() {
+        var seconds = time.min % 60;
+        if (seconds === 0) {
             time.hour += 1;
-            time.min = 0;
         }
         if (time.hour === 24) {
             time.day += 1;
@@ -293,6 +368,16 @@
             time.year += 1;
             time.day = 1;
         }
+    }
+    
+    window.setInterval(function () {
+        produce();
+        consume();
+        eventCheck();
+        eventRun();
+        updateAll();
+        time.min += 1;
+        timeGoesOn();
     }, 250);
         
     function buttonLoad() {
