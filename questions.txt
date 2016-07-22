@@ -22,3 +22,6 @@ doesn't neither does
     resource.stuff += number;}
     
     document.getElementById('optionButton2').onclick = function () { freeStuff(wood, 500); };
+
+
+How do I do running lifetime totals after resets

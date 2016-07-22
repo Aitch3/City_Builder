@@ -13,6 +13,13 @@ body {
     margin-left: 1%;
 }
  
+.container {
+    border-radius: 5px;
+    border: 2px solid lightgray;
+    background-color: darkslategray;
+    padding: 4px;
+}
+
 button {
   font: 16px Vollkorn;
 }
@@ -76,6 +83,10 @@ button {
     font-weight: bold;
 }
 
+.resource {
+    display: none;
+}
+
 .occupation {
     display: none;
 }
@@ -83,6 +94,10 @@ button {
 .option {
     visibility: hidden;
     margin-left: 26px;
+}
+
+.territory {
+    display: none;
 }
 
 .visible{
@@ -108,6 +123,22 @@ button {
     bottom:0;
 }
 
+#buildingBox {
+    display: none;
+}
+
+#food {
+    display: block;
+}
+
 #peons {
     display: block;
+}
+
+#techBox {
+    display: none;
+}
+
+#territoryBox {
+    display: none;
 }
