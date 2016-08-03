@@ -9,6 +9,16 @@
             stoneProd: 0,
             explorationProd: 0
         },
+        hunter = {
+            population: 0,
+            title: "Hunters",
+            foodProd: 0.5
+        },
+        gatherer = {
+            population: 0,
+            title: "Gatherers",
+            foodProd: 0.5
+        },
         farmer = {
             population: 0,
             title: "Farmers",
@@ -75,18 +85,26 @@
         },
         forest = {
             amount: 0,
+            costExploration: 1,
+            costIncrement: 1.2,
             unlocked: 0
         },
         mountain = {
             amount: 0,
+            costExploration: 1,
+            costIncrement: 1.2,
             unlocked: 0
         },
         plain = {
             amount: 0,
+            costExploration: 1,
+            costIncrement: 1.2,
             unlocked: 0
         },
         swamp = {
             amount: 0,
+            costExploration: 1,
+            costIncrement: 1.2,
             unlocked: 0
         },
         time = {
@@ -101,31 +119,329 @@
             day: 0,
             year: 0
         },
-        food = {amount: 1},
-        wood = {amount: 0},
-        stone = {amount: 0},
-        exploration = {amount: 0},
-        totalResources = {
-            food: 0,
-            wood: 0,
-            stone: 0
+        food = {
+            amount: 1,
+            startAmount: 1,
+            unlocked: 1
         },
-        totalPopulation = 0,
-        totalBuildings = 0,
-        totalTerritory = 0,
+        wood = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        stone = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        meat = {
+            amount: 1,
+            startAmount: 1,
+            unlocked: 1
+        },
+        fish = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        nuts = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        berries = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        fruit = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        vegetables = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        grains = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        eggs = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        milk = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        cheese = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        fur = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        leather = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        bones = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        sticks = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        logs = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        lumber = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        rocks = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        flint = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        clay = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        /*stone = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },*/
+        ore = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        water = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        oil = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        copper = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        tin = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        bronze = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        iron = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        steel = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        silver = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        gold = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        gems = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        crystals = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        money = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        exploration = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        mana = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        herbs = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        wool = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        linen = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        cotton = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        cloth = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        papyrus = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        paint = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        ink = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        charcoal = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        coal = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        salt = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        saltpeter = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        gunpowder = {
+            amount: 0,
+            startAmount: 0,
+            unlocked: 0
+        },
+        totalResources = {
+            meat: 0,
+            fish: 0,
+            nuts: 0,
+            berries: 0,
+            fruit: 0,
+            vegetables: 0,
+            grains: 0,
+            eggs: 0,
+            milk: 0,
+            cheese: 0,
+            fur: 0,
+            leather: 0,
+            bones: 0,
+            sticks: 0,
+            logs: 0,
+            lumber: 0,
+            rocks: 0,
+            flint: 0,
+            clay: 0,
+            stone: 0,
+            ore: 0,
+            water: 0,
+            oil: 0,
+            copper: 0,
+            tin: 0,
+            bronze: 0,
+            iron: 0,
+            steel: 0,
+            silver: 0,
+            gold: 0,
+            gems: 0,
+            crystals: 0,
+            money: 0,
+            mana: 0,
+            herbs: 0,
+            wool: 0,
+            linen: 0,
+            cotton: 0,
+            cloth: 0,
+            papyrus: 0,
+            paper: 0,
+            paint: 0,
+            ink: 0,
+            charcoal: 0,
+            coal: 0,
+            salt: 0,
+            saltpeter: 0,
+            gunpowder: 0
+        },
         military = {rating: 0},
         diplomacy = {rating: 0},
+        artistry = {rating: 0},
         nature = {rating: 0},
         mysticism = {rating: 0},
         culture = {rating: 0},
         religion = {rating: 0},
         knowldge = {rating: 0},
-        foolish = {rating: 4},
+        foolish = {rating: 0},
         good = {rating: 0},
         evil = {rating: 0},
+        totalPopulation = 0,
+        totalBuildings = 0,
+        totalTerritory = 0,
         totalTraits = {
             military: 0,
             diplomacy: 0,
+            artistry: 0,
             nature: 0,
             mysticism: 0,
             culture: 0,
@@ -221,18 +537,26 @@
         },
         startForest = {
             amount: 0,
+            costExploration: 1,
+            costIncrement: 1.2,
             unlocked: 0
         },
         startMountain = {
             amount: 0,
+            costExploration: 1,
+            costIncrement: 1.2,
             unlocked: 0
         },
         startPlain = {
             amount: 0,
+            costExploration: 1,
+            costIncrement: 1.2,
             unlocked: 0
         },
         startSwamp = {
             amount: 0,
+            costExploration: 1,
+            costIncrement: 1.2,
             unlocked: 0
         };
         
@@ -319,7 +643,7 @@
         document.getElementById('choiceText').innerHTML = "You have died. Would you like to try again?";
         document.getElementById('optionText1').innerHTML = "Yes";
         document.getElementById('optionText2').innerHTML = "No";
-        document.getElementById('optionButton1').onclick = function () { restart(); gamePause = 0; choiceDone(); };
+        document.getElementById('optionButton1').onclick = function () { restart(); choiceDone(); };
         document.getElementById('optionButton2').onclick = function () { document.getElementById('choiceText').innerHTML = "You lose."; choiceDone(); };
     }
     
@@ -328,8 +652,44 @@
             die();
         }
     }
+    
+    function choiceResult(result, resultText) {
+        var node = document.createElement("LI"),
+            textnode = document.createTextNode(resultText);
+        node.appendChild(textnode);
+        node.className = "sub";
+        document.getElementById('choiceText').innerHTML = resultText;
+        document.getElementById('gameLog').appendChild(node);
+        result();
+        eventName = "";
+        choiceDone();
+    }
+    
+    function choicePrint(text) {
+        var node = document.createElement("DIV"),
+            textnode = document.createTextNode(text);
+        node.appendChild(textnode);
+        document.getElementById('choiceText').innerHTML = text;
+        document.getElementById('gameLog').appendChild(node);
+    }
+    
+    function choice1Print(text1, result1, result1Text) {
+        document.getElementById('optionText1').innerHTML = text1;
+        document.getElementById('optionButton1').onclick = function () { choiceResult(result1, result1Text); };
+        
+    }
+    
+    function choice2Print(text2, result2, result2Text) {
+        document.getElementById('optionText2').innerHTML = text2;
+        document.getElementById('optionButton2').onclick = function () { choiceResult(result2, result2Text); };
+    }
+    
+    function choice3Print(text3, result3, result3Text) {
+        document.getElementById('optionText3').innerHTML = text3;
+        document.getElementById('optionButton3').onclick = function () { choiceResult(result3, result3Text); };
+    }
            
-    function updateWorkers() {
+    function updatePeons() {
         if (farm.unlocked >= 1) { document.getElementById('farmer').style.display = "block"; }
         if (lumbermill.unlocked >= 1) { document.getElementById('woodcutter').style.display = "block"; }
         if (quarry.unlocked >= 1) { document.getElementById('stonecutter').style.display = "block"; }
@@ -406,7 +766,7 @@
     }
 
     function updateButtons() {
-        //Workers
+        //Peons
         if (peon.population >= 1 && farm.amount > farmer.population) { document.getElementById('farmerPlus').disabled = false; }
         if (farmer.population >= 1) { document.getElementById('farmerMinus').disabled = false; }
         if (peon.population >= 1 && lumbermill.amount > woodcutter.population) { document.getElementById('woodcutterPlus').disabled = false; }
@@ -439,7 +799,7 @@
     }
     
     function updateAll() {
-        updateWorkers();
+        updatePeons();
         updateTerritory();
         updateBuildings();
         updateResources();
@@ -469,49 +829,55 @@
     function eventRun() {
         choiceReady();
         if (eventName === 'firstChoice') {
+            choicePrint("You have no food and you are very hungry. What would you like to do?");
+            choice1Print("Go hunting deer", function () { peon.foodProd += 0.2; peon.explorationProd += 0.2; peon.title = "Hunters"; }, "You are now on the path of the Hunter.");
+            choice2Print("Start gathering nuts and berries", function () { peon.foodProd += 0.15; peon.woodProd += 0.15; peon.explorationProd += 0.1; peon.title = "Gatherers";  }, "You are now on the path of the Gatherer.");
+            choice3Print("Starve", function () { foolish.rating += 1; peon.title = "Fools"; }, "You are a fool. You are starving to death.");
+        }
+        /*if (eventName === 'firstChoice') {
             document.getElementById('choiceText').innerHTML = "You have no food and you are very hungry. What would you like to do?";
             document.getElementById('optionText1').innerHTML = "Go hunting deer";
             document.getElementById('optionText2').innerHTML = "Start gathering nuts and berries";
             document.getElementById('optionText3').innerHTML = "Starve";
-            document.getElementById('optionButton1').onclick = function () { peon.foodProd += 0.2; peon.explorationProd += 0.2; peon.title = "Hunters"; eventName = ""; document.getElementById('choiceText').innerHTML = "You are now on the path of the Hunter."; choiceDone(); };
-            document.getElementById('optionButton2').onclick = function () { peon.foodProd += 0.1; peon.woodProd += 0.1; peon.explorationProd += 0.2; peon.title = "Gatherers"; eventName = ""; document.getElementById('choiceText').innerHTML = "You are now on the path of the Gatherer."; choiceDone(); };
+            document.getElementById('optionButton1').onclick = function () { peon.foodProd += 0.2; peon.explorationProd += 0.2; peon.title = "Hunters"; eventName = "";  document.getElementById('choiceText').innerHTML = "You are now on the path of the Hunter."; choiceDone(); };
+            document.getElementById('optionButton2').onclick = function () { peon.foodProd += 0.15; peon.woodProd += 0.15; peon.explorationProd += 0.1; peon.title = "Gatherers"; eventName = ""; document.getElementById('choiceText').innerHTML = "You are now on the path of the Gatherer."; choiceDone(); };
             document.getElementById('optionButton3').onclick = function () { foolish.rating += 1; peon.title = "Fools"; eventName = ""; document.getElementById('choiceText').innerHTML = "You are a fool. You are starving to death."; choiceDone(); };
-        }
+            
+            choicePrint();
+            choice1Print(, function () { ; }, );
+            choice2Print(, function () { ; }, );
+            choice3Print(, function () { ; }, );
+            
+        }*/
         if (eventName === 'bigHunt') {
-            document.getElementById('choiceText').innerHTML = "You find a mammoth, there's good eating on one of those.";
-            document.getElementById('optionText1').innerHTML = "Find a friend to help hunt it";
-            document.getElementById('optionText2').innerHTML = "Chase it off a cliff";
-            document.getElementById('optionText3').innerHTML = "Try to talk to it";
-            document.getElementById('optionButton1').onclick = function () { peon.population += 1; peon.foodProd += 0.1; eventName = ""; document.getElementById('choiceText').innerHTML = "Your friend joins you and you can hunt much better."; choiceDone(); };
-            document.getElementById('optionButton2').onclick = function () { food.amount += 50; cave.amount += 1; cave.unlocked += 1; eventName = ""; document.getElementById('choiceText').innerHTML = "You successfully harvest a great deal of food, and in doing so, you find a cave."; choiceDone(); };
-            document.getElementById('optionButton3').onclick = function () { nature.rating += 1; eventName = ""; document.getElementById('choiceText').innerHTML = "The mammoth teaches you its secrets."; choiceDone(); };
+            choicePrint("You find a mammoth, there's good eating on one of those.");
+            choice1Print("Find a friend to help hunt it", function () { peon.population += 1; peon.foodProd += 0.1; }, "Your friend joins you and you can hunt much better.");
+            choice2Print("Chase it off a cliff", function () { food.amount += 50; cave.amount += 1; cave.unlocked += 1; }, "You successfully harvest a great deal of food, and in doing so, you find a cave.");
+            choice3Print("Try to talk to it", function () { nature.rating += 1; }, "The mammoth teaches you its secrets.");
         }
         if (eventName === 'specialFind') {
-            document.getElementById('choiceText').innerHTML = "Where would you like to gather food today?";
-            document.getElementById('optionText1').innerHTML = "Off in the forest";
-            document.getElementById('optionText2').innerHTML = "Up by the mountains";
-            document.getElementById('optionText3').innerHTML = "Down in the dirt";
-            document.getElementById('optionButton1').onclick = function () { forest.amount += 1; peon.woodProd += 0.2;  forest.unlocked += 1; nature.rating += 1; eventName = ""; document.getElementById('choiceText').innerHTML = "The forest is nice, perhaps you'll keep it."; choiceDone(); };
-            document.getElementById('optionButton2').onclick = function () { cave.amount += 1; cave.unlocked += 1; eventName = ""; document.getElementById('choiceText').innerHTML = "In the mountains you find a cave full of bats."; choiceDone(); };
-            document.getElementById('optionButton3').onclick = function () { food.amount += 5; stone.amount += 10; eventName = ""; document.getElementById('choiceText').innerHTML = "You spend the afternoon digging in the dirt. You find mushrooms and rocks."; choiceDone(); };
+            choicePrint("Where would you like to gather food today?");
+            choice1Print("Off in the forest", function () { forest.amount += 1; peon.woodProd += 0.2;  forest.unlocked += 1; nature.rating += 1; }, "The forest is nice, perhaps you'll keep it.");
+            choice2Print("Up by the mountains", function () { cave.amount += 1; cave.unlocked += 1; }, "In the mountains you find a cave full of bats.");
+            choice3Print("Down in the dirt", function () { food.amount += 5; stone.amount += 10; }, "You spend the afternoon digging in the dirt. You find mushrooms and rocks.");
         }
         if (eventName === 'needHome') {
-            document.getElementById('choiceText').innerHTML = "You don't have a place to stay and it's getting cold.";
-            document.getElementById('optionText1').innerHTML = "Pile up sticks for warmth";
-            document.getElementById('optionText2').innerHTML = "Look in the mountains";
-            document.getElementById('optionText3').innerHTML = "Kill a tauntaun and climb inside";
-            document.getElementById('optionButton1').onclick = function () { peon.woodProd += 0.2; hut.unlocked += 1; hut.amount += 1; document.getElementById('buildHut').disabled = true;  eventName = ""; document.getElementById('choiceText').innerHTML = "You've learned how to build a hut."; choiceDone(); };
-            document.getElementById('optionButton2').onclick = function () { peon.explorationProd += 0.2; cave.amount += 1; cave.unlocked += 1; mysticism += 1; eventName = ""; document.getElementById('choiceText').innerHTML = "In the mountains you find a cave full of skeletons."; choiceDone(); };
-            document.getElementById('optionButton3').onclick = function () { eventName = ""; eventList.pop(); document.getElementById('choiceText').innerHTML = "You stay warm for the night but you better find something that will last longer."; choiceDone(); };
+            choicePrint("You don't have a place to stay and it's getting cold.");
+            choice1Print("Pile up sticks for warmth", function () { peon.woodProd += 0.2; hut.unlocked += 1; hut.amount += 1; }, "You've learned how to build a hut.");
+            choice2Print("Look in the mountains", function () { peon.explorationProd += 0.2; cave.amount += 1; cave.unlocked += 1; mysticism += 1; }, "In the mountains you find a cave full of skeletons.");
+            choice3Print("Kill a tauntaun and climb inside", function () { eventList.pop(); }, "You stay warm for the night but you better find something that will last longer.");
         }
         if (eventName === 'freeFool') {
-            document.getElementById('choiceText').innerHTML = "You have proceeded in your folly and have learned wisdom.";
-            document.getElementById('optionText1').innerHTML = "Farm";
-            document.getElementById('optionText2').innerHTML = "Lumbermill";
-            document.getElementById('optionText3').innerHTML = "Quarry";
-            document.getElementById('optionButton1').onclick = function () { farm.unlocked += 1; food.amount += 5; wood.amount += 4; eventName = ""; document.getElementById('choiceText').innerHTML = "You've learned how to build a farm."; choiceDone(); };
-            document.getElementById('optionButton2').onclick = function () { lumbermill.unlocked += 1; food.amount += 5; eventName = ""; document.getElementById('choiceText').innerHTML = "You've learned how to build a lumbermill."; choiceDone(); };
-            document.getElementById('optionButton3').onclick = function () { quarry.unlocked += 1; food.amount += 5; eventName = ""; document.getElementById('choiceText').innerHTML = "You've learned how to build a quarry."; choiceDone(); };
+            choicePrint("You have proceeded in your folly and have learned wisdom.");
+            choice1Print("Farm", function () { farm.unlocked += 1; food.amount += 5; wood.amount += 4; }, "You've learned how to build a farm.");
+            choice2Print("Lumbermill", function () { lumbermill.unlocked += 1; food.amount += 5; }, "You've learned how to build a lumbermill.");
+            choice3Print("Quarry", function () { quarry.unlocked += 1; food.amount += 5; }, "You've learned how to build a quarry.");
+        }
+        if (eventName === 'wildPath') {
+            choicePrint("You are becoming one with the land. How do you want to continue?");
+            choice1Print("Talk with animals", function () { farmer.title = "Wolves"; farm.title = "Dens"; farm.unlocked += 1; }, "You can now run with the wolves.");
+            choice2Print("Talk with plants", function () { peon.foodProd += 1; peon.explorationProd += 1; }, "You can speak with plants and make them grow.");
+            choice3Print("Turn your back on the wild", function () { nature.rating = 0; lumbermill.unlocked += 1; }, "You've given up the ways of nature. Time to chop it down!");
         }
     }
     
@@ -534,6 +900,10 @@
             eventCounter += 1;
         } else if (populationTotal > populationLimit && wasItDone('needHome') < 0) {
             eventName = 'needHome';
+            eventList.push(eventName);
+            eventCounter += 1;
+        } else if (nature.rating >= 2 && wasItDone('wildPath') < 0) {
+            eventName = 'wildPath';
             eventList.push(eventName);
             eventCounter += 1;
         }

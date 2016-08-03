@@ -18,15 +18,15 @@
                 <div class="container">
                     <div class="occupation" id="peons"><span id="peonTitle"></span>: <span id="peonAmount"></span></div>
                     <div class="occupation" id="farmer">
-                        <button class="btn" id="farmerPlus" disabled>Farmers:&nbsp;<span id="farmerAmount"></span></button>
+                        <button class="btn" id="farmerPlus" disabled><span id="farmerTitle"></span>: <span id="farmerAmount"></span></button>
                         <button class="btn fire" id="farmerMinus" disabled>Fire</button>
                     </div>
                     <div class="occupation" id="woodcutter">
-                        <button class="btn" id="woodcutterPlus" disabled>Woodcutters:&nbsp;<span id="woodcutterAmount"></span></button>
+                        <button class="btn" id="woodcutterPlus" disabled><span id="woodcutterTitle"></span>: <span id="woodcutterAmount"></span></button>
                         <button class="btn fire" id="woodcutterMinus" disabled>Fire</button>
                     </div>
                     <div class="occupation" id="stonecutter">
-                        <button class="btn" id="stonecutterPlus" disabled>Stonecutters:&nbsp;<span id="stonecutterAmount"></span></button>
+                        <button class="btn" id="stonecutterPlus" disabled><span id="stonecutterTitle"></span>: <span id="stonecutterAmount"></span></button>
                         <button class="btn fire" id="stonecutterMinus" disabled>Fire</button>
                     </div>
                 </div>
@@ -91,7 +91,13 @@
                 </div>
             </div>
         </div>
+        
         <div id="bottomBar" class="container fullScreenDiv">
+            <div id="logBox">
+                <div class="header" title="What's happened in he past">Your Adventure So Far</div>
+                <div class="container textBox fullScreenDiv" id="gameLog">
+                </div>
+            </div>
             <div class="clock">Minute:&nbsp;<span id= "minute"></span>&nbsp;&nbsp;&nbsp;&nbsp;Hour:&nbsp;<span id= "hour"></span>&nbsp;&nbsp;&nbsp;&nbsp;Day:&nbsp;<span id= "day"></span>&nbsp;&nbsp;&nbsp;&nbsp;Year:&nbsp;<span id= "year"></span></div>
         </div>
         <div>

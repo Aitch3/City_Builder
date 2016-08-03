@@ -22,6 +22,58 @@ doesn't neither does
     resource.stuff += number;}
     
     document.getElementById('optionButton2').onclick = function () { freeStuff(wood, 500); };
+    
+    
+In Case A, you don’t get an expected result because you’ve passed in a simple type.
+
+[8:52] 
+Instead of passing in an object (via reference), you’ve passed in a number (via value).
+
+[8:52] 
+So when you pass in wood, you’re just setting stuff => 100 & not stuff => wood.
+So you passed the value of wood, not the OBJECT wood, in case A.
+Let's see. I called the first *not working* thing case A.
+And in Case B (the second not working thing), what if you passed resource.wood as opposed to just wood?
+Ahh, and you can stuff an object in an object like this:
+resource = {
+ wood: {
+   stuff: 100
+ }
+}
+That should work, if you then adjust the onclick to call freeStuff(resource.wood, 500)
+Sweet.
+So it's just a matter of understanding when you're passing the *value* of the thing you're passing, as opposed to passing the object, which will change values corretly.
+Dave and Jon both chimed in on this conversation, and they said in Javascript, it is trickier than pretty much any other language.
+
+In case B, you passed "wood" in the onclick function.
+(Case B is the second one that wasn't working)
+But wood is not a global variable.
+resource.wood is.
+But!
+If you changed that to resource.wood, it would become functionally identical to case A, in that it would be passing an integer value, instead of the object.
+Check out this later, too.
+It uses the string to call by reference:
+   var resource = {
+        wood: 100
+    };
+
+function freeStuff(stuff, number) {
+    resource[stuff] += number;
+}
+
+document.getElementById('optionButton2').onclick = function () { freeStuff('wood', 500); };
+I bet you'd probably want to use this most of the time.
+Avoid the whole "am I passing an integer value, or am I passing the object" question entirely.    
+    
+    
+    
+
+        I figured these out
+            How do I do running lifetime totals after resets
 
 
-How do I do running lifetime totals after resets
+            How would I take a line like this
+                document.getElementById('statusBarText').innerHTML = "You have purchased a building.";
+            and have building be a variable.
+
+             document.getElementById('statusBarText').innerHTML = "You have purchased a " + building.title + ".";

@@ -96,8 +96,24 @@ button {
     margin-left: 26px;
 }
 
+.sub {
+    text-indent: 10px;
+    color: #AFEEEE;
+}
+
 .territory {
     display: none;
+}
+
+.textBox {
+    border-radius: 5px;
+    border: 2px solid goldenrod;
+    font-size: 12px;
+    height: 120px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: #000000;
+    color: #00CED1;
 }
 
 .visible{
@@ -129,6 +145,11 @@ button {
 
 #food {
     display: block;
+}
+
+#logBox {
+    position: bottom;
+    left: 0;
 }
 
 #peons {
