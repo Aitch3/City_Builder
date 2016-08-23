@@ -1,117 +1,951 @@
+/*jslint sub:true, devel:true */
+/*global updateAll, updateBuildings, updateTerritory, updateWorkers */
 (function (window, $) {
     'use strict';
+//Population
+    var workers = {
+            animal: {
+                population: 0,
+                title: "Animals",
+                meatProd: 0.1,
+                fishProd: 0,
+                fursProd: 0
+            },
+            artist: {
+                population: 0,
+                title: "Artists",
+                cultureProd: 0
+            },
+            carpenter: {
+                population: 0,
+                title: "Carpenters",
+                lumberProd: 0
+            },
+            cook: {
+                population: 0,
+                title: "Cooks"
+            },
+            crafter: {
+                population: 0,
+                title: "Crafters"
+            },
+            druid: {
+                population: 0,
+                title: "Druids",
+                herbsProd: 0
+            },
+            farmer: {
+                population: 0,
+                title: "Farmers",
+                grainsProd: 0.1,
+                vegetablesProd: 0.1,
+                eggsProd: 0,
+                milkProd: 0
+            },
+            fisher: {
+                population: 0,
+                title: "Fishermen",
+                fishProd: 0.1
+            },
+            fool: {
+                population: 0,
+                title: "Fools"
+            },
+            gatherer: {
+                population: 0,
+                title: "Gatherers",
+                nutsProd: 0.1,
+                berriesProd: 0.1,
+                rocksProd: 0.05,
+                fruitProd: 0.1,
+                sticksProd: 0.05,
+                explorationProd: 0.01
+            },
+            ghost: {
+                population: 0,
+                title: "Ghosts"
+            },
+            hunter: {
+                population: 0,
+                title: "Hunters",
+                meatProd: 0.25,
+                fishProd: 0,
+                fursProd: 0.05,
+                bonesProd: 0.01,
+                explorationProd: 0.01
+            },
+            laborer: {
+                population: 0,
+                title: "Laborers",
+                rockProd: 0,
+                oreProd: 0,
+                logsProd: 0
+            },
+            magic: {
+                population: 0,
+                title: "Mages",
+                manaProd: 0,
+                crystalsProd: 0
+            },
+            mason: {
+                population: 0,
+                title: "Stonecutters",
+                stoneProd: 0
+            },
+            peon: {
+                population: 1,
+                title: "You"
+            },
+            sailor: {
+                population: 0,
+                title: "Sailors"
+            },
+            scientist: {
+                population: 0,
+                title: "Scientists"
+            },
+            warrior: {
+                population: 0,
+                title: "Warriors",
+                foodProd: 0.5
+            },
+            weaver: {
+                population: 0,
+                title: "Weavers",
+                woolProd: 0,
+                linenProd: 0,
+                cottonProd: 0,
+                clothProd: 0
+            },
+            woodsman: {
+                population: 0,
+                title: "Woodmens",
+                sticksProd: 0,
+                logsProd: 0
+            }
+        },
+        actions = {
+            sacredChant: {
+                amount: 0,
+                cost: {
+                    bones: {
+                        amount: 1,
+                        title: "Bones"
+                    }
+                },
+                increment: 1,
+                state: 0,
+                height: 100,
+                width: 1,
+                reward: "gatherer",
+                speed: 0.25
+            },
+            roastMeat: {
+                amount: 0,
+                cost: {
+                    meat: {
+                        amount: 1,
+                        title: "Meat"
+                    }
+                },
+                increment: 1,
+                state: 0,
+                height: 100,
+                width: 1,
+                reward: "hunter",
+                speed: 0.25
+            }
+        },
+//Primitive Buildings
+        building = {
+            barricade: {
+                amount: 0,
+                title: "Wooden Walls",
+                housing: 0,
+                foodStorage: 0,
+                cost: {
+                    sticks: {
+                        amount: 4,
+                        title: "Sticks"
+                    },
+                    rocks: {
+                        amount: 2,
+                        title: "Rocks"
+                    }
+                },
+                increment: 1.2
+            },
+            herbGarden: {
+                amount: 0,
+                title: "Herb Gardens",
+                housing: 0,
+                foodStorage: 5,
+                cost: {
+                    sticks: {
+                        amount: 4,
+                        title: "Sticks"
+                    },
+                    rocks: {
+                        amount: 2,
+                        title: "Rocks"
+                    }
+                },
+                increment: 1.2
+            },
+            hut: {
+                amount: 0,
+                title: "Huts",
+                housing: 2,
+                foodStorage: 20,
+                cost: {
+                    sticks: {
+                        amount: 4,
+                        title: "Sticks"
+                    },
+                    rocks: {
+                        amount: 2,
+                        title: "Rocks"
+                    }
+                },
+                increment: 1.2
+            },
+            shamanHut: {
+                amount: 0,
+                title: "Shaman Huts",
+                housing: 1,
+                foodStorage: 0,
+                cost: {
+                    sticks: {
+                        amount: 4,
+                        title: "Sticks"
+                    },
+                    rocks: {
+                        amount: 2,
+                        title: "Rocks"
+                    }
+                },
+                increment: 2
+            },
+            shrine: {
+                amount: 0,
+                title: "Shrines",
+                housing: 0,
+                foodStorage: 0,
+                cost: {
+                    sticks: {
+                        amount: 4,
+                        title: "Sticks"
+                    },
+                    rocks: {
+                        amount: 2,
+                        title: "Rocks"
+                    }
+                },
+                increment: 2
+            },
+            teepee: {
+                amount: 0,
+                title: "Teepee",
+                housing: 3,
+                foodStorage: 20,
+                cost: {
+                    sticks: {
+                        amount: 4,
+                        title: "Sticks"
+                    },
+                    rocks: {
+                        amount: 2,
+                        title: "Rocks"
+                    }
+                },
+                increment: 1.2
+            },
+            wigwam: {
+                amount: 0,
+                title: "Wigwams",
+                housing: 6,
+                foodStorage: 30,
+                cost: {
+                    sticks: {
+                        amount: 4,
+                        title: "Sticks"
+                    },
+                    rocks: {
+                        amount: 2,
+                        title: "Rocks"
+                    }
+                },
+                increment: 1.4
+            },
+    //Buildings        
+            alchemistLab: {
+                amount: 0,
+                title: "Alchemist Labs",
+                cost: {
+                    logs: {
+                        amount: 4,
+                        title: "Logs"
+                    },
+                    glass: {
+                        amount: 2,
+                        title: "Glass"
+                    },
+                    stone: {
+                        amount: 4,
+                        title: "Stone"
+                    }
+                },
+                increment: 1.2
+            },
+            apothecary: {
+                amount: 0,
+                title: "Apothecaries",
+                cost: {
+                    logs: {
+                        amount: 4,
+                        title: "Logs"
+                    },
+                    glass: {
+                        amount: 2,
+                        title: "Glass"
+                    },
+                    stone: {
+                        amount: 4,
+                        title: "Stone"
+                    }
+                },
+                increment: 1.2
+            },
+            armory: {
+                amount: 0,
+                title: "Armories",
+                cost: {
+                    logs: {
+                        amount: 4,
+                        title: "Logs"
+                    },
+                    glass: {
+                        amount: 2,
+                        title: "Glass"
+                    },
+                    stone: {
+                        amount: 4,
+                        title: "Stone"
+                    }
+                },
+                increment: 1.2
+            },
+            barracks: {
+                amount: 0,
+                title: "Barracks",
+                cost: {
+                    logs: {
+                        amount: 4,
+                        title: "Logs"
+                    },
+                    glass: {
+                        amount: 2,
+                        title: "Glass"
+                    },
+                    stone: {
+                        amount: 4,
+                        title: "Stone"
+                    }
+                },
+                increment: 1.2
+            },
+            blacksmith: {
+                amount: 0,
+                title: "Blacksmithies",
+                cost: {
+                    logs: {
+                        amount: 4,
+                        title: "Logs"
+                    },
+                    glass: {
+                        amount: 2,
+                        title: "Glass"
+                    },
+                    stone: {
+                        amount: 4,
+                        title: "Stone"
+                    }
+                },
+                increment: 1.2
+            },
+            butcher: {
+                amount: 0,
+                title: "Butcher Shops",
+                cost: {
+                    logs: {
+                        amount: 4,
+                        title: "Logs"
+                    },
+                    glass: {
+                        amount: 2,
+                        title: "Glass"
+                    },
+                    stone: {
+                        amount: 4,
+                        title: "Stone"
+                    }
+                },
+                increment: 1.2
+            },
+            cafe: {
+                amount: 0,
+                title: "Cafes",
+                cost: {
+                    logs: {
+                        amount: 4,
+                        title: "Logs"
+                    },
+                    glass: {
+                        amount: 2,
+                        title: "Glass"
+                    },
+                    stone: {
+                        amount: 4,
+                        title: "Stone"
+                    }
+                },
+                increment: 1.2
+            },
+            church: {
+                amount: 0,
+                title: "Churches",
+                cost: {
+                    logs: {
+                        amount: 4,
+                        title: "Logs"
+                    },
+                    glass: {
+                        amount: 2,
+                        title: "Glass"
+                    },
+                    stone: {
+                        amount: 4,
+                        title: "Stone"
+                    }
+                },
+                increment: 1.2
+            },
+            enchanterWorkshop: {
+                amount: 0,
+                title: "Enchanter Workshops",
+                cost: {
+                    logs: {
+                        amount: 4,
+                        title: "Logs"
+                    },
+                    glass: {
+                        amount: 2,
+                        title: "Glass"
+                    },
+                    stone: {
+                        amount: 4,
+                        title: "Stone"
+                    }
+                },
+                increment: 1.2
+            },
+            farm: {
+                amount: 0,
+                title: "Farms",
+                foodProdBonus: 0,
+                foodStorage: 30,
+                cost: {
+                    logs: {
+                        amount: 4,
+                        title: "Logs"
+                    },
+                    glass: {
+                        amount: 2,
+                        title: "Glass"
+                    },
+                    stone: {
+                        amount: 4,
+                        title: "Stone"
+                    }
+                },
+                increment: 1.2
+            },
+            gunsmith: {
+                amount: 0,
+                title: "Gunsmiths",
+                cost: {
+                    logs: {
+                        amount: 4,
+                        title: "Logs"
+                    },
+                    glass: {
+                        amount: 2,
+                        title: "Glass"
+                    },
+                    stone: {
+                        amount: 4,
+                        title: "Stone"
+                    }
+                },
+                vincrement: 1.2
+            },
+            livery: {
+                amount: 0,
+                title: "Liveries",
+                cost: {
+                    logs: {
+                        amount: 4,
+                        title: "Logs"
+                    },
+                    glass: {
+                        amount: 2,
+                        title: "Glass"
+                    },
+                    stone: {
+                        amount: 4,
+                        title: "Stone"
+                    }
+                },
+                increment: 1.2
+            },
+            lumbermill: {
+                amount: 0,
+                title: "Lumbermills",
+                woodProdBonus: 0,
+                cost: {
+                    logs: {
+                        amount: 4,
+                        title: "Logs"
+                    },
+                    glass: {
+                        amount: 2,
+                        title: "Glass"
+                    },
+                    stone: {
+                        amount: 4,
+                        title: "Stone"
+                    }
+                },
+                increment: 1.2
+            },
+            machinist: {
+                amount: 0,
+                title: "Machinists",
+                cost: {
+                    logs: {
+                        amount: 4,
+                        title: "Logs"
+                    },
+                    glass: {
+                        amount: 2,
+                        title: "Glass"
+                    },
+                    stone: {
+                        amount: 4,
+                        title: "Stone"
+                    }
+                },
+                increment: 1.2
+            },
+            quarry: {
+                amount: 0,
+                title: "Quarries",
+                stoneProdBonus: 0,
+                cost: {
+                    logs: {
+                        amount: 4,
+                        title: "Logs"
+                    },
+                    glass: {
+                        amount: 2,
+                        title: "Glass"
+                    },
+                    stone: {
+                        amount: 4,
+                        title: "Stone"
+                    }
+                },
+                increment: 1.2
+            },
+            stable: {
+                amount: 0,
+                title: "Stables",
+                cost: {
+                    logs: {
+                        amount: 4,
+                        title: "Logs"
+                    },
+                    glass: {
+                        amount: 2,
+                        title: "Glass"
+                    },
+                    stone: {
+                        amount: 4,
+                        title: "Stone"
+                    }
+                },
+                increment: 1.2
+            },
+            tailor: {
+                amount: 0,
+                title: "Tailors",
+                cost: {
+                    logs: {
+                        amount: 4,
+                        title: "Logs"
+                    },
+                    glass: {
+                        amount: 2,
+                        title: "Glass"
+                    },
+                    stone: {
+                        amount: 4,
+                        title: "Stone"
+                    }
+                },
+                increment: 1.2
+            },
+            temple: {
+                amount: 0,
+                title: "Temples",
+                cost: {
+                    logs: {
+                        amount: 4,
+                        title: "Logs"
+                    },
+                    glass: {
+                        amount: 2,
+                        title: "Glass"
+                    },
+                    stone: {
+                        amount: 4,
+                        title: "Stone"
+                    }
+                },
+                increment: 1.2
+            },
+            textile: {
+                amount: 0,
+                title: "Loom Houses",
+                cost: {
+                    logs: {
+                        amount: 4,
+                        title: "Logs"
+                    },
+                    glass: {
+                        amount: 2,
+                        title: "Glass"
+                    },
+                    stone: {
+                        amount: 4,
+                        title: "Stone"
+                    }
+                },
+                increment: 1.2
+            },
+            trainingYard: {
+                amount: 0,
+                title: "Training Yards",
+                cost: {
+                    logs: {
+                        amount: 4,
+                        title: "Logs"
+                    },
+                    glass: {
+                        amount: 2,
+                        title: "Glass"
+                    },
+                    stone: {
+                        amount: 4,
+                        title: "Stone"
+                    }
+                },
+                increment: 1.2
+            },
+            wainwright: {
+                amount: 0,
+                title: "Wainwrights",
+                cost: {
+                    logs: {
+                        amount: 4,
+                        title: "Logs"
+                    },
+                    glass: {
+                        amount: 2,
+                        title: "Glass"
+                    },
+                    stone: {
+                        amount: 4,
+                        title: "Stone"
+                    }
+                },
+                increment: 1.2
+            },
+            watchtower: {
+                amount: 0,
+                title: "Watchtowers",
+                cost: {
+                    logs: {
+                        amount: 4,
+                        title: "Logs"
+                    },
+                    glass: {
+                        amount: 2,
+                        title: "Glass"
+                    },
+                    stone: {
+                        amount: 4,
+                        title: "Stone"
+                    }
+                },
+                increment: 1.2
+            },
+            watermill: {
+                amount: 0,
+                title: "Watermills",
+                cost: {
+                    logs: {
+                        amount: 4,
+                        title: "Logs"
+                    },
+                    glass: {
+                        amount: 2,
+                        title: "Glass"
+                    },
+                    stone: {
+                        amount: 4,
+                        title: "Stone"
+                    }
+                },
+                increment: 1.2
+            },
+            windmill: {
+                amount: 0,
+                title: "Windmills",
+                cost: {
+                    logs: {
+                        amount: 4,
+                        title: "Logs"
+                    },
+                    glass: {
+                        amount: 2,
+                        title: "Glass"
+                    },
+                    stone: {
+                        amount: 4,
+                        title: "Stone"
+                    }
+                },
+                increment: 1.2
+            },
+            witchCottage: {
+                amount: 0,
+                title: "Witch Cottages",
+                cost: {
+                    logs: {
+                        amount: 4,
+                        title: "Logs"
+                    },
+                    glass: {
+                        amount: 2,
+                        title: "Glass"
+                    },
+                    stone: {
+                        amount: 4,
+                        title: "Stone"
+                    }
+                },
+                increment: 1.2
+            },
+            wizardTower: {
+                amount: 0,
+                title: "Wizard Towers",
+                cost: {
+                    logs: {
+                        amount: 4,
+                        title: "Logs"
+                    },
+                    glass: {
+                        amount: 2,
+                        title: "Glass"
+                    },
+                    stone: {
+                        amount: 4,
+                        title: "Stone"
+                    }
+                },
+                increment: 1.2
+            },
+            workshop: {
+                amount: 0,
+                title: "Workshops",
+                cost: {
+                    logs: {
+                        amount: 4,
+                        title: "Logs"
+                    },
+                    glass: {
+                        amount: 2,
+                        title: "Glass"
+                    },
+                    stone: {
+                        amount: 4,
+                        title: "Stone"
+                    }
+                },
+                increment: 1.2
+            }
+        },
+//Territories        
+        territory = {
+            cave: {
+                amount: 0,
+                foodStorage: 20,
+                housing: 3
+            },
+            forest: {
+                amount: 0
+            },
+            mountain: {
+                amount: 0
+            },
+            plain: {
+                amount: 0
+            },
+            swamp: {
+                amount: 0
+            },
+            stream: {
+                amount: 0
+            },
+            spring: {
+                amount: 0
+            },
+            beach: {
+                amount: 0
+            },
+            lake: {
+                amount: 0
+            },
+            pond: {
+                amount: 0
+            },
+            ocean: {
+                amount: 0
+            },
+            island: {
+                amount: 0
+            },
+            grove: {
+                amount: 0
+            },
+            glen: {
+                amount: 0
+            },
+            hill: {
+                amount: 0
+            },
+            canyon: {
+                amount: 0
+            },
+            river: {
+                amount: 0
+            },
+            delta: {
+                amount: 0
+            },
+            cliff: {
+                amount: 0
+            },
+            bay: {
+                amount: 0
+            }
+        },
+//Food        
+        foods = {
+            berries: 0,
+            cheese: 0,
+            eggs: 0,
+            fish: 0,
+            fruit: 0,
+            grains: 0,
+            meat: 0,
+            milk: 0,
+            mushrooms: 0,
+            nuts: 1,
+            vegetables: 0
+        },
+    //Primitive Goods
+        goods = {
+            bones: 0,
+            furs: 0,
+            leather: 0,
+            rocks: 0,
+            sticks: 0,
+    //Building Materials        
+            clay: 0,
+            logs: 0,
+            lumber: 0,
+            stone: 0,
+    //Metalworking
+            bronze: 0,
+            copper: 0,
+            iron: 0,
+            ore: 0,
+            steel: 0,
+            tin: 0,
+            silver: 0,
+    //Wealth        
+            gems: 0,
+            gold: 0,
+            money: 0,
 
-    var peon = {
-            population: 1,
-            title: "You",
-            foodProd: 0,
-            woodProd: 0,
-            stoneProd: 0,
-            explorationProd: 0
+    //Magic        
+            crystals: 0,
+            mana: 0,
+            water: 0,
+            oil: 0,
+            flint: 0,
+            herbs: 0,
+            wool: 0,
+            linen: 0,
+            cotton: 0,
+            cloth: 0,
+            papyrus: 0,
+            paper: 0,
+            paint: 0,
+            ink: 0,
+            charcoal: 0,
+            coal: 0,
+            salt: 0,
+            saltpeter: 0,
+            gunpowder: 0,
+            glass: 0,
+            concrete: 0
         },
-        hunter = {
-            population: 0,
-            title: "Hunters",
-            foodProd: 0.5
+        traits = {
+            military: {rating: 0},
+            diplomacy: {rating: 0},
+            artistry: {rating: 0},
+            nature: {rating: 0},
+            mysticism: {rating: 0},
+            culture: {rating: 0},
+            religion: {rating: 0},
+            knowldge: {rating: 0},
+            foolish: {rating: 0},
+            good: {rating: 0},
+            evil: {rating: 0}
         },
-        gatherer = {
-            population: 0,
-            title: "Gatherers",
-            foodProd: 0.5
-        },
-        farmer = {
-            population: 0,
-            title: "Farmers",
-            foodProd: 0.5
-        },
-        woodcutter = {
-            population: 0,
-            title: "Woodcutters",
-            woodProd: 0
-        },
-        stonecutter = {
-            population: 0,
-            title: "Stonecutters",
-            stoneProd: 0
-        },
-        hut = {
+        exploration = {
             amount: 0,
-            title: "Huts",
-            housing: 2,
-            costFood: 2,
-            costWood: 4,
-            costStone: 0,
-            costIncrement: 1.2,
-            unlocked: 0
-        },
-        farm = {
-            amount: 0,
-            title: "Farms",
-            foodProdBonus: 0,
-            foodStorage: 30,
-            costFood: 1,
-            costWood: 4,
-            costStone: 0,
-            costIncrement: 1.2,
-            unlocked: 0
-        },
-        lumbermill = {
-            amount: 0,
-            title: "Lumbermills",
-            woodProdBonus: 0,
-            costFood: 0,
-            costWood: 1,
-            costStone: 4,
-            costIncrement: 1.2,
-            unlocked: 0
-        },
-        quarry = {
-            amount: 0,
-            title: "Quarries",
-            stoneProdBonus: 0,
-            costFood: 1,
-            costWood: 4,
-            costStone: 0,
-            costIncrement: 1.2,
-            unlocked: 0
-        },
-        cave = {
-            amount: 0,
-            foodStorage: 20,
-            housing: 3,
-            costExploration: 1,
-            costIncrement: 1.2,
-            unlocked: 0
-        },
-        forest = {
-            amount: 0,
-            costExploration: 1,
-            costIncrement: 1.2,
-            unlocked: 0
-        },
-        mountain = {
-            amount: 0,
-            costExploration: 1,
-            costIncrement: 1.2,
-            unlocked: 0
-        },
-        plain = {
-            amount: 0,
-            costExploration: 1,
-            costIncrement: 1.2,
-            unlocked: 0
-        },
-        swamp = {
-            amount: 0,
-            costExploration: 1,
-            costIncrement: 1.2,
-            unlocked: 0
+            startAmount: 0,
+            cost: 1
         },
         time = {
             min: 0,
             hour: 0,
-            day: 1,
-            year: 1
+            day: 0,
+            year: 0
         },
         totalTime = {
             min: 0,
@@ -119,261 +953,9 @@
             day: 0,
             year: 0
         },
-        food = {
-            amount: 1,
-            startAmount: 1,
-            unlocked: 1
-        },
-        wood = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        stone = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        meat = {
-            amount: 1,
-            startAmount: 1,
-            unlocked: 1
-        },
-        fish = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        nuts = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        berries = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        fruit = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        vegetables = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        grains = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        eggs = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        milk = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        cheese = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        fur = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        leather = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        bones = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        sticks = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        logs = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        lumber = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        rocks = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        flint = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        clay = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        /*stone = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },*/
-        ore = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        water = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        oil = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        copper = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        tin = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        bronze = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        iron = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        steel = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        silver = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        gold = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        gems = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        crystals = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        money = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        exploration = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        mana = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        herbs = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        wool = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        linen = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        cotton = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        cloth = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        papyrus = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        paint = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        ink = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        charcoal = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        coal = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        salt = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        saltpeter = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
-        gunpowder = {
-            amount: 0,
-            startAmount: 0,
-            unlocked: 0
-        },
+        totalPopulation = 0,
+        totalBuildings = 0,
+        totalTerritory = 0,
         totalResources = {
             meat: 0,
             fish: 0,
@@ -381,11 +963,12 @@
             berries: 0,
             fruit: 0,
             vegetables: 0,
+            mushrooms: 0,
             grains: 0,
             eggs: 0,
             milk: 0,
             cheese: 0,
-            fur: 0,
+            furs: 0,
             leather: 0,
             bones: 0,
             sticks: 0,
@@ -422,22 +1005,10 @@
             coal: 0,
             salt: 0,
             saltpeter: 0,
-            gunpowder: 0
+            gunpowder: 0,
+            glass: 0,
+            concrete: 0
         },
-        military = {rating: 0},
-        diplomacy = {rating: 0},
-        artistry = {rating: 0},
-        nature = {rating: 0},
-        mysticism = {rating: 0},
-        culture = {rating: 0},
-        religion = {rating: 0},
-        knowldge = {rating: 0},
-        foolish = {rating: 0},
-        good = {rating: 0},
-        evil = {rating: 0},
-        totalPopulation = 0,
-        totalBuildings = 0,
-        totalTerritory = 0,
         totalTraits = {
             military: 0,
             diplomacy: 0,
@@ -451,8 +1022,15 @@
             good: 0,
             evil: 0
         },
-        dead = 0,
         totalDead = 0,
+        totalTicks = 0,
+        dead = 0,
+        unlocked = {
+            workers: ['peon'],
+            actions: [],
+            territory: [],
+            building: []
+        },
         eventName = "",
         eventCounter = 0,
         eventDelay = 0,
@@ -461,134 +1039,978 @@
         starveCount = 0,
         populationTotal = 0,
         populationLimit = 0,
+        foodTotal = 0,
         foodStorage = 0,
-        startPeon = {
-            population: 1,
-            title: "You",
-            foodProd: 0,
-            woodProd: 0,
-            stoneProd: 0,
-            explorationProd: 0
-        },
-        startFarmer = {
-            population: 0,
-            title: "Farmers",
-            foodProd: 0.5
-        },
-        startWoodcutter = {
-            startPopulation: 0,
-            population: 0,
-            title: "Woodcutters",
-            woodProd: 0
-        },
-        startStonecutter = {
-            population: 0,
-            title: "Stonecutters",
-            stoneProd: 0
-        },
-        startHut = {
-            amount: 0,
-            title: "Huts",
-            housing: 2,
-            costFood: 2,
-            costWood: 4,
-            costStone: 0,
-            costIncrement: 1.2,
-            unlocked: 0
-        },
-        startFarm = {
-            amount: 0,
-            title: "Farms",
-            foodProdBonus: 0,
-            foodStorage: 30,
-            costFood: 1,
-            costWood: 4,
-            costStone: 0,
-            costIncrement: 1.2,
-            unlocked: 0
-        },
-        startLumbermill = {
-            amount: 0,
-            title: "Lumbermills",
-            woodProdBonus: 0,
-            costFood: 0,
-            costWood: 1,
-            costStone: 4,
-            costIncrement: 1.2,
-            unlocked: 0
-        },
-        startQuarry = {
-            amount: 0,
-            title: "Quarries",
-            stoneProdBonus: 0,
-            costFood: 1,
-            costWood: 4,
-            costStone: 0,
-            costIncrement: 1.2,
-            unlocked: 0
-        },
-        startCave = {
-            amount: 0,
-            foodStorage: 20,
-            housing: 3,
-            costExploration: 1,
-            costIncrement: 1.2,
-            unlocked: 0
-        },
-        startForest = {
-            amount: 0,
-            costExploration: 1,
-            costIncrement: 1.2,
-            unlocked: 0
-        },
-        startMountain = {
-            amount: 0,
-            costExploration: 1,
-            costIncrement: 1.2,
-            unlocked: 0
-        },
-        startPlain = {
-            amount: 0,
-            costExploration: 1,
-            costIncrement: 1.2,
-            unlocked: 0
-        },
-        startSwamp = {
-            amount: 0,
-            costExploration: 1,
-            costIncrement: 1.2,
-            unlocked: 0
+        start = {
+            workers: {
+                animal: {
+                    population: 0,
+                    title: "Animals",
+                    meatProd: 0.1,
+                    fishProd: 0,
+                    fursProd: 0
+                },
+                artist: {
+                    population: 0,
+                    title: "Artists",
+                    cultureProd: 0
+                },
+                carpenter: {
+                    population: 0,
+                    title: "Carpenters",
+                    lumberProd: 0
+                },
+                cook: {
+                    population: 0,
+                    title: "Cooks"
+                },
+                crafter: {
+                    population: 0,
+                    title: "Crafters"
+                },
+                druid: {
+                    population: 0,
+                    title: "Druids",
+                    herbsProd: 0
+                },
+                farmer: {
+                    population: 0,
+                    title: "Farmers",
+                    grainsProd: 0.1,
+                    vegetablesProd: 0.1,
+                    eggsProd: 0,
+                    milkProd: 0
+                },
+                fisher: {
+                    population: 0,
+                    title: "Fishermen",
+                    fishProd: 0.1
+                },
+                fool: {
+                    population: 0,
+                    title: "Fools"
+                },
+                gatherer: {
+                    population: 0,
+                    title: "Gatherers",
+                    nutsProd: 0.1,
+                    berriesProd: 0.1,
+                    rocksProd: 0.05,
+                    fruitProd: 0.1,
+                    sticksProd: 0.05,
+                    explorationProd: 0.01
+                },
+                ghost: {
+                    population: 0,
+                    title: "Ghosts"
+                },
+                hunter: {
+                    population: 0,
+                    title: "Hunters",
+                    meatProd: 0.25,
+                    fishProd: 0,
+                    fursProd: 0.05,
+                    bonesProd: 0.01,
+                    explorationProd: 0.01
+                },
+                laborer: {
+                    population: 0,
+                    title: "Laborers",
+                    rockProd: 0,
+                    oreProd: 0,
+                    logsProd: 0
+                },
+                magic: {
+                    population: 0,
+                    title: "Mages",
+                    manaProd: 0,
+                    crystalsProd: 0
+                },
+                mason: {
+                    population: 0,
+                    title: "Stonecutters",
+                    stoneProd: 0
+                },
+                peon: {
+                    population: 1,
+                    title: "You"
+                },
+                sailor: {
+                    population: 0,
+                    title: "Sailors"
+                },
+                scientist: {
+                    population: 0,
+                    title: "Scientists"
+                },
+                warrior: {
+                    population: 0,
+                    title: "Warriors",
+                    foodProd: 0.5
+                },
+                weaver: {
+                    population: 0,
+                    title: "Weavers",
+                    woolProd: 0,
+                    linenProd: 0,
+                    cottonProd: 0,
+                    clothProd: 0
+                },
+                woodsman: {
+                    population: 0,
+                    title: "Woodmens",
+                    sticksProd: 0,
+                    logsProd: 0
+                }
+            },
+    //Primitive Buildings
+            building: {
+                barricade: {
+                    amount: 0,
+                    title: "Wooden Walls",
+                    housing: 0,
+                    foodStorage: 0,
+                    cost: {
+                        sticks: {
+                            amount: 4,
+                            title: "Sticks"
+                        },
+                        rocks: {
+                            amount: 2,
+                            title: "Rocks"
+                        }
+                    },
+                    increment: 1.2
+                },
+                herbGarden: {
+                    amount: 0,
+                    title: "Herb Gardens",
+                    housing: 0,
+                    foodStorage: 5,
+                    cost: {
+                        sticks: {
+                            amount: 4,
+                            title: "Sticks"
+                        },
+                        rocks: {
+                            amount: 2,
+                            title: "Rocks"
+                        }
+                    },
+                    increment: 1.2
+                },
+                hut: {
+                    amount: 0,
+                    title: "Huts",
+                    housing: 2,
+                    foodStorage: 20,
+                    cost: {
+                        sticks: {
+                            amount: 4,
+                            title: "Sticks"
+                        },
+                        rocks: {
+                            amount: 2,
+                            title: "Rocks"
+                        }
+                    },
+                    increment: 1.2
+                },
+                shamanHut: {
+                    amount: 0,
+                    title: "Shaman Huts",
+                    housing: 1,
+                    foodStorage: 0,
+                    cost: {
+                        sticks: {
+                            amount: 4,
+                            title: "Sticks"
+                        },
+                        rocks: {
+                            amount: 2,
+                            title: "Rocks"
+                        }
+                    },
+                    increment: 2
+                },
+                shrine: {
+                    amount: 0,
+                    title: "Shrines",
+                    housing: 0,
+                    foodStorage: 0,
+                    cost: {
+                        sticks: {
+                            amount: 4,
+                            title: "Sticks"
+                        },
+                        rocks: {
+                            amount: 2,
+                            title: "Rocks"
+                        }
+                    },
+                    increment: 2
+                },
+                teepee: {
+                    amount: 0,
+                    title: "Teepee",
+                    housing: 3,
+                    foodStorage: 20,
+                    cost: {
+                        sticks: {
+                            amount: 4,
+                            title: "Sticks"
+                        },
+                        rocks: {
+                            amount: 2,
+                            title: "Rocks"
+                        }
+                    },
+                    increment: 1.2
+                },
+                wigwam: {
+                    amount: 0,
+                    title: "Wigwams",
+                    housing: 6,
+                    foodStorage: 30,
+                    cost: {
+                        sticks: {
+                            amount: 4,
+                            title: "Sticks"
+                        },
+                        rocks: {
+                            amount: 2,
+                            title: "Rocks"
+                        }
+                    },
+                    increment: 1.4
+                },
+        //Buildings        
+                alchemistLab: {
+                    amount: 0,
+                    title: "Alchemist Labs",
+                    cost: {
+                        logs: {
+                            amount: 4,
+                            title: "Logs"
+                        },
+                        glass: {
+                            amount: 2,
+                            title: "Glass"
+                        },
+                        stone: {
+                            amount: 4,
+                            title: "Stone"
+                        }
+                    },
+                    increment: 1.2
+                },
+                apothecary: {
+                    amount: 0,
+                    title: "Apothecaries",
+                    cost: {
+                        logs: {
+                            amount: 4,
+                            title: "Logs"
+                        },
+                        glass: {
+                            amount: 2,
+                            title: "Glass"
+                        },
+                        stone: {
+                            amount: 4,
+                            title: "Stone"
+                        }
+                    },
+                    increment: 1.2
+                },
+                armory: {
+                    amount: 0,
+                    title: "Armories",
+                    cost: {
+                        logs: {
+                            amount: 4,
+                            title: "Logs"
+                        },
+                        glass: {
+                            amount: 2,
+                            title: "Glass"
+                        },
+                        stone: {
+                            amount: 4,
+                            title: "Stone"
+                        }
+                    },
+                    increment: 1.2
+                },
+                barracks: {
+                    amount: 0,
+                    title: "Barracks",
+                    cost: {
+                        logs: {
+                            amount: 4,
+                            title: "Logs"
+                        },
+                        glass: {
+                            amount: 2,
+                            title: "Glass"
+                        },
+                        stone: {
+                            amount: 4,
+                            title: "Stone"
+                        }
+                    },
+                    increment: 1.2
+                },
+                blacksmith: {
+                    amount: 0,
+                    title: "Blacksmithies",
+                    cost: {
+                        logs: {
+                            amount: 4,
+                            title: "Logs"
+                        },
+                        glass: {
+                            amount: 2,
+                            title: "Glass"
+                        },
+                        stone: {
+                            amount: 4,
+                            title: "Stone"
+                        }
+                    },
+                    increment: 1.2
+                },
+                butcher: {
+                    amount: 0,
+                    title: "Butcher Shops",
+                    cost: {
+                        logs: {
+                            amount: 4,
+                            title: "Logs"
+                        },
+                        glass: {
+                            amount: 2,
+                            title: "Glass"
+                        },
+                        stone: {
+                            amount: 4,
+                            title: "Stone"
+                        }
+                    },
+                    increment: 1.2
+                },
+                cafe: {
+                    amount: 0,
+                    title: "Cafes",
+                    cost: {
+                        logs: {
+                            amount: 4,
+                            title: "Logs"
+                        },
+                        glass: {
+                            amount: 2,
+                            title: "Glass"
+                        },
+                        stone: {
+                            amount: 4,
+                            title: "Stone"
+                        }
+                    },
+                    increment: 1.2
+                },
+                church: {
+                    amount: 0,
+                    title: "Churches",
+                    cost: {
+                        logs: {
+                            amount: 4,
+                            title: "Logs"
+                        },
+                        glass: {
+                            amount: 2,
+                            title: "Glass"
+                        },
+                        stone: {
+                            amount: 4,
+                            title: "Stone"
+                        }
+                    },
+                    increment: 1.2
+                },
+                enchanterWorkshop: {
+                    amount: 0,
+                    title: "Enchanter Workshops",
+                    cost: {
+                        logs: {
+                            amount: 4,
+                            title: "Logs"
+                        },
+                        glass: {
+                            amount: 2,
+                            title: "Glass"
+                        },
+                        stone: {
+                            amount: 4,
+                            title: "Stone"
+                        }
+                    },
+                    increment: 1.2
+                },
+                farm: {
+                    amount: 0,
+                    title: "Farms",
+                    foodProdBonus: 0,
+                    foodStorage: 30,
+                    cost: {
+                        logs: {
+                            amount: 4,
+                            title: "Logs"
+                        },
+                        glass: {
+                            amount: 2,
+                            title: "Glass"
+                        },
+                        stone: {
+                            amount: 4,
+                            title: "Stone"
+                        }
+                    },
+                    increment: 1.2
+                },
+                gunsmith: {
+                    amount: 0,
+                    title: "Gunsmiths",
+                    cost: {
+                        logs: {
+                            amount: 4,
+                            title: "Logs"
+                        },
+                        glass: {
+                            amount: 2,
+                            title: "Glass"
+                        },
+                        stone: {
+                            amount: 4,
+                            title: "Stone"
+                        }
+                    },
+                    vincrement: 1.2
+                },
+                livery: {
+                    amount: 0,
+                    title: "Liveries",
+                    cost: {
+                        logs: {
+                            amount: 4,
+                            title: "Logs"
+                        },
+                        glass: {
+                            amount: 2,
+                            title: "Glass"
+                        },
+                        stone: {
+                            amount: 4,
+                            title: "Stone"
+                        }
+                    },
+                    increment: 1.2
+                },
+                lumbermill: {
+                    amount: 0,
+                    title: "Lumbermills",
+                    woodProdBonus: 0,
+                    cost: {
+                        logs: {
+                            amount: 4,
+                            title: "Logs"
+                        },
+                        glass: {
+                            amount: 2,
+                            title: "Glass"
+                        },
+                        stone: {
+                            amount: 4,
+                            title: "Stone"
+                        }
+                    },
+                    increment: 1.2
+                },
+                machinist: {
+                    amount: 0,
+                    title: "Machinists",
+                    cost: {
+                        logs: {
+                            amount: 4,
+                            title: "Logs"
+                        },
+                        glass: {
+                            amount: 2,
+                            title: "Glass"
+                        },
+                        stone: {
+                            amount: 4,
+                            title: "Stone"
+                        }
+                    },
+                    increment: 1.2
+                },
+                quarry: {
+                    amount: 0,
+                    title: "Quarries",
+                    stoneProdBonus: 0,
+                    cost: {
+                        logs: {
+                            amount: 4,
+                            title: "Logs"
+                        },
+                        glass: {
+                            amount: 2,
+                            title: "Glass"
+                        },
+                        stone: {
+                            amount: 4,
+                            title: "Stone"
+                        }
+                    },
+                    increment: 1.2
+                },
+                stable: {
+                    amount: 0,
+                    title: "Stables",
+                    cost: {
+                        logs: {
+                            amount: 4,
+                            title: "Logs"
+                        },
+                        glass: {
+                            amount: 2,
+                            title: "Glass"
+                        },
+                        stone: {
+                            amount: 4,
+                            title: "Stone"
+                        }
+                    },
+                    increment: 1.2
+                },
+                tailor: {
+                    amount: 0,
+                    title: "Tailors",
+                    cost: {
+                        logs: {
+                            amount: 4,
+                            title: "Logs"
+                        },
+                        glass: {
+                            amount: 2,
+                            title: "Glass"
+                        },
+                        stone: {
+                            amount: 4,
+                            title: "Stone"
+                        }
+                    },
+                    increment: 1.2
+                },
+                temple: {
+                    amount: 0,
+                    title: "Temples",
+                    cost: {
+                        logs: {
+                            amount: 4,
+                            title: "Logs"
+                        },
+                        glass: {
+                            amount: 2,
+                            title: "Glass"
+                        },
+                        stone: {
+                            amount: 4,
+                            title: "Stone"
+                        }
+                    },
+                    increment: 1.2
+                },
+                textile: {
+                    amount: 0,
+                    title: "Loom Houses",
+                    cost: {
+                        logs: {
+                            amount: 4,
+                            title: "Logs"
+                        },
+                        glass: {
+                            amount: 2,
+                            title: "Glass"
+                        },
+                        stone: {
+                            amount: 4,
+                            title: "Stone"
+                        }
+                    },
+                    increment: 1.2
+                },
+                trainingYard: {
+                    amount: 0,
+                    title: "Training Yards",
+                    cost: {
+                        logs: {
+                            amount: 4,
+                            title: "Logs"
+                        },
+                        glass: {
+                            amount: 2,
+                            title: "Glass"
+                        },
+                        stone: {
+                            amount: 4,
+                            title: "Stone"
+                        }
+                    },
+                    increment: 1.2
+                },
+                wainwright: {
+                    amount: 0,
+                    title: "Wainwrights",
+                    cost: {
+                        logs: {
+                            amount: 4,
+                            title: "Logs"
+                        },
+                        glass: {
+                            amount: 2,
+                            title: "Glass"
+                        },
+                        stone: {
+                            amount: 4,
+                            title: "Stone"
+                        }
+                    },
+                    increment: 1.2
+                },
+                watchtower: {
+                    amount: 0,
+                    title: "Watchtowers",
+                    cost: {
+                        logs: {
+                            amount: 4,
+                            title: "Logs"
+                        },
+                        glass: {
+                            amount: 2,
+                            title: "Glass"
+                        },
+                        stone: {
+                            amount: 4,
+                            title: "Stone"
+                        }
+                    },
+                    increment: 1.2
+                },
+                watermill: {
+                    amount: 0,
+                    title: "Watermills",
+                    cost: {
+                        logs: {
+                            amount: 4,
+                            title: "Logs"
+                        },
+                        glass: {
+                            amount: 2,
+                            title: "Glass"
+                        },
+                        stone: {
+                            amount: 4,
+                            title: "Stone"
+                        }
+                    },
+                    increment: 1.2
+                },
+                windmill: {
+                    amount: 0,
+                    title: "Windmills",
+                    cost: {
+                        logs: {
+                            amount: 4,
+                            title: "Logs"
+                        },
+                        glass: {
+                            amount: 2,
+                            title: "Glass"
+                        },
+                        stone: {
+                            amount: 4,
+                            title: "Stone"
+                        }
+                    },
+                    increment: 1.2
+                },
+                witchCottage: {
+                    amount: 0,
+                    title: "Witch Cottages",
+                    cost: {
+                        logs: {
+                            amount: 4,
+                            title: "Logs"
+                        },
+                        glass: {
+                            amount: 2,
+                            title: "Glass"
+                        },
+                        stone: {
+                            amount: 4,
+                            title: "Stone"
+                        }
+                    },
+                    increment: 1.2
+                },
+                wizardTower: {
+                    amount: 0,
+                    title: "Wizard Towers",
+                    cost: {
+                        logs: {
+                            amount: 4,
+                            title: "Logs"
+                        },
+                        glass: {
+                            amount: 2,
+                            title: "Glass"
+                        },
+                        stone: {
+                            amount: 4,
+                            title: "Stone"
+                        }
+                    },
+                    increment: 1.2
+                },
+                workshop: {
+                    amount: 0,
+                    title: "Workshops",
+                    cost: {
+                        logs: {
+                            amount: 4,
+                            title: "Logs"
+                        },
+                        glass: {
+                            amount: 2,
+                            title: "Glass"
+                        },
+                        stone: {
+                            amount: 4,
+                            title: "Stone"
+                        }
+                    },
+                    increment: 1.2
+                }
+            },
+    //Territories        
+            territory: {
+                cave: {
+                    amount: 0,
+                    foodStorage: 20,
+                    housing: 3
+                },
+                forest: {
+                    amount: 0
+                },
+                mountain: {
+                    amount: 0
+                },
+                plain: {
+                    amount: 0
+                },
+                swamp: {
+                    amount: 0
+                },
+                stream: {
+                    amount: 0
+                },
+                spring: {
+                    amount: 0
+                },
+                beach: {
+                    amount: 0
+                },
+                lake: {
+                    amount: 0
+                },
+                pond: {
+                    amount: 0
+                },
+                ocean: {
+                    amount: 0
+                },
+                island: {
+                    amount: 0
+                },
+                grove: {
+                    amount: 0
+                },
+                glen: {
+                    amount: 0
+                },
+                hill: {
+                    amount: 0
+                },
+                canyon: {
+                    amount: 0
+                },
+                river: {
+                    amount: 0
+                },
+                delta: {
+                    amount: 0
+                },
+                cliff: {
+                    amount: 0
+                },
+                bay: {
+                    amount: 0
+                }
+            },
+    //Food        
+            foods: {
+                berries: 0,
+                cheese: 0,
+                eggs: 0,
+                fish: 0,
+                fruit: 0,
+                grains: 0,
+                meat: 0,
+                milk: 0,
+                mushrooms: 0,
+                nuts: 1,
+                vegetables: 0
+            },
+        //Primitive Goods
+            goods: {
+                bones: 0,
+                furs: 0,
+                leather: 0,
+                rocks: 0,
+                sticks: 0,
+        //Building Materials        
+                clay: 0,
+                logs: 0,
+                lumber: 0,
+                stone: 0,
+        //Metalworking
+                bronze: 0,
+                copper: 0,
+                iron: 0,
+                ore: 0,
+                steel: 0,
+                tin: 0,
+                silver: 0,
+        //Wealth        
+                gems: 0,
+                gold: 0,
+                money: 0,
+
+        //Magic        
+                crystals: 0,
+                mana: 0,
+                water: 0,
+                oil: 0,
+                flint: 0,
+                herbs: 0,
+                wool: 0,
+                linen: 0,
+                cotton: 0,
+                cloth: 0,
+                papyrus: 0,
+                paper: 0,
+                paint: 0,
+                ink: 0,
+                charcoal: 0,
+                coal: 0,
+                salt: 0,
+                saltpeter: 0,
+                gunpowder: 0,
+                glass: 0,
+                concrete: 0
+            },
+            traits: {
+                military: {rating: 0},
+                diplomacy: {rating: 0},
+                artistry: {rating: 0},
+                nature: {rating: 0},
+                mysticism: {rating: 0},
+                culture: {rating: 0},
+                religion: {rating: 0},
+                knowldge: {rating: 0},
+                foolish: {rating: 0},
+                good: {rating: 0},
+                evil: {rating: 0}
+            },
+            time: {
+                min: 0,
+                hour: 0,
+                day: 0,
+                year: 0
+            }
         };
+
         
     function prettify(input) {
         var output = Math.round(input * 1000000) / 1000000;
         return output.toFixed(0);
     }
     
+    function random(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    
     function assign(job, number) {
         //var parsedJob = parseJob(job);
-        peon.population -= number;
-        job.population += number;
+        workers.peon.population -= number;
+        workers.job.population += number;
     }
     
-    function build(building, number) {
-        building.amount += number;
-        food.amount -= building.costFood;
-        wood.amount -= building.costWood;
-        stone.amount -= building.costStone;
-        building.costFood *= Math.pow(building.costIncrement, building.amount);
-        building.costWood *= Math.pow(building.costIncrement, building.amount);
-        building.costStone *= Math.pow(building.costIncrement, building.amount);
-        building.costFood = building.costFood.toFixed(3);
-        building.costWood = building.costWood.toFixed(3);
-        building.costStone = building.costStone.toFixed(3);
+    function isItUnlocked(classy, target) {
+        var unlockCheck = unlocked[classy].indexOf(target);
+        return unlockCheck;
     }
     
-    function find(territory, number) {
-        territory.amount += number;
-        exploration.amount -= territory.costExploration;
-        territory.costExploration *= Math.pow(territory.costIncrement, territory.amount);
-        territory.costExploration = territory.costExploration.toFixed(3);
+    function unlock(classy, target) {
+        if (isItUnlocked(classy, target) < 0) {
+            unlocked[classy].push(target);
+            //console.log(target + " unlocked");
+        }
+    }
+    
+    function lock(classy, target) {
+        var unlockCheck = unlocked[classy].indexOf(target),
+            num;
+        while (unlockCheck >= 0) {
+            num = unlocked[classy].indexOf(target);
+            unlocked[classy].splice(num, 1);
+            unlockCheck = unlocked[classy].indexOf(target);
+            //console.log(target + " locked");
+        }
+        document.getElementById([target]).style.display = "none";
+    }
+    
+    function lockAll() {
+        var lockCheckee;
+        for (lockCheckee in workers) {
+            if (workers.hasOwnProperty(lockCheckee)) {
+                lock('workers', lockCheckee);
+            }
+        }
+        updateBuildings();
+        for (lockCheckee in building) {
+            if (building.hasOwnProperty(lockCheckee)) {
+                lock('building', lockCheckee);
+            }
+        }
+        updateTerritory();
+        for (lockCheckee in territory) {
+            if (territory.hasOwnProperty(lockCheckee)) {
+                lock('territory', lockCheckee);
+            }
+        }
+        updateWorkers();
     }
     
     function choiceReady() {
@@ -619,23 +2041,37 @@
     
     function restart() {
         document.getElementById('choiceText').innerHTML = "Welcome to the Game.";
-        if (foolish.rating >= 5) { startPeon.title = "Fools"; }
-        peon = startPeon;
-        farmer = startFarmer;
-        woodcutter = startWoodcutter;
-        stonecutter = startStonecutter;
-        food.amount = 1;
-        farm = startFarm;
-        lumbermill = startLumbermill;
-        quarry = startQuarry;
-        cave = startCave;
+        if (traits.foolish.rating >= 5) { start.workers.peon.name = "Hamster"; }
+        dead = 0;
+        lockAll();
+        unlocked = {
+            workers: ['peon'],
+            actions: [],
+            territory: [],
+            building: []
+        };
         eventName = "";
         eventCounter = 0;
+        eventDelay = 0;
         eventList = [];
         gamePause = 0;
         starveCount = 0;
         populationTotal = 0;
         populationLimit = 0;
+        foodTotal = 0;
+        foodStorage = 0;
+        workers = $.extend(true, {}, start.workers);
+        territory = $.extend(true, {}, start.territory);
+        building = $.extend(true, {}, start.building);
+        foods = $.extend(true, {}, start.foods);
+        goods = $.extend(true, {}, start.goods);
+        time = $.extend(true, {}, start.time);
+        /*unlocked = {
+            workers: ['peon'],
+            actions: [],
+            territory: [],
+            building: []
+        };*/
     }
     
     function die() {
@@ -643,8 +2079,8 @@
         document.getElementById('choiceText').innerHTML = "You have died. Would you like to try again?";
         document.getElementById('optionText1').innerHTML = "Yes";
         document.getElementById('optionText2').innerHTML = "No";
-        document.getElementById('optionButton1').onclick = function () { restart(); choiceDone(); };
-        document.getElementById('optionButton2').onclick = function () { document.getElementById('choiceText').innerHTML = "You lose."; choiceDone(); };
+        document.getElementById('optionButton1').onclick = function () { choiceDone(); restart(); };
+        document.getElementById('optionButton2').onclick = function () { document.getElementById('choiceText').innerHTML = "You lose. Have a nice day."; };
     }
     
     function starve(number) {
@@ -653,24 +2089,51 @@
         }
     }
     
-    function choiceResult(result, resultText) {
+    function goodsSpend(classy, target) {
+        var materialToken;
+        for (materialToken in classy[target].cost) {
+            if (classy[target].cost.hasOwnProperty(materialToken)) {
+                if (goods[materialToken] !== undefined) {
+                    goods[materialToken] -= classy[target].cost[materialToken].amount;
+                    classy[target].cost[materialToken].amount = Math.pow(classy[target].cost[materialToken].amount, classy[target].increment);
+                    classy[target].cost[materialToken].amount = classy[target].cost[materialToken].amount.toFixed(3);
+                } else {
+                    foods[materialToken] -= classy[target].cost[materialToken].amount;
+                    classy[target].cost[materialToken].amount = Math.pow(classy[target].cost[materialToken].amount, classy[target].increment);
+                    classy[target].cost[materialToken].amount = classy[target].cost[materialToken].amount.toFixed(3);
+                }
+            }
+        }
+    }
+    
+    function logNormal(text) {
+        var node = document.createElement("DIV"),
+            textnode = document.createTextNode(text);
+        node.appendChild(textnode);
+        document.getElementById('gameLog').appendChild(node);
+        document.getElementById('gameLog').scrollTop = document.getElementById('gameLog').scrollHeight;
+    }
+    
+    function logSmall(text) {
         var node = document.createElement("LI"),
-            textnode = document.createTextNode(resultText);
+            textnode = document.createTextNode(text);
         node.appendChild(textnode);
         node.className = "sub";
-        document.getElementById('choiceText').innerHTML = resultText;
         document.getElementById('gameLog').appendChild(node);
+        document.getElementById('gameLog').scrollTop = document.getElementById('gameLog').scrollHeight;
+    }
+    
+    function choiceResult(result, resultText) {
+        document.getElementById('choiceText').innerHTML = resultText;
+        logSmall(resultText);
         result();
         eventName = "";
         choiceDone();
     }
     
     function choicePrint(text) {
-        var node = document.createElement("DIV"),
-            textnode = document.createTextNode(text);
-        node.appendChild(textnode);
         document.getElementById('choiceText').innerHTML = text;
-        document.getElementById('gameLog').appendChild(node);
+        logNormal(text);
     }
     
     function choice1Print(text1, result1, result1Text) {
@@ -688,102 +2151,224 @@
         document.getElementById('optionText3').innerHTML = text3;
         document.getElementById('optionButton3').onclick = function () { choiceResult(result3, result3Text); };
     }
-           
-    function updatePeons() {
-        if (farm.unlocked >= 1) { document.getElementById('farmer').style.display = "block"; }
-        if (lumbermill.unlocked >= 1) { document.getElementById('woodcutter').style.display = "block"; }
-        if (quarry.unlocked >= 1) { document.getElementById('stonecutter').style.display = "block"; }
-        document.getElementById('peonTitle').innerHTML = peon.title;
-        document.getElementById('peonAmount').innerHTML = peon.population;
-        document.getElementById('farmerAmount').innerHTML = farmer.population;
-        document.getElementById('woodcutterAmount').innerHTML = woodcutter.population;
-        document.getElementById('stonecutterAmount').innerHTML = stonecutter.population;
-        document.getElementById("farmerPlus").onclick = function () { assign(farmer, 1); document.getElementById('farmerPlus').disabled = true; };
-        document.getElementById("farmerMinus").onclick = function () { assign(farmer, -1); document.getElementById('farmerMinus').disabled = true; };
-        document.getElementById("woodcutterPlus").onclick = function () { assign(woodcutter, 1); document.getElementById('woodcutterPlus').disabled = true; };
-        document.getElementById("woodcutterMinus").onclick = function () { assign(woodcutter, -1); document.getElementById('woodcutterMinus').disabled = true; };
-        document.getElementById("stonecutterPlus").onclick = function () { assign(stonecutter, 1); document.getElementById('stonecutterPlus').disabled = true; };
-        document.getElementById("stonecutterMinus").onclick = function () { assign(stonecutter, -1);  document.getElementById('stonecutterMinus').disabled = true; };
+    
+    function makeWorkersVisible(target) {
+        document.getElementById(target).style.display = "block";
+        document.getElementById([target + "Title"]).innerHTML = workers[target].title;
+        document.getElementById([target + "Amount"]).innerHTML = workers[target].population;
     }
-
+           
+    function updateWorkers() {
+        unlocked.workers.forEach(makeWorkersVisible);
+        //document.getElementById([target + "Hire"]).innerHTML = workers[target].title;
+        //document.getElementById([target + "Hire"]).onclick = function () { move([target]); };
+        /*document.getElementById("farmerPlus").onclick = function () { assign('farmer', 1); document.getElementById('farmerPlus').disabled = true; };
+        document.getElementById("farmerMinus").onclick = function () { assign('farmer', -1); document.getElementById('farmerMinus').disabled = true; };
+        document.getElementById("woodsmanPlus").onclick = function () { assign('woodsman', 1); document.getElementById('woodsmanPlus').disabled = true; };
+        document.getElementById("woodsmanMinus").onclick = function () { assign('woodsman', -1); document.getElementById('woodsmanMinus').disabled = true; };
+        document.getElementById("masonPlus").onclick = function () { assign('mason', 1); document.getElementById('masonPlus').disabled = true; };
+        document.getElementById("masonMinus").onclick = function () { assign('mason', -1);  document.getElementById('masonMinus').disabled = true; };*/
+    }
+    
+    function showCost(classy, target) {
+        var costToken,
+            costString = "";
+        for (costToken in classy[target].cost) {
+            if (classy[target].cost.hasOwnProperty(costToken)) {
+                costString += (classy[target].cost[costToken].title + ": " + prettify(classy[target].cost[costToken].amount) + " ");
+            }
+        }
+        return costString;
+    }
+            
+    function countDown() {
+        var actionToken,
+            elem;
+        for (actionToken in actions) {
+            if (actions.hasOwnProperty(actionToken)) {
+                if (actions[actionToken].state === 1 && actions[actionToken].width < 100) {
+                    elem = document.getElementById(actionToken + "Progress");
+                    actions[actionToken].width += actions[actionToken].speed;
+                    elem.style.width = actions[actionToken].width + '%';
+                }
+                if (actions[actionToken].state === 1 && actions[actionToken].width >= 100) {
+                    elem = document.getElementById(actionToken + "Progress");
+                    actions[actionToken].width = 100;
+                    elem.style.width = actions[actionToken].width + '%';
+                    actions[actionToken].state = 2;
+                }
+                if (actions[actionToken].state === 3 && actions[actionToken].height > 0) {
+                    elem = document.getElementById(actionToken + "Progress");
+                    actions[actionToken].height -= actions[actionToken].speed;
+                    elem.style.height = actions[actionToken].height + '%';
+                }
+                if (actions[actionToken].state === 3 && actions[actionToken].height <= 0) {
+                    elem = document.getElementById(actionToken + "Progress");
+                    actions[actionToken].width = 1;
+                    actions[actionToken].height = 100;
+                    elem.style.height = actions[actionToken].height + '%';
+                    elem.style.width = actions[actionToken].width + '%';
+                    actions[actionToken].state = 0;
+                }
+            }
+        }
+    }
+        
+        
+     /*   var elem = document.getElementById(target + "Progress"),
+            width = 1;
+        if (gamePause === 0) {
+            if (width >= 100) {
+                logNormal("A gatherer arrives.");
+                unlock('workers', 'gatherer');
+                workers.gatherer.population += 1;
+            } else {
+                width += 3;
+                if (width > 100) { width = 100; }
+                elem.style.width = width + '%';
+            }
+        }
+        //}
+    }*/
+    
+    function actionDo(target) {
+        if (actions[target].state === 0) {
+            goodsSpend(actions, target);
+            document.getElementById([target + "Do"]).disabled = true;
+            actions[target].state = 1;
+        }
+        if (actions[target].state === 2) {
+            var reward = actions[target].reward;
+            logNormal("A " + reward + " arrives.");
+            unlock('workers', reward);
+            workers[reward].population += 1;
+            actions[target].state = 3;
+        }
+    }
+    
+    function makeActionVisible(target) {
+        document.getElementById(target).style.display = "block";
+        //document.getElementById([target + "Amount"]).innerHTML = building[target].amount;
+        document.getElementById([target + "Cost"]).innerHTML = showCost(actions, [target]);
+        document.getElementById([target + "Do"]).onclick = function () { actionDo([target]); };
+    }
+    
+    function updateActions() {
+        unlocked.actions.forEach(makeActionVisible);
+        if (unlocked.actions.length > 0) {
+            document.getElementById(["actionsBox"]).style.display = "block";
+            document.getElementById(["actionsBoxTitle"]).innerHTML = "Campfire";
+        }
+        /*document.getElementById(["sacredChantDo"]).disabled = false;
+        document.getElementById(["sacredChant"]).style.display = "block";
+        document.getElementById(["sacredChantCost"]).innerHTML = showCost(actions, "sacredChant");
+        document.getElementById(["sacredChantDo"]).onclick = function () { countDown("sacredChant"); };
+        document.getElementById(["roastMeatDo"]).disabled = false;
+        document.getElementById(["roastMeatCost"]).innerHTML = showCost(actions, "roastMeat");
+        document.getElementById(["roastMeat"]).style.display = "block";
+        document.getElementById(["roastMeatDo"]).onclick = function () { countDown("roastMeat"); };*/
+        
+    }
+    
     function updateResources() {
-        if (food.amount !== 0) { document.getElementById('food').style.display = "block"; }
-        if (wood.amount !== 0) { document.getElementById('wood').style.display = "block"; }
-        if (stone.amount !== 0) { document.getElementById('stone').style.display = "block"; }
-        if (exploration.amount !== 0) { document.getElementById('exploration').style.display = "block"; }
-        document.getElementById('foodAmount').innerHTML = prettify(food.amount);
-        document.getElementById('woodAmount').innerHTML = prettify(wood.amount);
-        document.getElementById('stoneAmount').innerHTML = prettify(stone.amount);
-        document.getElementById('explorationAmount').innerHTML = prettify(exploration.amount);
+        var material;
+        for (material in goods) {
+            if (goods.hasOwnProperty(material)) {
+                if (goods[material] >= 0.5) {
+                    document.getElementById([material]).style.display = "block";
+                    document.getElementById([material + 'Amount']).innerHTML = prettify(goods[material]);
+                } else { document.getElementById([material]).style.display = "none"; }
+            }
+        }
+        for (material in foods) {
+            if (foods.hasOwnProperty(material)) {
+                if (foods[material] >= 0.5) {
+                    document.getElementById([material]).style.display = "block";
+                    document.getElementById([material + 'Amount']).innerHTML = prettify(foods[material]);
+                } else { document.getElementById([material]).style.display = "none"; }
+            }
+        }
+        
+    }
+    
+    function makeTerritoryVisible(land) {
+        document.getElementById(land).style.display = "block";
+        document.getElementById([land + "Amount"]).innerHTML = territory[land].amount;
     }
     
     function updateTerritory() {
-        var territoryTotal = cave.amount + forest.amount + mountain.amount + plain.amount + swamp.amount;
-        if (territoryTotal >= 1) { document.getElementById('territoryBox').style.display = "block"; }
-        if (cave.unlocked >= 1) { document.getElementById('cave').style.display = "block"; }
-        document.getElementById("findCave").onclick = function () { find(cave, 1); document.getElementById('findCave').disabled = true; };
-        document.getElementById('caveAmount').innerHTML = cave.amount;
-        if (forest.unlocked >= 1) { document.getElementById('forest').style.display = "block"; }
-        document.getElementById("findForest").onclick = function () { find(forest, 1); document.getElementById('findForest').disabled = true; };
-        document.getElementById('forestAmount').innerHTML = forest.amount;
-        if (mountain.unlocked >= 1) { document.getElementById('mountain').style.display = "block"; }
-        document.getElementById("findMountain").onclick = function () { find(mountain, 1); document.getElementById('findMountain').disabled = true; };
-        document.getElementById('mountainAmount').innerHTML = mountain.amount;
-        if (plain.unlocked >= 1) { document.getElementById('plain').style.display = "block"; }
-        document.getElementById("findPlain").onclick = function () { find(plain, 1); document.getElementById('findPlain').disabled = true; };
-        document.getElementById('plainAmount').innerHTML = plain.amount;
-        if (swamp.unlocked >= 1) { document.getElementById('swamp').style.display = "block"; }
-        document.getElementById("findSwamp").onclick = function () { find(swamp, 1); document.getElementById('findSwamp').disabled = true; };
-        document.getElementById('swampAmount').innerHTML = swamp.amount;
+        var landCounter;
+        for (landCounter in territory) {
+            if (territory.hasOwnProperty(landCounter)) {
+                totalTerritory += territory[landCounter].amount;
+            }
+        }
+        if (unlocked.territory.length > 0) { document.getElementById('territoryBox').style.display = "block"; }
+        unlocked.territory.forEach(makeTerritoryVisible);
     }
 
+    function build(target, number) {
+        building[target].amount += number;
+        goodsSpend(building, target);
+        document.getElementById([target + "Build"]).disabled = true;
+    }
+    
+    function makeBuildingVisible(target) {
+        document.getElementById(target).style.display = "block";
+        document.getElementById([target + "Amount"]).innerHTML = building[target].amount;
+        document.getElementById([target + "Cost"]).innerHTML = showCost(building, [target]);
+        document.getElementById([target + "Build"]).onclick = function () { build([target], 1); };
+    }
+    
     function updateBuildings() {
-        if (hut.unlocked >= 1 || farm.unlocked >= 1 || lumbermill.unlocked >= 1 || quarry.unlocked >= 1) { document.getElementById('buildingBox').style.display = "block"; }
-        if (hut.unlocked >= 1) { document.getElementById('hut').style.display = "block"; }
-        if (farm.unlocked >= 1) { document.getElementById('farm').style.display = "block"; }
-        if (lumbermill.unlocked >= 1) { document.getElementById('lumbermill').style.display = "block"; }
-        if (quarry.unlocked >= 1) { document.getElementById('quarry').style.display = "block"; }
-        document.getElementById('hutAmount').innerHTML = hut.amount;
-        document.getElementById('hutCostFood').innerHTML = prettify(hut.costFood);
-        document.getElementById('hutCostWood').innerHTML = prettify(hut.costWood);
-        document.getElementById('hutCostStone').innerHTML = prettify(hut.costStone);
-        document.getElementById('farmAmount').innerHTML = farm.amount;
-        document.getElementById('farmCostFood').innerHTML = prettify(farm.costFood);
-        document.getElementById('farmCostWood').innerHTML = prettify(farm.costWood);
-        document.getElementById('farmCostStone').innerHTML = prettify(farm.costStone);
-        document.getElementById('lumbermillAmount').innerHTML = lumbermill.amount;
-        document.getElementById('lumbermillCostFood').innerHTML = prettify(lumbermill.costFood);
-        document.getElementById('lumbermillCostWood').innerHTML = prettify(lumbermill.costWood);
-        document.getElementById('lumbermillCostStone').innerHTML = prettify(lumbermill.costStone);
-        document.getElementById('quarryAmount').innerHTML = quarry.amount;
-        document.getElementById('quarryCostFood').innerHTML = prettify(quarry.costFood);
-        document.getElementById('quarryCostWood').innerHTML = prettify(quarry.costWood);
-        document.getElementById('quarryCostStone').innerHTML = prettify(quarry.costStone);
-        document.getElementById("buildHut").onclick = function () { build(hut, 1); document.getElementById('buildHut').disabled = true; };
-        document.getElementById("buildFarm").onclick = function () { build(farm, 1); document.getElementById('buildFarm').disabled = true; };
-        document.getElementById("buildLumbermill").onclick = function () { build(lumbermill, 1); document.getElementById('buildLumbermill').disabled = true; };
-        document.getElementById("buildQuarry").onclick = function () { build(quarry, 1); document.getElementById('buildQuarry').disabled = true; };
+        if (unlocked.building.length > 0) { document.getElementById('buildingBox').style.display = "block"; }
+        unlocked.building.forEach(makeBuildingVisible);
+    }
+    
+    function actionButtonEnable(target) {
+        var costToken,
+            buttonCounter = 0;
+        for (costToken in actions[target].cost) {
+            if (actions[target].cost.hasOwnProperty(costToken)) {
+                if (goods[costToken] !== undefined) {
+                    if (actions[target].cost[costToken].amount > goods[costToken]) { buttonCounter += 1; }
+                } else {
+                    if (actions[target].cost[costToken].amount > foods[costToken]) { buttonCounter += 1; }
+                }
+            }
+        }
+        if ((buttonCounter === 0 && actions[target].state === 0) || actions[target].state === 2) {
+            document.getElementById([target + 'Do']).disabled = false;
+        } else {
+            document.getElementById([target + 'Do']).disabled = true;
+        }
+    }
+    
+    function buildButtonEnable(target) {
+        var costToken,
+            buttonCounter = 0;
+        for (costToken in building[target].cost) {
+            if (building[target].cost.hasOwnProperty(costToken)) {
+                if (goods[costToken] !== undefined) {
+                    if (building[target].cost[costToken].amount > goods[costToken]) { buttonCounter += 1; }
+                } else {
+                    if (building[target].cost[costToken].amount > foods[costToken]) { buttonCounter += 1; }
+                }
+            }
+        }
+        if (buttonCounter === 0) {
+            document.getElementById([target + 'Build']).disabled = false;
+        } else {
+            document.getElementById([target + 'Build']).disabled = true;
+        }
     }
 
     function updateButtons() {
-        //Peons
-        if (peon.population >= 1 && farm.amount > farmer.population) { document.getElementById('farmerPlus').disabled = false; }
-        if (farmer.population >= 1) { document.getElementById('farmerMinus').disabled = false; }
-        if (peon.population >= 1 && lumbermill.amount > woodcutter.population) { document.getElementById('woodcutterPlus').disabled = false; }
-        if (woodcutter.population >= 1) { document.getElementById('woodcutterMinus').disabled = false; }
-        if (peon.population >= 1 && quarry.amount > stonecutter.population) { document.getElementById('stonecutterPlus').disabled = false; }
-        if (stonecutter.population >= 1) { document.getElementById('stonecutterMinus').disabled = false; }
-        //Territories
-        if (cave.costExploration <= exploration.amount) { document.getElementById('findCave').disabled = false; }
-        if (forest.costExploration <= exploration.amount) { document.getElementById('findForest').disabled = false; }
-        if (mountain.costExploration <= exploration.amount) { document.getElementById('findMountain').disabled = false; }
-        if (plain.costExploration <= exploration.amount) { document.getElementById('findPlain').disabled = false; }
-        if (swamp.costExploration <= exploration.amount) { document.getElementById('findSwamp').disabled = false; }
+        //Workers
+        //Actions
+        unlocked.actions.forEach(actionButtonEnable);
         //Buildings
-        if (hut.costFood <= food.amount && hut.costWood <= wood.amount && hut.costStone <= stone.amount) { document.getElementById('buildHut').disabled = false; }
-        if (farm.costFood <= food.amount && farm.costWood <= wood.amount && farm.costStone <= stone.amount) { document.getElementById('buildFarm').disabled = false; }
-        if (lumbermill.costFood <= food.amount && lumbermill.costWood <= wood.amount && lumbermill.costStone <= stone.amount) { document.getElementById('buildLumbermill').disabled = false; }
-        if (quarry.costFood <= food.amount && quarry.costWood <= wood.amount && quarry.costStone <= stone.amount) { document.getElementById('buildQuarry').disabled = false; }
+        unlocked.building.forEach(buildButtonEnable);
     }
     
     function updateTime() {
@@ -797,9 +2382,10 @@
     function updateTotals() {
         
     }
-    
+   
     function updateAll() {
-        updatePeons();
+        updateWorkers();
+        updateActions();
         updateTerritory();
         updateBuildings();
         updateResources();
@@ -809,92 +2395,219 @@
     }
 
     function produce() {
-        food.amount += ((farmer.population * farmer.foodProd) + (peon.population * peon.foodProd));
-        wood.amount += ((woodcutter.population * woodcutter.woodProd) + (peon.population * peon.woodProd));
-        stone.amount += ((stonecutter.population * stonecutter.stoneProd) + (peon.population * peon.stoneProd));
-        exploration.amount += (peon.population * peon.explorationProd);
+        foods.meat += ((workers.animal.population * workers.animal.meatProd) + (workers.hunter.population * workers.hunter.meatProd));
+        foods.fish += ((workers.animal.population * workers.animal.fishProd) + (workers.fisher.population * workers.fisher.fishProd) + (workers.hunter.population * workers.hunter.fishProd));
+        foods.nuts += ((workers.gatherer.population * workers.gatherer.nutsProd));
+        foods.berries += ((workers.gatherer.population * workers.gatherer.berriesProd));
+        foods.fruit += ((workers.gatherer.population * workers.gatherer.fruitProd));
+        foods.vegetables += ((workers.farmer.population * workers.farmer.vegetablesProd));
+        foods.mushrooms += 0;
+        foods.grains += ((workers.farmer.population * workers.farmer.grainsProd));
+        foods.eggs += ((workers.farmer.population * workers.farmer.eggsProd));
+        foods.milk += ((workers.farmer.population * workers.farmer.milkProd));
+        foods.cheese += 0;
+        goods.furs += ((workers.hunter.population * workers.hunter.fursProd) + (workers.animal.population * workers.animal.fursProd));
+        goods.leather += 0;
+        goods.bones += ((workers.hunter.population * workers.hunter.bonesProd));
+        goods.sticks += ((workers.gatherer.population * workers.gatherer.sticksProd) + (workers.woodsman.population * workers.woodsman.sticksProd));
+        goods.logs += ((workers.woodsman.population * workers.woodsman.logsProd) + (workers.laborer.population * workers.laborer.logsProd));
+        goods.lumber += ((workers.carpenter.population * workers.carpenter.lumberProd));
+        goods.rocks += ((workers.gatherer.population * workers.gatherer.rocksProd));
+        goods.flint += 0;
+        goods.clay += 0;
+        goods.stone += ((workers.mason.population * workers.mason.stoneProd));
+        goods.ore += 0;
+        goods.water += 0;
+        goods.oil += 0;
+        goods.copper += 0;
+        goods.tin += 0;
+        goods.bronze += 0;
+        goods.iron += 0;
+        goods.steel += 0;
+        goods.silver += 0;
+        goods.gold += 0;
+        goods.gems += 0;
+        goods.crystals += 0;
+        goods.money += 0;
+        goods.mana += ((workers.magic.population * workers.magic.manaProd));
+        goods.herbs += ((workers.druid.population * workers.druid.herbsProd));
+        goods.wool += 0;
+        goods.linen += 0;
+        goods.cotton += 0;
+        goods.cloth += 0;
+        goods.papyrus += 0;
+        goods.paper += 0;
+        goods.paint += 0;
+        goods.ink += 0;
+        goods.charcoal += 0;
+        goods.coal += 0;
+        goods.salt += 0;
+        goods.saltpeter += 0;
+        goods.gunpowder += 0;
+        goods.glass += 0;
+        goods.concrete += 0;
+        exploration.amount += (workers.hunter.population * workers.hunter.explorationProd) + (workers.gatherer.population * workers.gatherer.explorationProd);
     }
     
     function consume() {
-        populationTotal = peon.population + farmer.population + woodcutter.population + stonecutter.population;
-        populationLimit = (hut.amount * hut.housing) + (cave.amount * cave.housing) + 1;
-        foodStorage = (cave.amount * cave.foodStorage) + (farm.amount * farm.foodStorage) + 10;
-        food.amount -= (populationTotal * 0.1);
-        if (food.amount > foodStorage) { food.amount -= ((food.amount - foodStorage) * 0.1); }
-        if (food.amount <= 0 && wasItDone('firstChoice') < 0) { document.getElementById('choiceText').innerHTML = "You are starving to death"; }
-        if (food.amount < 0) { food.amount = 0; starveCount += 1; }
-        if (starveCount === 10) { starve(populationTotal); }
+        var foodCounter,
+            workerCounter;
+        foodTotal = 0;
+        populationTotal = 0;
+        populationLimit = (building.hut.amount * building.hut.housing) + (territory.cave.amount * territory.cave.housing) + 1;
+        foodStorage = (territory.cave.amount * territory.cave.foodStorage) + (building.hut.amount * building.hut.foodStorage) + (building.teepee.amount * building.teepee.foodStorage) + (building.farm.amount * building.farm.foodStorage);
+        for (foodCounter in foods) {
+            if (foods.hasOwnProperty(foodCounter)) {
+                foodTotal += foods[foodCounter];
+            }
+        }
+        for (workerCounter in workers) {
+            if (workers.hasOwnProperty(workerCounter)) {
+                populationTotal += workers[workerCounter].population;
+            }
+        }
+        if (foodTotal > 0) {
+            for (foodCounter in foods) {
+                if (foods.hasOwnProperty(foodCounter)) {
+                    foods[foodCounter] -= (populationTotal * (foods[foodCounter] / foodTotal) * 0.2);
+                }
+            }
+        }
+        if (foodTotal > foodStorage) {
+            for (foodCounter in foods) {
+                if (foods.hasOwnProperty(foodCounter)) {
+                    foods[foodCounter] -= ((foodTotal - foodStorage) * (foods[foodCounter] / foodTotal) * 0.1);
+                }
+            }
+        }
+        if (foodTotal <= 0 && wasItDone('firstChoice') < 0) { document.getElementById('choiceText').innerHTML = "You are starving to death"; }
+        if (foodTotal <= 0) {
+            starveCount += 1;
+        }
+        for (foodCounter in foods) {
+            if (foods.hasOwnProperty(foodCounter)) {
+                if (foods[foodCounter] < 0) { foods[foodCounter] = 0; }
+            }
+        }
+        if (starveCount === 7) { starve(populationTotal); }
     }
     
     function eventRun() {
         choiceReady();
         if (eventName === 'firstChoice') {
             choicePrint("You have no food and you are very hungry. What would you like to do?");
-            choice1Print("Go hunting deer", function () { peon.foodProd += 0.2; peon.explorationProd += 0.2; peon.title = "Hunters"; }, "You are now on the path of the Hunter.");
-            choice2Print("Start gathering nuts and berries", function () { peon.foodProd += 0.15; peon.woodProd += 0.15; peon.explorationProd += 0.1; peon.title = "Gatherers";  }, "You are now on the path of the Gatherer.");
-            choice3Print("Starve", function () { foolish.rating += 1; peon.title = "Fools"; }, "You are a fool. You are starving to death.");
+            choice1Print("Go hunting deer", function () { workers.peon.population -= 1; workers.hunter.population += 1; unlock('workers', 'hunter'); unlock('actions', 'roastMeat'); lock('workers', 'peon'); }, "You are now on the path of the Hunter.");
+            choice2Print("Start gathering nuts and berries", function () { workers.peon.population -= 1; workers.gatherer.population += 1; unlock('workers', 'gatherer'); unlock('actions', 'sacredChant'); lock('workers', 'peon'); }, "You are now on the path of the Gatherer.");
+            choice3Print("Starve", function () { workers.peon.population -= 1; workers.fool.population += 1; traits.foolish.rating += 1; start.traits.foolish.rating += 1; unlock('workers', 'fool'); lock('workers', 'peon'); }, "You are a fool. You are starving to death.");
         }
-        /*if (eventName === 'firstChoice') {
-            document.getElementById('choiceText').innerHTML = "You have no food and you are very hungry. What would you like to do?";
-            document.getElementById('optionText1').innerHTML = "Go hunting deer";
-            document.getElementById('optionText2').innerHTML = "Start gathering nuts and berries";
-            document.getElementById('optionText3').innerHTML = "Starve";
-            document.getElementById('optionButton1').onclick = function () { peon.foodProd += 0.2; peon.explorationProd += 0.2; peon.title = "Hunters"; eventName = "";  document.getElementById('choiceText').innerHTML = "You are now on the path of the Hunter."; choiceDone(); };
-            document.getElementById('optionButton2').onclick = function () { peon.foodProd += 0.15; peon.woodProd += 0.15; peon.explorationProd += 0.1; peon.title = "Gatherers"; eventName = ""; document.getElementById('choiceText').innerHTML = "You are now on the path of the Gatherer."; choiceDone(); };
-            document.getElementById('optionButton3').onclick = function () { foolish.rating += 1; peon.title = "Fools"; eventName = ""; document.getElementById('choiceText').innerHTML = "You are a fool. You are starving to death."; choiceDone(); };
-            
-            choicePrint();
-            choice1Print(, function () { ; }, );
-            choice2Print(, function () { ; }, );
-            choice3Print(, function () { ; }, );
-            
-        }*/
         if (eventName === 'bigHunt') {
             choicePrint("You find a mammoth, there's good eating on one of those.");
-            choice1Print("Find a friend to help hunt it", function () { peon.population += 1; peon.foodProd += 0.1; }, "Your friend joins you and you can hunt much better.");
-            choice2Print("Chase it off a cliff", function () { food.amount += 50; cave.amount += 1; cave.unlocked += 1; }, "You successfully harvest a great deal of food, and in doing so, you find a cave.");
-            choice3Print("Try to talk to it", function () { nature.rating += 1; }, "The mammoth teaches you its secrets.");
+            choice1Print("Find a friend to help hunt it", function () { workers.hunter.population += 1; unlock('workers', 'hunter'); unlock('actions', 'roastMeat'); workers.hunter.meatProd += 0.025; }, "Your friend joins you and you can hunt much better.");
+            choice2Print("Chase it off a cliff", function () { foods.meat += 50; territory.cave.amount += 1; unlock('territory', 'cave'); }, "You successfully harvest a great deal of food, and in doing so, you find a cave.");
+            choice3Print("Try to talk to it", function () { traits.nature.rating += 1; }, "The mammoth teaches you its secrets.");
         }
         if (eventName === 'specialFind') {
             choicePrint("Where would you like to gather food today?");
-            choice1Print("Off in the forest", function () { forest.amount += 1; peon.woodProd += 0.2;  forest.unlocked += 1; nature.rating += 1; }, "The forest is nice, perhaps you'll keep it.");
-            choice2Print("Up by the mountains", function () { cave.amount += 1; cave.unlocked += 1; }, "In the mountains you find a cave full of bats.");
-            choice3Print("Down in the dirt", function () { food.amount += 5; stone.amount += 10; }, "You spend the afternoon digging in the dirt. You find mushrooms and rocks.");
+            choice1Print("Off in the forest", function () { territory.forest.amount += 1; unlock('territory', 'forest'); traits.nature.rating += 1; }, "The forest is nice, perhaps you'll keep it.");
+            choice2Print("Up by the mountains", function () { territory.cave.amount += 1; unlock('territory', 'cave'); }, "In the mountains you find a cave full of bats.");
+            choice3Print("Down in the dirt", function () { foods.mushrooms += 5; goods.rocks += 10; }, "You spend the afternoon digging in the dirt. You find mushrooms and rocks.");
         }
         if (eventName === 'needHome') {
             choicePrint("You don't have a place to stay and it's getting cold.");
-            choice1Print("Pile up sticks for warmth", function () { peon.woodProd += 0.2; hut.unlocked += 1; hut.amount += 1; }, "You've learned how to build a hut.");
-            choice2Print("Look in the mountains", function () { peon.explorationProd += 0.2; cave.amount += 1; cave.unlocked += 1; mysticism += 1; }, "In the mountains you find a cave full of skeletons.");
+            choice1Print("Pile up sticks for warmth", function () { workers.gatherer.sticksProd += 0.025; unlock('building', 'hut'); building.hut.amount += 1; }, "You've learned how to build a hut.");
+            choice2Print("Look in the mountains", function () { workers.hunter.explorationProd += 0.005; territory.cave.amount += 1; unlock('territory', 'cave'); traits.mysticism += 1; }, "In the mountains you find a cave full of skeletons.");
             choice3Print("Kill a tauntaun and climb inside", function () { eventList.pop(); }, "You stay warm for the night but you better find something that will last longer.");
         }
         if (eventName === 'freeFool') {
             choicePrint("You have proceeded in your folly and have learned wisdom.");
-            choice1Print("Farm", function () { farm.unlocked += 1; food.amount += 5; wood.amount += 4; }, "You've learned how to build a farm.");
-            choice2Print("Lumbermill", function () { lumbermill.unlocked += 1; food.amount += 5; }, "You've learned how to build a lumbermill.");
-            choice3Print("Quarry", function () { quarry.unlocked += 1; food.amount += 5; }, "You've learned how to build a quarry.");
+            choice1Print("Farm", function () { unlock('building', 'farm'); foods.grains += 5; goods.logs += 4; }, "You've learned how to build a farm.");
+            choice2Print("Lumbermill", function () { unlock('building', 'lumbermill'); goods.lumber += 5; }, "You've learned how to build a lumbermill.");
+            choice3Print("Quarry", function () { unlock('building', 'quarry'); goods.stone += 5; }, "You've learned how to build a quarry.");
         }
         if (eventName === 'wildPath') {
             choicePrint("You are becoming one with the land. How do you want to continue?");
-            choice1Print("Talk with animals", function () { farmer.title = "Wolves"; farm.title = "Dens"; farm.unlocked += 1; }, "You can now run with the wolves.");
-            choice2Print("Talk with plants", function () { peon.foodProd += 1; peon.explorationProd += 1; }, "You can speak with plants and make them grow.");
-            choice3Print("Turn your back on the wild", function () { nature.rating = 0; lumbermill.unlocked += 1; }, "You've given up the ways of nature. Time to chop it down!");
+            choice1Print("Talk with animals", function () { unlock('workers', 'animal'); workers.animal.title = "Wolves"; workers.animal.population += 1; }, "You can now run with the wolves.");
+            choice2Print("Talk with plants", function () { workers.peon.fruitProd += 1; workers.peon.explorationProd += 1; }, "You can speak with plants and make them grow.");
+            choice3Print("Turn your back on the wild", function () { traits.nature.rating = 0; unlock('building', 'lumbermill'); }, "You've given up the ways of nature. Time to chop it down!");
         }
+        if (eventName === 'findTerritory') {
+            var numNum = random(1, 100);
+            //totalTerritory = territory.cave.amount + territory.forest.amount + territory.mountain.amount + territory.plain.amount + territory.swamp.amount + territory.stream.amount + territory.spring.amount + territory.beach.amount + territory.lake.amount + territory.pond.amount + territory.ocean.amount + territory.island.amount + territory.grove.amount + territory.glen.amount + territory.hill.amount + territory.canyon.amount + territory.river.amount + territory.delta.amount + territory.cliff.amount + territory.bay.amount;
+            if (numNum <= 15) {
+                choicePrint("Mountain");
+                choice1Print("Cave", function () { territory.cave.amount += 1; unlock('territory', 'cave'); eventList.pop(); }, "Caved");
+                choice2Print("Mountain", function () { territory.mountain.amount += 1; unlock('territory', 'mountain'); eventList.pop(); }, "Mountained");
+                choice3Print("Hill", function () { territory.hill.amount += 1; unlock('territory', 'hill'); eventList.pop(); }, "Hilled");
+            }
+            if (numNum > 15 && numNum <= 30) {
+                choicePrint("Mountain 2");
+                choice1Print("Lake", function () { territory.lake.amount += 1; unlock('territory', 'lake'); eventList.pop(); }, "Laked");
+                choice2Print("Canyon", function () { territory.canyon.amount += 1; unlock('territory', 'canyon'); eventList.pop(); }, "Canyoned");
+                choice3Print("River", function () { territory.river.amount += 1; unlock('territory', 'river'); eventList.pop(); }, "Rivered");
+            }
+            if (numNum > 30 && numNum <= 45) {
+                choicePrint("Forest");
+                choice1Print("Forest", function () { territory.forest.amount += 1; unlock('territory', 'forest'); eventList.pop(); }, "Forested");
+                choice2Print("Stream", function () { territory.stream.amount += 1; unlock('territory', 'stream'); eventList.pop(); }, "Streamed");
+                choice3Print("Pond", function () { territory.pond.amount += 1; unlock('territory', 'pond'); eventList.pop(); }, "Pond");
+            }
+            if (numNum > 45 && numNum <= 60) {
+                choicePrint("Plain");
+                choice1Print("Plain", function () { territory.plain.amount += 1; unlock('territory', 'plain'); eventList.pop(); }, "Plained");
+                choice2Print("Swamp", function () { territory.swamp.amount += 1; unlock('territory', 'swamp'); eventList.pop(); }, "Swamped");
+                choice3Print("Beach", function () { territory.beach.amount += 1; unlock('territory', 'beach'); eventList.pop(); }, "Beach");
+            }
+            if (numNum > 60 && numNum <= 75) {
+                choicePrint("Plain 2");
+                choice1Print("Lake", function () { territory.lake.amount += 1; unlock('territory', 'lake'); eventList.pop(); }, "Laked");
+                choice2Print("Hill", function () { territory.hill.amount += 1; unlock('territory', 'hill'); eventList.pop(); }, "Hilled");
+                choice3Print("River", function () { territory.river.amount += 1; unlock('territory', 'river'); eventList.pop(); }, "Rivered");
+            }
+            if (numNum > 75 && numNum <= 90) {
+                choicePrint("Water");
+                choice1Print("Ocean", function () { territory.ocean.amount += 1; unlock('territory', 'ocean'); eventList.pop(); }, "Oceaned");
+                choice2Print("Island", function () { territory.island.amount += 1; unlock('territory', 'island'); eventList.pop(); }, "Islanded");
+                choice3Print("Bay", function () { territory.bay.amount += 1; unlock('territory', 'bay'); eventList.pop(); }, "Bayed");
+            }
+            if (numNum > 90 && numNum <= 95) {
+                choicePrint("Special");
+                choice1Print("Spring", function () { territory.spring.amount += 1; unlock('territory', 'spring'); eventList.pop(); }, "Springed");
+                choice2Print("Grove", function () { territory.grove.amount += 1; unlock('territory', 'grove'); eventList.pop(); }, "Groved");
+                choice3Print("Delta", function () { territory.delta.amount += 1; unlock('territory', 'delta'); eventList.pop(); }, "Deltaed");
+            }
+            if (numNum > 95 && numNum <= 100) {
+                choicePrint("Special 2");
+                choice1Print("Spring", function () { territory.spring.amount += 1; unlock('territory', 'spring'); eventList.pop(); }, "Sprung");
+                choice2Print("Glen", function () { territory.glen.amount += 1; unlock('territory', 'glen'); eventList.pop(); }, "Glened");
+                choice3Print("Cliff", function () { territory.cliff.amount += 1; unlock('territory', 'cliff'); eventList.pop(); }, "Cliffed");
+            }
+            exploration.amount -= exploration.cost;
+            exploration.cost += totalTerritory;
+        }
+        /*Choice template
+        if (eventName === 'firstChoice') {   
+            choicePrint();
+            choice1Print(, function () { ; }, );
+            choice2Print(, function () { ; }, );
+            choice3Print(, function () { ; }, );
+         }
+        }*/
     }
     
     function eventCheck() {
-        if (foolish.rating === 5  && wasItDone('freeFool') < 0) {
+        if (traits.foolish.rating === 5  && wasItDone('freeFool') < 0) {
             eventName = 'freeFool';
             eventList.push(eventName);
             eventCounter += 1;
-        } else if (food.amount <= 0.1 && wasItDone('firstChoice') < 0) {
+        } else if (foodTotal <= 0.5 && wasItDone('firstChoice') < 0) {
             eventName = 'firstChoice';
             eventList.push(eventName);
             eventCounter += 1;
-        } else if (time.hour >= 1 && wasItDone('bigHunt') < 0) {
+        } else if (time.min >= 25 && wasItDone('bigHunt') < 0) {
             eventName = 'bigHunt';
             eventList.push(eventName);
             eventCounter += 1;
-        } else if (food.amount >= 10 && wasItDone('specialFind') < 0) {
+        } else if (foodTotal >= 10 && wasItDone('specialFind') < 0) {
             eventName = 'specialFind';
             eventList.push(eventName);
             eventCounter += 1;
@@ -902,8 +2615,12 @@
             eventName = 'needHome';
             eventList.push(eventName);
             eventCounter += 1;
-        } else if (nature.rating >= 2 && wasItDone('wildPath') < 0) {
+        } else if (traits.nature.rating >= 2 && wasItDone('wildPath') < 0) {
             eventName = 'wildPath';
+            eventList.push(eventName);
+            eventCounter += 1;
+        } else if (exploration.amount >= exploration.cost) {
+            eventName = 'findTerritory';
             eventList.push(eventName);
             eventCounter += 1;
         }
@@ -913,6 +2630,7 @@
         var seconds = time.min % 60;
         if (seconds === 0) {
             time.hour += 1;
+            time.min = 0;
         }
         if (time.hour === 24) {
             time.day += 1;
@@ -931,9 +2649,16 @@
             if (eventName === "" && eventDelay === 0) { eventCheck(); }
             if (eventName !== "") { eventRun(); }
             updateAll();
-            time.min += 1;
+            time.min += 15;
+            totalTicks += 1;
             timeGoesOn();
         }
     }, 250);
+    
+    window.setInterval(function () {
+        if (gamePause === 0) {
+            countDown();
+        }
+    }, 62.5);
             
 }(window, window.$));

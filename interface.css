@@ -62,6 +62,10 @@ button {
     
 }
 
+.actions {
+    display: none;
+}
+
 .building {
     display: none;
 }
@@ -81,6 +85,13 @@ button {
 .header {
     margin-top: 4px;
     font-weight: bold;
+}
+
+.progressBar {
+    position: relative;
+    width: 98%;
+    height: 15px;
+    background-color: darkslategray;
 }
 
 .resource {
@@ -139,6 +150,10 @@ button {
     bottom:0;
 }
 
+#actionsBox {
+    display: none;
+}
+
 #buildingBox {
     display: none;
 }
@@ -154,6 +169,30 @@ button {
 
 #peons {
     display: block;
+}
+
+#sacredChantDoneText {
+    align-content: center;
+    background-color: transparent;
+}
+
+#sacredChantProgress {
+    position: absolute;
+    width: 1%;
+    height: 100%;
+    background-color: darkgoldenrod;
+}
+
+#roastMeatDoneText {
+    align-content: center;
+    background-color: transparent;
+}
+
+#roastMeatProgress {
+    position: absolute;
+    width: 1%;
+    height: 100%;
+    background-color: darkgoldenrod;
 }
 
 #techBox {

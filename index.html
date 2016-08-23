@@ -16,19 +16,96 @@
             <div id="workerBox">
                 <div class="header" title="People to do your bidding">Workers</div>            
                 <div class="container">
-                    <div class="occupation" id="peons"><span id="peonTitle"></span>: <span id="peonAmount"></span></div>
+                    <div class="occupation" id="peon">
+                        <span id="peonTitle"></span>: <span id="peonAmount"></span>
+                    </div>
+                    <div class="occupation" id="animal">
+                        <span id="animalTitle"></span>: <span id="animalAmount"></span>
+                    </div>
+                    <div class="occupation" id="artist">
+                        <button class="btn" id="artistPlus" disabled><span id="artistTitle"></span>: <span id="artistAmount"></span></button>
+                        <button class="btn fire" id="artistMinus" disabled>Fire</button>
+                    </div>
+                    <div class="occupation" id="carpenter">
+                        <button class="btn" id="carpenterPlus" disabled><span id="carpenterTitle"></span>: <span id="carpenterAmount"></span></button>
+                        <button class="btn fire" id="carpenterMinus" disabled>Fire</button>
+                    </div>
+                    <div class="occupation" id="cook">
+                        <button class="btn" id="cookPlus" disabled><span id="cookTitle"></span>: <span id="cookAmount"></span></button>
+                        <button class="btn fire" id="cookMinus" disabled>Fire</button>
+                    </div>
+                    <div class="occupation" id="crafter">
+                        <button class="btn" id="crafterPlus" disabled><span id="crafterTitle"></span>: <span id="crafterAmount"></span></button>
+                        <button class="btn fire" id="crafterMinus" disabled>Fire</button>
+                    </div>
+                    <div class="occupation" id="druid">
+                        <span id="druidTitle"></span>: <span id="druidAmount"></span>
+                    </div>
                     <div class="occupation" id="farmer">
                         <button class="btn" id="farmerPlus" disabled><span id="farmerTitle"></span>: <span id="farmerAmount"></span></button>
                         <button class="btn fire" id="farmerMinus" disabled>Fire</button>
                     </div>
-                    <div class="occupation" id="woodcutter">
-                        <button class="btn" id="woodcutterPlus" disabled><span id="woodcutterTitle"></span>: <span id="woodcutterAmount"></span></button>
-                        <button class="btn fire" id="woodcutterMinus" disabled>Fire</button>
+                    <div class="occupation" id="fisher">
+                        <span id="fisherTitle"></span>: <span id="fisherAmount"></span>
                     </div>
-                    <div class="occupation" id="stonecutter">
-                        <button class="btn" id="stonecutterPlus" disabled><span id="stonecutterTitle"></span>: <span id="stonecutterAmount"></span></button>
-                        <button class="btn fire" id="stonecutterMinus" disabled>Fire</button>
+                    <div class="occupation" id="fool">
+                        <span id="foolTitle"></span>: <span id="foolAmount"></span>
                     </div>
+                    <div class="occupation" id="gatherer">
+                        <span id="gathererTitle"></span>: <span id="gathererAmount"></span>
+                    </div>
+                    <div class="occupation" id="ghost">
+                        <span id="ghostTitle"></span>: <span id="ghostAmount"></span>
+                    </div>
+                    <div class="occupation" id="hunter">
+                        <span id="hunterTitle"></span>: <span id="hunterAmount"></span>
+                    </div>
+                    <div class="occupation" id="laborer">
+                        <button class="btn" id="laborerPlus" disabled><span id="laborerTitle"></span>: <span id="laborerAmount"></span></button>
+                        <button class="btn fire" id="laborerMinus" disabled>Fire</button>
+                    </div>
+                    <div class="occupation" id="magic">
+                        <span id="magicTitle"></span>: <span id="magicAmount"></span>
+                    </div>
+                    <div class="occupation" id="mason">
+                        <button class="btn" id="masonPlus" disabled><span id="masonTitle"></span>: <span id="masonAmount"></span></button>
+                        <button class="btn fire" id="masonMinus" disabled>Fire</button>
+                    </div>
+                    <div class="occupation" id="sailor">
+                        <button class="btn" id="sailorPlus" disabled><span id="sailorTitle"></span>: <span id="sailorAmount"></span></button>
+                        <button class="btn fire" id="sailorMinus" disabled>Fire</button>
+                    </div>
+                    <div class="occupation" id="scientist">
+                        <button class="btn" id="scientistPlus" disabled><span id="scientistTitle"></span>: <span id="scientistAmount"></span></button>
+                        <button class="btn fire" id="scientistMinus" disabled>Fire</button>
+                    </div>
+                    <div class="occupation" id="warrior">
+                        <button class="btn" id="warriorPlus" disabled><span id="warriorTitle"></span>: <span id="warriorAmount"></span></button>
+                        <button class="btn fire" id="warriorMinus" disabled>Fire</button>
+                    </div>
+                    <div class="occupation" id="weaver">
+                        <button class="btn" id="weaverPlus" disabled><span id="weaverTitle"></span>: <span id="weaverAmount"></span></button>
+                        <button class="btn fire" id="weaverMinus" disabled>Fire</button>
+                    </div>
+                    <div class="occupation" id="woodsman">
+                        <button class="btn" id="woodsmanPlus" disabled><span id="woodsmanTitle"></span>: <span id="woodsmanAmount"></span></button>
+                        <button class="btn fire" id="woodsmanMinus" disabled>Fire</button>
+                    </div>
+                </div>
+                <div id="actionsBox">
+                    <div class="header" title="Find people here"><span id="actionsBoxTitle"></span></div>            
+                    <div class="container">
+                        <div class="actions" id="sacredChant">
+                            <button class="btn" id="sacredChantDo" disabled>Sacred Chant</button>
+                            <div class ="cost"><span id="sacredChantCost"></span></div>
+                            <div class ="progressBar"><div id="sacredChantProgress"></div></div>
+                        </div>
+                        <div class="actions" id="roastMeat">
+                            <button class="btn" id="roastMeatDo" disabled>Roast Meat</button>
+                            <div class ="cost"><span id="roastMeatCost"></span></div>
+                            <div class ="progressBar"><div id="roastMeatProgress"></div></div>
+                        </div>
+                    </div>                
                 </div>
             </div>
         </div>
@@ -36,10 +113,58 @@
             <div id="resourceBox">
                 <div class="header">Resources</div>            
                 <div class="container">
-                    <div class="resource" id="food">Food: <span id="foodAmount">1</span></div>
-                    <div class="resource" id="wood">Wood: <span id="woodAmount">1</span></div>
-                    <div class="resource" id="stone">Stone: <span id="stoneAmount">1</span></div>
-                    <div class="resource" id="exploration">Exploration: <span id="explorationAmount">1</span></div>
+                    <div class="resource" id="meat">Meat: <span id="meatAmount">0</span></div>
+                    <div class="resource" id="fish">Fish: <span id="fishAmount">0</span></div>
+                    <div class="resource" id="nuts">Nuts: <span id="nutsAmount">0</span></div>
+                    <div class="resource" id="berries">Berries: <span id="berriesAmount">0</span></div>
+                    <div class="resource" id="fruit">Fruit: <span id="fruitAmount">0</span></div>
+                    <div class="resource" id="vegetables">Vegetables: <span id="vegetablesAmount">0</span></div>
+                    <div class="resource" id="mushrooms">Mushrooms: <span id="mushroomsAmount">0</span></div>
+                    <div class="resource" id="grains">Grains: <span id="grainsAmount">0</span></div>
+                    <div class="resource" id="eggs">Eggs: <span id="eggsAmount">0</span></div>
+                    <div class="resource" id="milk">Milk: <span id="milkAmount">0</span></div>
+                    <div class="resource" id="cheese">Cheese: <span id="cheeseAmount">0</span></div>
+                    <div class="resource" id="furs">Furs: <span id="fursAmount">0</span></div>
+                    <div class="resource" id="leather">Leather: <span id="leatherAmount">0</span></div>
+                    <div class="resource" id="bones">Bones: <span id="bonesAmount">0</span></div>
+                    <div class="resource" id="sticks">Sticks: <span id="sticksAmount">0</span></div>
+                    <div class="resource" id="logs">Logs: <span id="logsAmount">0</span></div>
+                    <div class="resource" id="lumber">Lumber: <span id="lumberAmount">0</span></div>
+                    <div class="resource" id="rocks">Rocks: <span id="rocksAmount">0</span></div>
+                    <div class="resource" id="flint">Flint: <span id="flintAmount">0</span></div>
+                    <div class="resource" id="clay">Clay: <span id="clayAmount">0</span></div>
+                    <div class="resource" id="stone">Stone: <span id="stoneAmount">0</span></div>
+                    <div class="resource" id="ore">Ore: <span id="oreAmount">0</span></div>
+                    <div class="resource" id="water">Water: <span id="waterAmount">0</span></div>
+                    <div class="resource" id="oil">Oil: <span id="oilAmount">0</span></div>
+                    <div class="resource" id="copper">Copper: <span id="copperAmount">0</span></div>
+                    <div class="resource" id="tin">Tin: <span id="tinAmount">0</span></div>
+                    <div class="resource" id="bronze">Bronze: <span id="bronzeAmount">0</span></div>
+                    <div class="resource" id="iron">Iron: <span id="ironAmount">0</span></div>
+                    <div class="resource" id="steel">Steel: <span id="steelAmount">0</span></div>
+                    <div class="resource" id="silver">Silver: <span id="silverAmount">0</span></div>
+                    <div class="resource" id="gold">Gold: <span id="goldAmount">0</span></div>
+                    <div class="resource" id="gems">Gems: <span id="gemsAmount">0</span></div>
+                    <div class="resource" id="crystals">Crystals: <span id="crystalsAmount">0</span></div>
+                    <div class="resource" id="money">Money: <span id="moneyAmount">0</span></div>
+                    <div class="resource" id="mana">Mana: <span id="manaAmount">0</span></div>
+                    <div class="resource" id="herbs">Herbs: <span id="herbsAmount">0</span></div>
+                    <div class="resource" id="wool">Wool: <span id="woolAmount">0</span></div>
+                    <div class="resource" id="linen">Linen: <span id="linenAmount">0</span></div>
+                    <div class="resource" id="cotton">Cotton: <span id="cottonAmount">0</span></div>
+                    <div class="resource" id="cloth">Cloth: <span id="clothAmount">0</span></div>
+                    <div class="resource" id="papyrus">Papyrus: <span id="papyrusAmount">0</span></div>
+                    <div class="resource" id="paper">Paper: <span id="paperAmount">0</span></div>
+                    <div class="resource" id="paint">Paint: <span id="paintAmount">0</span></div>
+                    <div class="resource" id="ink">Ink: <span id="inkAmount">0</span></div>
+                    <div class="resource" id="charcoal">Charcoal: <span id="charcoalAmount">0</span></div>
+                    <div class="resource" id="coal">Coal: <span id="coalAmount">0</span></div>
+                    <div class="resource" id="salt">Salt: <span id="saltAmount">0</span></div>
+                    <div class="resource" id="saltpeter">Saltpeter: <span id="saltpeterAmount">0</span></div>
+                    <div class="resource" id="gunpowder">Gunpowder: <span id="gunpowderAmount">0</span></div>
+                    <div class="resource" id="glass">Glass: <span id="glassAmount">0</span></div>
+                    <div class="resource" id="concrete">Concrete: <span id="concreteAmount">0</span></div>
+                    <div class="resource" id="exploration">Exploration: <span id="explorationAmount">0</span></div>
                 </div>
             </div>
             <div id="techBox">
@@ -53,41 +178,222 @@
                 <div class="header" title="Landy Space!">Territory</div>
                 <div class="container">
                     <div class="territory" id="cave"> 
-                        <button class="btn" id="findCave" disabled>Caves:&nbsp;<span id="caveAmount">0</span></button>
+                        Caves:&nbsp;<span id="caveAmount">0</span>
                     </div>
                     <div class="territory" id="forest"> 
-                        <button class="btn" id="findForest" disabled>Forests:&nbsp;<span id="forestAmount">0</span></button>
+                        Forests:&nbsp;<span id="forestAmount">0</span>
                     </div>
                     <div class="territory" id="mountain"> 
-                        <button class="btn" id="findMountain" disabled>Mountains:&nbsp;<span id="mountainAmount">0</span></button>
+                        Mountains:&nbsp;<span id="mountainAmount">999</span>
                     </div>
-                    <div class="territory" id="cave"> 
-                        <button class="btn" id="findPlain" disabled>Plains:&nbsp;<span id="plainAmount">0</span></button>
+                    <div class="territory" id="plain"> 
+                        Plains:&nbsp;<span id="plainAmount">0</span>
                     </div>
                     <div class="territory" id="swamp"> 
-                        <button class="btn" id="findSwamp" disabled>Swamps:&nbsp;<span id="swampAmount">0</span></button>
+                        Swamps:&nbsp;<span id="swampAmount">0</span>
+                    </div>
+                    <div class="territory" id="stream"> 
+                        Streams:&nbsp;<span id="streamAmount">0</span>
+                    </div>
+                    <div class="territory" id="spring"> 
+                        Springs:&nbsp;<span id="springAmount">0</span>
+                    </div>
+                    <div class="territory" id="beach"> 
+                        Beaches:&nbsp;<span id="beachAmount">0</span>
+                    </div>
+                    <div class="territory" id="lake"> 
+                        Lakes:&nbsp;<span id="lakeAmount">0</span>
+                    </div>
+                    <div class="territory" id="pond"> 
+                        Ponds:&nbsp;<span id="pondAmount">0</span>
+                    </div>
+                    <div class="territory" id="ocean"> 
+                        Oceans:&nbsp;<span id="oceanAmount">0</span>
+                    </div>
+                    <div class="territory" id="island"> 
+                        Islands:&nbsp;<span id="islandAmount">0</span>
+                    </div>
+                    <div class="territory" id="grove"> 
+                        Groves:&nbsp;<span id="groveAmount">0</span>
+                    </div>
+                    <div class="territory" id="glen"> 
+                        Glens:&nbsp;<span id="glenAmount">0</span>
+                    </div>
+                    <div class="territory" id="hill"> 
+                        Hills:&nbsp;<span id="hillAmount">0</span>
+                    </div>
+                    <div class="territory" id="canyon"> 
+                        Canyons:&nbsp;<span id="canyonAmount">0</span>
+                    </div>
+                    <div class="territory" id="river"> 
+                        Rivers:&nbsp;<span id="riverAmount">0</span>
+                    </div>
+                    <div class="territory" id="delta"> 
+                        Deltas:&nbsp;<span id="deltaAmount">0</span>
+                    </div>
+                    <div class="territory" id="cliff"> 
+                        Cliffs:&nbsp;<span id="cliffAmount">0</span>
+                    </div>
+                    <div class="territory" id="bay"> 
+                        Bays:&nbsp;<span id="bayAmount">0</span>
                     </div>
                 </div>    
             </div>
             <div id="buildingBox">
             <div class="header" title="Buildy Things!">Buildings</div>            
                 <div class="container">
+                    <div class="building" id="barricade">
+                        <button class="btn" id="barricadeBuild" disabled>Barricades:&nbsp;<span id="barricadeAmount"></span></button>
+                        <div class ="cost"><span id="barricadeCost"></span></div>
+                    </div>
+                    <div class="building" id="herbGarden">
+                        <button class="btn" id="herbGardenBuild" disabled>Herb Gardens:&nbsp;<span id="herbGardenAmount"></span></button>
+                        <div class ="cost"><span id="herbGardenCost"></span></div>
+                    </div>    
+                    <div class="building" id="hut">    
+                        <button class="btn" id="hutBuild" disabled>Huts:&nbsp;<span id="hutAmount"></span></button>
+                        <div class ="cost"><span id="hutCost"></span></div>
+                    </div>
+                    <div class="building" id="shamanHut">                    
+                        <button class="btn" id="shamanHutBuild" disabled>Shaman Huts:&nbsp;<span id="shamanHutAmount"></span></button>
+                        <div class ="cost"><span id="shamanHutCost"></span></div>
+                    </div>
+                    <div class="building" id="shrine">
+                        <button class="btn" id="shrineBuild" disabled>Shrines:&nbsp;<span id="shrineAmount"></span></button>
+                        <div class ="cost"><span id="shrineCost"></span></div>
+                    </div>
+                    <div class="building" id="teepee">
+                        <button class="btn" id="Teepee" disabled>teepees:&nbsp;<span id="teepeeAmount"></span></button>
+                        <div class ="cost"><span id="teepeeCost"></span></div>
+                    </div>    
+                    <div class="building" id="wigwam">    
+                        <button class="btn" id="wigwamBuild" disabled>Wigwams:&nbsp;<span id="wigwamAmount"></span></button>
+                        <div class ="cost"><span id="wigwamCost"></span></div>
+                    </div>
+                    <div class="building" id="alchemistLab">                    
+                        <button class="btn" id="alchemistLabBuild" disabled>Alchemist Labs:&nbsp;<span id="alchemistLabAmount"></span></button>
+                        <div class ="cost"><span id="alchemistLabCost"></span></div>
+                    </div>
+                    <div class="building" id="apothecary">
+                        <button class="btn" id="apothecaryBuild" disabled>Apothecaries:&nbsp;<span id="apothecaryAmount"></span></button>
+                        <div class ="cost"><span id="apothecaryCost"></span></div>
+                    </div>
+                    <div class="building" id="armory">
+                        <button class="btn" id="armoryBuild" disabled>Armories:&nbsp;<span id="armoryAmount"></span></button>
+                        <div class ="cost"><span id="armoryCost"></span></div>
+                    </div>    
+                    <div class="building" id="barracks">    
+                        <button class="btn" id="barracksBuild" disabled>Barracks:&nbsp;<span id="barracksAmount"></span></button>
+                        <div class ="cost"><span id="barracksCost"></span></div>
+                    </div>
+                    <div class="building" id="blacksmith">                    
+                        <button class="btn" id="blacksmithBuild" disabled>Blacksmith:&nbsp;<span id="blacksmithAmount"></span></button>
+                        <div class ="cost"><span id="blacksmithCost"></span></div>
+                    </div>
+                    <div class="building" id="butcher">
+                        <button class="btn" id="butcherBuild" disabled>Butcher Shops:&nbsp;<span id="butcherAmount"></span></button>
+                        <div class ="cost"><span id="butcherCost"></span></div>
+                    </div>
+                    <div class="building" id="cafe">
+                        <button class="btn" id="cafeBuild" disabled>Cafes:&nbsp;<span id="cafeAmount"></span></button>
+                        <div class ="cost"><span id="cafeCost"></span></div>
+                    </div>    
+                    <div class="building" id="church">    
+                        <button class="btn" id="churchBuild" disabled>Churches:&nbsp;<span id="churchAmount"></span></button>
+                        <div class ="cost"><span id="churchCost"></span></div>
+                    </div>
+                    <div class="building" id="enchanterWorkshop">                    
+                        <button class="btn" id="enchanterWorkshopBuild" disabled>Enchanter's Workshops:&nbsp;<span id="enchanterWorkshopAmount"></span></button>
+                        <div class ="cost"><span id="enchanterWorkshopCost"></span></div>
+                    </div>
                     <div class="building" id="hut">
-                        <button class="btn" id="buildHut" disabled>Huts:&nbsp;<span id="hutAmount"></span></button>
-                        <div class ="cost">Food: <span id="hutCostFood"></span>, Wood: <span id="hutCostWood"></span>, Stone: <span id="hutCostStone"></span></div>
+                        <button class="btn" id="hutBuild" disabled>Huts:&nbsp;<span id="hutAmount"></span></button>
+                        <div class ="cost"><span id="hutCost"></span></div>
                     </div>
                     <div class="building" id="farm">
-                        <button class="btn" id="buildFarm" disabled>Farms:&nbsp;<span id="farmAmount"></span></button>
-                        <div class ="cost">Food: <span id="farmCostFood"></span>, Wood: <span id="farmCostWood"></span>, Stone: <span id="farmCostStone"></span></div>
+                        <button class="btn" id="farmBuild" disabled>Farms:&nbsp;<span id="farmAmount"></span></button>
+                        <div class ="cost"><span id="farmCost"></span></div>
                     </div>    
                     <div class="building" id="lumbermill">    
-                        <button class="btn" id="buildLumbermill" disabled>Lumbermills:&nbsp;<span id="lumbermillAmount"></span></button>
-                        <div class ="cost">Food: <span id="lumbermillCostFood"></span>, Wood: <span id="lumbermillCostWood"></span>, Stone: <span id="lumbermillCostStone"></span></div>
+                        <button class="btn" id="lumbermillBuild" disabled>Lumbermills:&nbsp;<span id="lumbermillAmount"></span></button>
+                        <div class ="cost"><span id="lumbermillCost"></span></div>
+                    </div>
+                    <div class="building" id="farm">
+                        <button class="btn" id="farmBuild" disabled>Farms:&nbsp;<span id="farmAmount"></span></button>
+                        <div class ="cost"><span id="farmCost"></span></div>
+                    </div>    
+                    <div class="building" id="gunsmith">                    
+                        <button class="btn" id="gunsmithBuild" disabled>Gunsmiths:&nbsp;<span id="gunsmithAmount"></span></button>
+                        <div class ="cost"><span id="gunsmithCost"></span></div>
+                    </div>
+                    <div class="building" id="livery">
+                        <button class="btn" id="liveryBuild" disabled>Liveries:&nbsp;<span id="liveryAmount"></span></button>
+                        <div class ="cost"><span id="liveryCost"></span></div>
+                    </div>
+                    <div class="building" id="lumbermill">    
+                        <button class="btn" id="lumbermillBuild" disabled>Lumbermills:&nbsp;<span id="lumbermillAmount"></span></button>
+                        <div class ="cost"><span id="lumbermillCost"></span></div>
+                    </div>
+                    <div class="building" id="machinist">
+                        <button class="btn" id="machinistBuild" disabled>Machinists:&nbsp;<span id="machinistAmount"></span></button>
+                        <div class ="cost"><span id="machinistCost"></span></div>
                     </div>
                     <div class="building" id="quarry">                    
-                        <button class="btn" id="buildQuarry" disabled>Quarries:&nbsp;<span id="quarryAmount"></span></button>
-                        <div class ="cost">Food: <span id="quarryCostFood"></span>, Wood: <span id="quarryCostWood"></span>, Stone: <span id="quarryCostStone"></span></div>
+                        <button class="btn" id="quarryBuild" disabled>Quarries:&nbsp;<span id="quarryAmount"></span></button>
+                        <div class ="cost"><span id="quarryCost"></span></div>
                     </div>
+                    <div class="building" id="stable">
+                        <button class="btn" id="stableBuild" disabled>Stable:&nbsp;<span id="stableAmount"></span></button>
+                        <div class ="cost"><span id="stableCost"></span></div>
+                    </div>    
+                    <div class="building" id="tailor">    
+                        <button class="btn" id="tailorBuild" disabled>Tailors:&nbsp;<span id="tailorAmount"></span></button>
+                        <div class ="cost"><span id="tailorCost"></span></div>
+                    </div>
+                    <div class="building" id="temple">                    
+                        <button class="btn" id="templeBuild" disabled>Temples:&nbsp;<span id="templeAmount"></span></button>
+                        <div class ="cost"><span id="templeCost"></span></div>
+                    </div>
+                    <div class="building" id="textile">
+                        <button class="btn" id="textileBuild" disabled>Textile Mills:&nbsp;<span id="textileAmount"></span></button>
+                        <div class ="cost"><span id="textileCost"></span></div>
+                    </div>
+                    <div class="building" id="farm">
+                        <button class="btn" id="farmBuild" disabled>Farms:&nbsp;<span id="farmAmount"></span></button>
+                        <div class ="cost"><span id="farmCost"></span></div>
+                    </div>    
+                    <div class="building" id="trainingYard">    
+                        <button class="btn" id="trainingYardBuild" disabled>Training Yards:&nbsp;<span id="trainingYardAmount"></span></button>
+                        <div class ="cost"><span id="trainingYardCost"></span></div>
+                    </div>
+                    <div class="building" id="wainwright">                    
+                        <button class="btn" id="wainwrightBuild" disabled>Wainwrights:&nbsp;<span id="wainwrightAmount"></span></button>
+                        <div class ="cost"><span id="wainwrightCost"></span></div>
+                    </div>
+                    <div class="building" id="watchtower">
+                        <button class="btn" id="watchtowerBuild" disabled>Watchtowers:&nbsp;<span id="watchtowerAmount"></span></button>
+                        <div class ="cost"><span id="watchtowerCost"></span></div>
+                    </div>
+                    <div class="building" id="watermill">
+                        <button class="btn" id="watermillBuild" disabled>Watermills:&nbsp;<span id="watermillAmount"></span></button>
+                        <div class ="cost"><span id="watermillCost"></span></div>
+                    </div>    
+                    <div class="building" id="windmill">    
+                        <button class="btn" id="windmillBuild" disabled>Windmills:&nbsp;<span id="windmillAmount"></span></button>
+                        <div class ="cost"><span id="windmillCost"></span></div>
+                    </div>
+                    <div class="building" id="witchCottage">                    
+                        <button class="btn" id="witchCottageBuild" disabled>Witch Cottages:&nbsp;<span id="witchCottageAmount"></span></button>
+                        <div class ="cost"><span id="witchCottageCost"></span></div>
+                    </div>
+                    <div class="building" id="wizardTower">
+                        <button class="btn" id="wizardTowerBuild" disabled>Wizard Towers:&nbsp;<span id="wizardTowerAmount"></span></button>
+                        <div class ="cost"><span id="wizardTowerCost"></span></div>
+                    </div>
+                    <div class="building" id="workshop">
+                        <button class="btn" id="workshopBuild" disabled>Workshop:&nbsp;<span id="workshopAmount"></span></button>
+                        <div class ="cost"><span id="workshopCost"></span></div>
+                    </div>    
                 </div>
             </div>
         </div>
