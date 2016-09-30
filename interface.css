@@ -154,6 +154,10 @@ button {
     display: none;
 }
 
+#animalBox {
+    display: none;
+}
+
 #buildingBox {
     display: none;
 }

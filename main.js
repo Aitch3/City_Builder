@@ -1,25 +1,18 @@
 /*jslint sub:true, devel:true */
-/*global updateAll, updateBuildings, updateTerritory, updateWorkers */
+/*global updateAll, updateBuildings, updateTerritory, updateWorkers, updateAnimals */
 (function (window, $) {
     'use strict';
 //Population
     var workers = {
-            animal: {
-                population: 0,
-                title: "Animals",
-                meatProd: 0.1,
-                fishProd: 0,
-                fursProd: 0
-            },
             artist: {
                 population: 0,
                 title: "Artists",
-                cultureProd: 0
+                production: { culture: 0 }
             },
             carpenter: {
                 population: 0,
                 title: "Carpenters",
-                lumberProd: 0
+                production: { lumber: 0 }
             },
             cook: {
                 population: 0,
@@ -32,20 +25,22 @@
             druid: {
                 population: 0,
                 title: "Druids",
-                herbsProd: 0
+                production: { herbs: 0 }
             },
             farmer: {
                 population: 0,
                 title: "Farmers",
-                grainsProd: 0.1,
-                vegetablesProd: 0.1,
-                eggsProd: 0,
-                milkProd: 0
+                production: {
+                    grains: 0.1,
+                    vegetables: 0.1,
+                    eggs: 0,
+                    milk: 0
+                }
             },
             fisher: {
                 population: 0,
                 title: "Fishermen",
-                fishProd: 0.1
+                production: { fish: 0.1 }
             },
             fool: {
                 population: 0,
@@ -54,12 +49,14 @@
             gatherer: {
                 population: 0,
                 title: "Gatherers",
-                nutsProd: 0.1,
-                berriesProd: 0.1,
-                rocksProd: 0.05,
-                fruitProd: 0.1,
-                sticksProd: 0.05,
-                explorationProd: 0.01
+                production: {
+                    nuts: 0.1,
+                    berries: 0.1,
+                    rocks: 0.05,
+                    fruit: 0.1,
+                    sticks: 0.05,
+                    exploration: 0.01
+                }
             },
             ghost: {
                 population: 0,
@@ -68,29 +65,33 @@
             hunter: {
                 population: 0,
                 title: "Hunters",
-                meatProd: 0.25,
-                fishProd: 0,
-                fursProd: 0.05,
-                bonesProd: 0.01,
-                explorationProd: 0.01
+                production: {
+                    meat: 0.25,
+                    fish: 0,
+                    furs: 0.05,
+                    bones: 0.01,
+                    exploration: 0.01
+                }
             },
             laborer: {
                 population: 0,
                 title: "Laborers",
-                rockProd: 0,
-                oreProd: 0,
-                logsProd: 0
+                production: {
+                    rocks: 0,
+                    ore: 0,
+                    logs: 0
+                }
             },
             magic: {
                 population: 0,
                 title: "Mages",
                 manaProd: 0,
-                crystalsProd: 0
+                production: { crystals: 0 }
             },
             mason: {
                 population: 0,
                 title: "Stonecutters",
-                stoneProd: 0
+                production: { stone: 0 }
             },
             peon: {
                 population: 1,
@@ -106,22 +107,126 @@
             },
             warrior: {
                 population: 0,
-                title: "Warriors",
-                foodProd: 0.5
+                title: "Warriors"
             },
             weaver: {
                 population: 0,
                 title: "Weavers",
-                woolProd: 0,
-                linenProd: 0,
-                cottonProd: 0,
-                clothProd: 0
+                production: {
+                    wool: 0,
+                    linen: 0,
+                    cotton: 0,
+                    cloth: 0
+                }
             },
             woodsman: {
                 population: 0,
                 title: "Woodmens",
-                sticksProd: 0,
-                logsProd: 0
+                production: {
+                    sticks: 0,
+                    logs: 0
+                }
+            }
+        },
+        animals = {
+            alligator: {
+                population: 0,
+                title: "Alligators",
+                production: { meat: 1.1 },
+                consumption: { meat: 1 }
+            },
+            bear: {
+                population: 0,
+                title: "Bears",
+                production: {
+                    fish: 1.1,
+                    berries: 1.1
+                },
+                consumption: {
+                    fish: 1,
+                    berries: 1
+                }
+            },
+            bird: {
+                population: 0,
+                title: "Birds of Prey",
+                production: {
+                    meat: 1.05,
+                    exploration: 0
+                },
+                consumption: { meat: 1 }
+            },
+            buffalo: {
+                population: 0,
+                title: "Buffalo",
+                production: { grains: 1 },
+                consumption: { grains: 1 }
+            },
+            chicken: {
+                population: 0,
+                title: "Chickens",
+                production: { eggs: 0.1 },
+                consumption: { grains: 0 }
+            },
+            cow: {
+                population: 0,
+                title: "Cows",
+                production: {
+                    grains: 1,
+                    milk: 0
+                },
+                consumption: { grains: 1 }
+            },
+            horse: {
+                population: 0,
+                title: "Horses",
+                production: { grains: 1 },
+                consumption: { grains: 1 }
+            },
+            monkey: {
+                population: 0,
+                title: "Monkeys",
+                production: { fruit: 1.05 },
+                consumption: { fruit: 1 }
+            },
+            panther: {
+                population: 0,
+                title: "Panthers",
+                production: { meat: 1.1 },
+                consumption: { meat: 1 }
+            },
+            pig: {
+                population: 0,
+                title: "Pigs",
+                production: { mushrooms: 1 },
+                consumption: { mushrooms: 1 }
+            },
+            rabbit: {
+                population: 0,
+                title: "Rabbits",
+                production: { vegetables: 1.05 },
+                consumption: { vegetables: 1 }
+            },
+            sheep: {
+                population: 0,
+                title: "Sheep",
+                production: {
+                    grains: 1,
+                    wool: 0.05
+                },
+                consumption: { grains: 1 }
+            },
+            squirrel: {
+                population: 0,
+                title: "Squirrels",
+                production: { nuts: 1.05 },
+                consumption: { nuts: 1 }
+            },
+            wolf: {
+                population: 0,
+                title: "Wolves",
+                production: { meat: 1.1 },
+                consumption: { meat: 1 }
             }
         },
         actions = {
@@ -924,17 +1029,21 @@
             concrete: 0
         },
         traits = {
-            military: {rating: 0},
-            diplomacy: {rating: 0},
-            artistry: {rating: 0},
-            nature: {rating: 0},
-            mysticism: {rating: 0},
-            culture: {rating: 0},
-            religion: {rating: 0},
-            knowldge: {rating: 0},
-            foolish: {rating: 0},
-            good: {rating: 0},
-            evil: {rating: 0}
+            military: { rating: 0 },
+            diplomacy: { rating: 0 },
+            artistry: { rating: 0 },
+            nature: { rating: 0 },
+            animalAffinity: { rating: 0 },
+            plantAffinity: { rating: 0 },
+            rockAffinity: { rating: 0 },
+            mysticism: { rating: 0 },
+            culture: { rating: 0 },
+            religion: { rating: 0 },
+            knowldge: { rating: 0 },
+            scrounging: { rating: 0 },
+            foolish: { rating: 0 },
+            good: { rating: 0 },
+            evil: { rating: 0 }
         },
         exploration = {
             amount: 0,
@@ -1010,30 +1119,35 @@
             concrete: 0
         },
         totalTraits = {
-            military: 0,
-            diplomacy: 0,
-            artistry: 0,
-            nature: 0,
-            mysticism: 0,
-            culture: 0,
-            religion: 0,
-            knowldge: 0,
-            foolish: 0,
-            good: 0,
-            evil: 0
+            military: { rating: 0 },
+            diplomacy: { rating: 0 },
+            artistry: { rating: 0 },
+            nature: { rating: 0 },
+            animalAffinity: { rating: 0 },
+            plantAffinity: { rating: 0 },
+            rockAffinity: { rating: 0 },
+            mysticism: { rating: 0 },
+            culture: { rating: 0 },
+            religion: { rating: 0 },
+            knowldge: { rating: 0 },
+            scrounging: { rating: 0 },
+            foolish: { rating: 0 },
+            good: { rating: 0 },
+            evil: { rating: 0 }
         },
         totalDead = 0,
         totalTicks = 0,
         dead = 0,
         unlocked = {
             workers: ['peon'],
+            animals: [],
             actions: [],
             territory: [],
             building: []
         },
         eventName = "",
         eventCounter = 0,
-        eventDelay = 0,
+        eventDelay = 12,
         eventList = [],
         gamePause = 0,
         starveCount = 0,
@@ -1163,6 +1277,74 @@
                     logsProd: 0
                 }
             },
+            animals: {
+                alligators: {
+                    population: 0,
+                    title: "Alligators",
+                    meatProd: 0
+                },
+                bears: {
+                    population: 0,
+                    title: "Bears",
+                    fishProd: 0,
+                    berriesProd: 0
+                },
+                birds: {
+                    population: 0,
+                    title: "Birds of Prey",
+                    explorationProd: 0,
+                    meatProd: 0
+                },
+                buffalo: {
+                    population: 0,
+                    title: "Buffalo"
+                },
+                chickens: {
+                    population: 0,
+                    title: "Chickens",
+                    eggsProd: 0
+                },
+                cows: {
+                    population: 0,
+                    title: "Cows",
+                    milkProd: 0
+                },
+                horses: {
+                    population: 0,
+                    title: "Horses"
+                },
+                monkeys: {
+                    population: 0,
+                    title: "Monkeys",
+                    fruitProd: 0
+                },
+                panthers: {
+                    population: 0,
+                    title: "Panthers",
+                    meatProd: 0
+                },
+                pigs: {
+                    population: 0,
+                    title: "Pigs",
+                    mushroomsProd: 0
+                },
+                rabbits: {
+                    population: 0,
+                    title: "Rabbits",
+                    vegetablesProd: 0
+                },
+                squirrels: {
+                    population: 0,
+                    title: "Squirrels",
+                    nutsProd: 0
+                },
+                wolves: {
+                    population: 0,
+                    title: "Wolves",
+                    meatProd: 0
+                }
+            },
+        
     //Primitive Buildings
             building: {
                 barricade: {
@@ -1931,17 +2113,21 @@
                 concrete: 0
             },
             traits: {
-                military: {rating: 0},
-                diplomacy: {rating: 0},
-                artistry: {rating: 0},
-                nature: {rating: 0},
-                mysticism: {rating: 0},
-                culture: {rating: 0},
-                religion: {rating: 0},
-                knowldge: {rating: 0},
-                foolish: {rating: 0},
-                good: {rating: 0},
-                evil: {rating: 0}
+                military: { rating: 0 },
+                diplomacy: { rating: 0 },
+                artistry: { rating: 0 },
+                nature: { rating: 0 },
+                animalAffinity: { rating: 0 },
+                plantAffinity: { rating: 0 },
+                rockAffinity: { rating: 0 },
+                mysticism: { rating: 0 },
+                culture: { rating: 0 },
+                religion: { rating: 0 },
+                knowldge: { rating: 0 },
+                scrounging: { rating: 0 },
+                foolish: { rating: 0 },
+                good: { rating: 0 },
+                evil: { rating: 0 }
             },
             time: {
                 min: 0,
@@ -1998,19 +2184,25 @@
                 lock('workers', lockCheckee);
             }
         }
-        updateBuildings();
+        updateWorkers();
+        for (lockCheckee in animals) {
+            if (animals.hasOwnProperty(lockCheckee)) {
+                lock('animals', lockCheckee);
+            }
+        }
+        updateAnimals();
         for (lockCheckee in building) {
             if (building.hasOwnProperty(lockCheckee)) {
                 lock('building', lockCheckee);
             }
         }
-        updateTerritory();
+        updateBuildings();
         for (lockCheckee in territory) {
             if (territory.hasOwnProperty(lockCheckee)) {
                 lock('territory', lockCheckee);
             }
         }
-        updateWorkers();
+        updateTerritory();
     }
     
     function choiceReady() {
@@ -2030,7 +2222,7 @@
         document.getElementById('optionText1').innerHTML = "";
         document.getElementById('optionText2').innerHTML = "";
         document.getElementById('optionText3').innerHTML = "";
-        eventDelay = 10;
+        eventDelay = 12;
         gamePause = 0;
     }
     
@@ -2169,6 +2361,20 @@
         document.getElementById("masonPlus").onclick = function () { assign('mason', 1); document.getElementById('masonPlus').disabled = true; };
         document.getElementById("masonMinus").onclick = function () { assign('mason', -1);  document.getElementById('masonMinus').disabled = true; };*/
     }
+         
+    function makeAnimalsVisible(target) {
+        document.getElementById(target).style.display = "block";
+        document.getElementById([target + "Title"]).innerHTML = animals[target].title;
+        document.getElementById([target + "Amount"]).innerHTML = animals[target].population;
+    }
+    
+    function updateAnimals() {
+        unlocked.animals.forEach(makeAnimalsVisible);
+        if (unlocked.animals.length > 0) {
+            document.getElementById(["animalBox"]).style.display = "block";
+        }
+        
+    }
     
     function showCost(classy, target) {
         var costToken,
@@ -2298,6 +2504,7 @@
     
     function updateTerritory() {
         var landCounter;
+        totalTerritory = 0;
         for (landCounter in territory) {
             if (territory.hasOwnProperty(landCounter)) {
                 totalTerritory += territory[landCounter].amount;
@@ -2385,6 +2592,7 @@
    
     function updateAll() {
         updateWorkers();
+        updateAnimals();
         updateActions();
         updateTerritory();
         updateBuildings();
@@ -2395,67 +2603,60 @@
     }
 
     function produce() {
-        foods.meat += ((workers.animal.population * workers.animal.meatProd) + (workers.hunter.population * workers.hunter.meatProd));
-        foods.fish += ((workers.animal.population * workers.animal.fishProd) + (workers.fisher.population * workers.fisher.fishProd) + (workers.hunter.population * workers.hunter.fishProd));
-        foods.nuts += ((workers.gatherer.population * workers.gatherer.nutsProd));
-        foods.berries += ((workers.gatherer.population * workers.gatherer.berriesProd));
-        foods.fruit += ((workers.gatherer.population * workers.gatherer.fruitProd));
-        foods.vegetables += ((workers.farmer.population * workers.farmer.vegetablesProd));
-        foods.mushrooms += 0;
-        foods.grains += ((workers.farmer.population * workers.farmer.grainsProd));
-        foods.eggs += ((workers.farmer.population * workers.farmer.eggsProd));
-        foods.milk += ((workers.farmer.population * workers.farmer.milkProd));
-        foods.cheese += 0;
-        goods.furs += ((workers.hunter.population * workers.hunter.fursProd) + (workers.animal.population * workers.animal.fursProd));
-        goods.leather += 0;
-        goods.bones += ((workers.hunter.population * workers.hunter.bonesProd));
-        goods.sticks += ((workers.gatherer.population * workers.gatherer.sticksProd) + (workers.woodsman.population * workers.woodsman.sticksProd));
-        goods.logs += ((workers.woodsman.population * workers.woodsman.logsProd) + (workers.laborer.population * workers.laborer.logsProd));
-        goods.lumber += ((workers.carpenter.population * workers.carpenter.lumberProd));
-        goods.rocks += ((workers.gatherer.population * workers.gatherer.rocksProd));
-        goods.flint += 0;
-        goods.clay += 0;
-        goods.stone += ((workers.mason.population * workers.mason.stoneProd));
-        goods.ore += 0;
-        goods.water += 0;
-        goods.oil += 0;
-        goods.copper += 0;
-        goods.tin += 0;
-        goods.bronze += 0;
-        goods.iron += 0;
-        goods.steel += 0;
-        goods.silver += 0;
-        goods.gold += 0;
-        goods.gems += 0;
-        goods.crystals += 0;
-        goods.money += 0;
-        goods.mana += ((workers.magic.population * workers.magic.manaProd));
-        goods.herbs += ((workers.druid.population * workers.druid.herbsProd));
-        goods.wool += 0;
-        goods.linen += 0;
-        goods.cotton += 0;
-        goods.cloth += 0;
-        goods.papyrus += 0;
-        goods.paper += 0;
-        goods.paint += 0;
-        goods.ink += 0;
-        goods.charcoal += 0;
-        goods.coal += 0;
-        goods.salt += 0;
-        goods.saltpeter += 0;
-        goods.gunpowder += 0;
-        goods.glass += 0;
-        goods.concrete += 0;
-        exploration.amount += (workers.hunter.population * workers.hunter.explorationProd) + (workers.gatherer.population * workers.gatherer.explorationProd);
+        var maker,
+            material;
+        for (maker in workers) {
+            if (workers.hasOwnProperty(maker)) {
+                for (material in workers[maker].production) {
+                    if (workers[maker].production.hasOwnProperty(material)) {
+                        if (material === "exploration") {
+                            exploration.amount += (workers[maker].population * workers[maker].production[material]);
+                        } else if (goods.hasOwnProperty(material)) {
+                            goods[material] += (workers[maker].population * workers[maker].production[material]);
+                        } else if (foods.hasOwnProperty(material)) {
+                            foods[material] += (workers[maker].population * workers[maker].production[material]);
+                        }
+                    }
+                }
+            }
+        }
+        for (maker in animals) {
+            if (animals.hasOwnProperty(maker)) {
+                for (material in animals[maker].production) {
+                    if (animals[maker].production.hasOwnProperty(material)) {
+                        if (material === "exploration") {
+                            exploration.amount += (animals[maker].population * animals[maker].production[material]);
+                        } else if (goods.hasOwnProperty(material)) {
+                            goods[material] += (animals[maker].population * animals[maker].production[material]);
+                        } else if (foods.hasOwnProperty(material)) {
+                            foods[material] += (animals[maker].population * animals[maker].production[material]);
+                        }
+                    }
+                }
+            }
+        }
     }
     
     function consume() {
         var foodCounter,
-            workerCounter;
+            workerCounter,
+            eater,
+            foodEaten;
         foodTotal = 0;
         populationTotal = 0;
         populationLimit = (building.hut.amount * building.hut.housing) + (territory.cave.amount * territory.cave.housing) + 1;
         foodStorage = (territory.cave.amount * territory.cave.foodStorage) + (building.hut.amount * building.hut.foodStorage) + (building.teepee.amount * building.teepee.foodStorage) + (building.farm.amount * building.farm.foodStorage);
+        for (eater in animals) {
+            if (animals.hasOwnProperty(eater)) {
+                for (foodEaten in animals[eater].consumption) {
+                    if (animals[eater].consumption.hasOwnProperty(foodEaten)) {
+                        if (foods.hasOwnProperty(foodEaten)) {
+                            foods[foodEaten] -= (animals[eater].population * animals[eater].consumption[foodEaten]);
+                        }
+                    }
+                }
+            }
+        }
         for (foodCounter in foods) {
             if (foods.hasOwnProperty(foodCounter)) {
                 foodTotal += foods[foodCounter];
@@ -2469,14 +2670,14 @@
         if (foodTotal > 0) {
             for (foodCounter in foods) {
                 if (foods.hasOwnProperty(foodCounter)) {
-                    foods[foodCounter] -= (populationTotal * (foods[foodCounter] / foodTotal) * 0.2);
+                    foods[foodCounter] -= (populationTotal * (foods[foodCounter] / foodTotal) * 0.03);
                 }
             }
         }
         if (foodTotal > foodStorage) {
             for (foodCounter in foods) {
                 if (foods.hasOwnProperty(foodCounter)) {
-                    foods[foodCounter] -= ((foodTotal - foodStorage) * (foods[foodCounter] / foodTotal) * 0.1);
+                    foods[foodCounter] -= ((foodTotal - foodStorage) * (foods[foodCounter] / foodTotal) * 0.01);
                 }
             }
         }
@@ -2492,106 +2693,306 @@
         if (starveCount === 7) { starve(populationTotal); }
     }
     
-    function eventRun() {
+    function firstChoice() {
+        var choiceText = "You have no food and you are very hungry. At the edge of your campfire you see a rabbit hopping about. What would you like to do?",
+            choice1Text = "Try to catch the rabbit and cook it.",
+            choice1Result = function () { traits.nature.rating += 1; traits.military.rating += 1; foods.meat += 3; goods.furs += 1; },
+            choice1ResultText = "You succeed in catching the rabbit, skin it, and cook it over your fire.",
+            choice2Text = "Watch the rabbit and see what it does.",
+            choice2Result = function () { traits.nature.rating += 1; traits.scrounging.rating += 1; foods.vegetables += 3; },
+            choice2ResultText = "The rabbit hops away, you follow. It leads you to a small patch of carrots, and starts nibbling on them. You grab what carrots you can, scaring the bunny away.",
+            choice3Text = "Try to communicate with the rabbit by making rabbit sounds.",
+            choice3Result = function () { traits.nature.rating += 1; traits.animalAffinity.rating += 1; foods.vegetables += 3; },
+            choice3ResultText = "The rabbit comes over to you. It cuddles you for a moment, then leads you to a patch of lettuce. You gather some up.";
         choiceReady();
-        if (eventName === 'firstChoice') {
-            choicePrint("You have no food and you are very hungry. What would you like to do?");
-            choice1Print("Go hunting deer", function () { workers.peon.population -= 1; workers.hunter.population += 1; unlock('workers', 'hunter'); unlock('actions', 'roastMeat'); lock('workers', 'peon'); }, "You are now on the path of the Hunter.");
-            choice2Print("Start gathering nuts and berries", function () { workers.peon.population -= 1; workers.gatherer.population += 1; unlock('workers', 'gatherer'); unlock('actions', 'sacredChant'); lock('workers', 'peon'); }, "You are now on the path of the Gatherer.");
-            choice3Print("Starve", function () { workers.peon.population -= 1; workers.fool.population += 1; traits.foolish.rating += 1; start.traits.foolish.rating += 1; unlock('workers', 'fool'); lock('workers', 'peon'); }, "You are a fool. You are starving to death.");
+        choicePrint(choiceText);
+        choice1Print(choice1Text, choice1Result, choice1ResultText);
+        choice2Print(choice2Text, choice2Result, choice2ResultText);
+        choice3Print(choice3Text, choice3Result, choice3ResultText);
+    }
+        
+    function secondChoice() {
+        var choiceText = "You need more food. Time to come up with a more long term solution.",
+            choice1Text = "Catch small animals, skin them and cook them.",
+            choice1Result,
+            choice1ResultText,
+            choice2Text = "Search near your campfire for food.",
+            choice2Result,
+            choice2ResultText,
+            choice3Text = "Talk to more animals.",
+            choice3Result,
+            choice3ResultText;
+        if (traits.military.rating >= 1) {
+            choice1Result = function () { workers.peon.population -= 1; workers.hunter.population += 1; unlock('workers', 'hunter'); unlock('actions', 'roastMeat'); lock('workers', 'peon'); };
+            choice1ResultText = "You are now on the path of the hunter.";
+        } else {
+            choice1Result = function () { traits.military.rating += 1; foods.meat += 3; goods.furs += 1; };
+            choice1ResultText = "You succeed in catching the rabbit, skin it, and cook it over your fire.";
         }
-        if (eventName === 'bigHunt') {
-            choicePrint("You find a mammoth, there's good eating on one of those.");
-            choice1Print("Find a friend to help hunt it", function () { workers.hunter.population += 1; unlock('workers', 'hunter'); unlock('actions', 'roastMeat'); workers.hunter.meatProd += 0.025; }, "Your friend joins you and you can hunt much better.");
-            choice2Print("Chase it off a cliff", function () { foods.meat += 50; territory.cave.amount += 1; unlock('territory', 'cave'); }, "You successfully harvest a great deal of food, and in doing so, you find a cave.");
-            choice3Print("Try to talk to it", function () { traits.nature.rating += 1; }, "The mammoth teaches you its secrets.");
+        if (traits.scrounging.rating >= 1) {
+            choice2Result = function () { workers.peon.population -= 1; workers.gatherer.population += 1; unlock('workers', 'gatherer'); unlock('actions', 'sacredChant'); lock('workers', 'peon'); };
+            choice2ResultText = "You are now on the path of the gatherer.";
+        } else {
+            choice2Result = function () { traits.scrounging.rating += 1; foods.vegetables += 3; };
+            choice2ResultText = "The rabbit hops away, you follow. It leads you to a small patch of carrots, and starts nibbling on them. You grab what carrots you can, scaring the bunny away.";
         }
-        if (eventName === 'specialFind') {
-            choicePrint("Where would you like to gather food today?");
-            choice1Print("Off in the forest", function () { territory.forest.amount += 1; unlock('territory', 'forest'); traits.nature.rating += 1; }, "The forest is nice, perhaps you'll keep it.");
-            choice2Print("Up by the mountains", function () { territory.cave.amount += 1; unlock('territory', 'cave'); }, "In the mountains you find a cave full of bats.");
-            choice3Print("Down in the dirt", function () { foods.mushrooms += 5; goods.rocks += 10; }, "You spend the afternoon digging in the dirt. You find mushrooms and rocks.");
+        if (traits.animalAffinity.rating >= 1) {
+            choice3Result = function () { animals.rabbit.population += 3; unlock('animals', 'rabbit'); animals.rabbit.vegetablesProd += 0.1; };
+            choice3ResultText = "You befriend a small warren of rabbits.";
+        } else {
+            choice3Result = function () { traits.animalAffinity.rating += 1; foods.vegetables += 3;  };
+            choice3ResultText = "The rabbit comes over to you. It cuddles you for a moment, then leads you to a patch of lettuce. You gather some up.";
         }
-        if (eventName === 'needHome') {
-            choicePrint("You don't have a place to stay and it's getting cold.");
-            choice1Print("Pile up sticks for warmth", function () { workers.gatherer.sticksProd += 0.025; unlock('building', 'hut'); building.hut.amount += 1; }, "You've learned how to build a hut.");
-            choice2Print("Look in the mountains", function () { workers.hunter.explorationProd += 0.005; territory.cave.amount += 1; unlock('territory', 'cave'); traits.mysticism += 1; }, "In the mountains you find a cave full of skeletons.");
-            choice3Print("Kill a tauntaun and climb inside", function () { eventList.pop(); }, "You stay warm for the night but you better find something that will last longer.");
+        choiceReady();
+        choicePrint(choiceText);
+        choice1Print(choice1Text, choice1Result, choice1ResultText);
+        choice2Print(choice2Text, choice2Result, choice2ResultText);
+        choice3Print(choice3Text, choice3Result, choice3ResultText);
+    }
+    
+    function thirdChoice() {
+        var choiceText = "A trader arrives. Will you trade with him?",
+            choice1Text = "Trade 4 fruit.",
+            choice1Result = function () { workers.hunter.production.clay = 1; },
+            choice1ResultText = "You trade your fruit for a flint.",
+            choice2Text = "Trade a meat.",
+            choice2Result = function () { workers.hunter.production.clay = 1; },
+            choice2ResultText = "You trade your meat for a flint.",
+            choice3Text = "Refuse to trade.",
+            choice3Result = function () { foods.cheese += 5; },
+            choice3ResultText = "My, that's cheesy!";
+        choiceReady();
+        if (foods.fruit < 4) {
+            document.getElementById('optionButton1').disabled = true;
         }
-        if (eventName === 'freeFool') {
-            choicePrint("You have proceeded in your folly and have learned wisdom.");
-            choice1Print("Farm", function () { unlock('building', 'farm'); foods.grains += 5; goods.logs += 4; }, "You've learned how to build a farm.");
-            choice2Print("Lumbermill", function () { unlock('building', 'lumbermill'); goods.lumber += 5; }, "You've learned how to build a lumbermill.");
-            choice3Print("Quarry", function () { unlock('building', 'quarry'); goods.stone += 5; }, "You've learned how to build a quarry.");
+        if (foods.meat < 1) {
+            document.getElementById('optionButton2').disabled = true;
         }
-        if (eventName === 'wildPath') {
-            choicePrint("You are becoming one with the land. How do you want to continue?");
-            choice1Print("Talk with animals", function () { unlock('workers', 'animal'); workers.animal.title = "Wolves"; workers.animal.population += 1; }, "You can now run with the wolves.");
-            choice2Print("Talk with plants", function () { workers.peon.fruitProd += 1; workers.peon.explorationProd += 1; }, "You can speak with plants and make them grow.");
-            choice3Print("Turn your back on the wild", function () { traits.nature.rating = 0; unlock('building', 'lumbermill'); }, "You've given up the ways of nature. Time to chop it down!");
+        choicePrint(choiceText);
+        choice1Print(choice1Text, choice1Result, choice1ResultText);
+        choice2Print(choice2Text, choice2Result, choice2ResultText);
+        choice3Print(choice3Text, choice3Result, choice3ResultText);
+    }
+    
+    function specialFind() {
+        var choiceText = "Where would you like to gather food today?",
+            choice1Text = "Off in the forest",
+            choice1Result = function () { territory.forest.amount += 1; unlock('territory', 'forest'); traits.nature.rating += 1; },
+            choice1ResultText = "The forest is nice, perhaps you'll keep it.",
+            choice2Text = "Up by the mountains",
+            choice2Result = function () { territory.cave.amount += 1; unlock('territory', 'cave'); },
+            choice2ResultText = "In the mountains you find a cave full of bats.",
+            choice3Text = "Down in the dirt",
+            choice3Result = function () { foods.mushrooms += 5; goods.rocks += 10; },
+            choice3ResultText = "You spend the afternoon digging in the dirt. You find mushrooms and rocks.";
+        choiceReady();
+        choicePrint(choiceText);
+        choice1Print(choice1Text, choice1Result, choice1ResultText);
+        choice2Print(choice2Text, choice2Result, choice2ResultText);
+        choice3Print(choice3Text, choice3Result, choice3ResultText);
+    }
+    
+    function needHome() {
+        var choiceText = "You don't have a place to stay and it's getting cold.",
+            choice1Text = "Pile up sticks for warmth",
+            choice1Result = function () { workers.gatherer.sticksProd += 0.025; unlock('building', 'hut'); building.hut.amount += 1; },
+            choice1ResultText = "You've learned how to build a hut.",
+            choice2Text = "Look in the mountains",
+            choice2Result = function () { workers.hunter.explorationProd += 0.005; territory.cave.amount += 1; unlock('territory', 'cave'); traits.mysticism += 1; },
+            choice2ResultText = "In the mountains you find a cave full of skeletons.",
+            choice3Text = "Kill a tauntaun and climb inside",
+            choice3Result = function () { eventList.pop(); },
+            choice3ResultText = "You stay warm for the night but you better find something that will last longer.";
+        choiceReady();
+        choicePrint(choiceText);
+        choice1Print(choice1Text, choice1Result, choice1ResultText);
+        choice2Print(choice2Text, choice2Result, choice2ResultText);
+        choice3Print(choice3Text, choice3Result, choice3ResultText);
+    }
+    
+    function freeFool() {
+        var choiceText = "You have proceeded in your folly and have learned wisdom.",
+            choice1Text = "Farm",
+            choice1Result = function () { unlock('building', 'farm'); foods.grains += 5; goods.logs += 4; },
+            choice1ResultText = "You've learned how to build a farm.",
+            choice2Text = "Lumbermill",
+            choice2Result = function () { unlock('building', 'lumbermill'); goods.lumber += 5; },
+            choice2ResultText = "You've learned how to build a lumbermill.",
+            choice3Text = "Quarry",
+            choice3Result = function () { unlock('building', 'quarry'); goods.stone += 5; },
+            choice3ResultText = "You've learned how to build a quarry.";
+        choiceReady();
+        choicePrint(choiceText);
+        choice1Print(choice1Text, choice1Result, choice1ResultText);
+        choice2Print(choice2Text, choice2Result, choice2ResultText);
+        choice3Print(choice3Text, choice3Result, choice3ResultText);
+    }
+    
+    function wildPath() {
+        var choiceText = "You are becoming one with the land. How do you want to continue?",
+            choice1Text = "Talk with animals",
+            choice1Result = function () { unlock('animals', 'wolf'); animals.wolf.population += 1; },
+            choice1ResultText = "You can now run with the wolves.",
+            choice2Text = "Talk with plants",
+            choice2Result = function () { workers.peon.fruitProd += 1; workers.peon.explorationProd += 1; },
+            choice2ResultText = "You can speak with plants and make them grow.",
+            choice3Text = "Turn your back on the wild",
+            choice3Result = function () { traits.nature.rating = 0; unlock('building', 'lumbermill'); },
+            choice3ResultText = "You've given up the ways of nature. Time to chop it down!";
+        choiceReady();
+        choicePrint(choiceText);
+        choice1Print(choice1Text, choice1Result, choice1ResultText);
+        choice2Print(choice2Text, choice2Result, choice2ResultText);
+        choice3Print(choice3Text, choice3Result, choice3ResultText);
+    }
+    
+    function findTerritory() {
+        var numNum = random(1, 100),
+            choiceText,
+            choice1Text,
+            choice1Result,
+            choice1ResultText,
+            choice2Text,
+            choice2Result,
+            choice2ResultText,
+            choice3Text,
+            choice3Result,
+            choice3ResultText;
+        if (numNum <= 15) {
+            choiceText = "Mountain";
+            choice1Text = "Cave";
+            choice1Result = function () { territory.cave.amount += 1; unlock('territory', 'cave'); eventList.pop(); };
+            choice1ResultText = "Caved";
+            choice2Text = "Mountain";
+            choice2Result = function () { territory.mountain.amount += 1; unlock('territory', 'mountain'); eventList.pop(); };
+            choice2ResultText = "Mountained";
+            choice3Text = "Hill";
+            choice3Result = function () { territory.hill.amount += 1; unlock('territory', 'hill'); eventList.pop(); };
+            choice3ResultText = "Hilled";
         }
-        if (eventName === 'findTerritory') {
-            var numNum = random(1, 100);
-            //totalTerritory = territory.cave.amount + territory.forest.amount + territory.mountain.amount + territory.plain.amount + territory.swamp.amount + territory.stream.amount + territory.spring.amount + territory.beach.amount + territory.lake.amount + territory.pond.amount + territory.ocean.amount + territory.island.amount + territory.grove.amount + territory.glen.amount + territory.hill.amount + territory.canyon.amount + territory.river.amount + territory.delta.amount + territory.cliff.amount + territory.bay.amount;
-            if (numNum <= 15) {
-                choicePrint("Mountain");
-                choice1Print("Cave", function () { territory.cave.amount += 1; unlock('territory', 'cave'); eventList.pop(); }, "Caved");
-                choice2Print("Mountain", function () { territory.mountain.amount += 1; unlock('territory', 'mountain'); eventList.pop(); }, "Mountained");
-                choice3Print("Hill", function () { territory.hill.amount += 1; unlock('territory', 'hill'); eventList.pop(); }, "Hilled");
-            }
-            if (numNum > 15 && numNum <= 30) {
-                choicePrint("Mountain 2");
-                choice1Print("Lake", function () { territory.lake.amount += 1; unlock('territory', 'lake'); eventList.pop(); }, "Laked");
-                choice2Print("Canyon", function () { territory.canyon.amount += 1; unlock('territory', 'canyon'); eventList.pop(); }, "Canyoned");
-                choice3Print("River", function () { territory.river.amount += 1; unlock('territory', 'river'); eventList.pop(); }, "Rivered");
-            }
-            if (numNum > 30 && numNum <= 45) {
-                choicePrint("Forest");
-                choice1Print("Forest", function () { territory.forest.amount += 1; unlock('territory', 'forest'); eventList.pop(); }, "Forested");
-                choice2Print("Stream", function () { territory.stream.amount += 1; unlock('territory', 'stream'); eventList.pop(); }, "Streamed");
-                choice3Print("Pond", function () { territory.pond.amount += 1; unlock('territory', 'pond'); eventList.pop(); }, "Pond");
-            }
-            if (numNum > 45 && numNum <= 60) {
-                choicePrint("Plain");
-                choice1Print("Plain", function () { territory.plain.amount += 1; unlock('territory', 'plain'); eventList.pop(); }, "Plained");
-                choice2Print("Swamp", function () { territory.swamp.amount += 1; unlock('territory', 'swamp'); eventList.pop(); }, "Swamped");
-                choice3Print("Beach", function () { territory.beach.amount += 1; unlock('territory', 'beach'); eventList.pop(); }, "Beach");
-            }
-            if (numNum > 60 && numNum <= 75) {
-                choicePrint("Plain 2");
-                choice1Print("Lake", function () { territory.lake.amount += 1; unlock('territory', 'lake'); eventList.pop(); }, "Laked");
-                choice2Print("Hill", function () { territory.hill.amount += 1; unlock('territory', 'hill'); eventList.pop(); }, "Hilled");
-                choice3Print("River", function () { territory.river.amount += 1; unlock('territory', 'river'); eventList.pop(); }, "Rivered");
-            }
-            if (numNum > 75 && numNum <= 90) {
-                choicePrint("Water");
-                choice1Print("Ocean", function () { territory.ocean.amount += 1; unlock('territory', 'ocean'); eventList.pop(); }, "Oceaned");
-                choice2Print("Island", function () { territory.island.amount += 1; unlock('territory', 'island'); eventList.pop(); }, "Islanded");
-                choice3Print("Bay", function () { territory.bay.amount += 1; unlock('territory', 'bay'); eventList.pop(); }, "Bayed");
-            }
-            if (numNum > 90 && numNum <= 95) {
-                choicePrint("Special");
-                choice1Print("Spring", function () { territory.spring.amount += 1; unlock('territory', 'spring'); eventList.pop(); }, "Springed");
-                choice2Print("Grove", function () { territory.grove.amount += 1; unlock('territory', 'grove'); eventList.pop(); }, "Groved");
-                choice3Print("Delta", function () { territory.delta.amount += 1; unlock('territory', 'delta'); eventList.pop(); }, "Deltaed");
-            }
-            if (numNum > 95 && numNum <= 100) {
-                choicePrint("Special 2");
-                choice1Print("Spring", function () { territory.spring.amount += 1; unlock('territory', 'spring'); eventList.pop(); }, "Sprung");
-                choice2Print("Glen", function () { territory.glen.amount += 1; unlock('territory', 'glen'); eventList.pop(); }, "Glened");
-                choice3Print("Cliff", function () { territory.cliff.amount += 1; unlock('territory', 'cliff'); eventList.pop(); }, "Cliffed");
-            }
-            exploration.amount -= exploration.cost;
-            exploration.cost += totalTerritory;
+        if (numNum > 15 && numNum <= 30) {
+            choiceText = "Mountain 2";
+            choice1Text = "Lake";
+            choice1Result = function () { territory.lake.amount += 1; unlock('territory', 'lake'); eventList.pop(); };
+            choice1ResultText = "Laked";
+            choice2Text = "Canyon";
+            choice2Result = function () { territory.canyon.amount += 1; unlock('territory', 'canyon'); eventList.pop(); };
+            choice2ResultText = "Canyoned";
+            choice3Text = "River";
+            choice3Result = function () { territory.river.amount += 1; unlock('territory', 'river'); eventList.pop(); };
+            choice3ResultText = "Rivered";
         }
-        /*Choice template
-        if (eventName === 'firstChoice') {   
-            choicePrint();
-            choice1Print(, function () { ; }, );
-            choice2Print(, function () { ; }, );
-            choice3Print(, function () { ; }, );
-         }
-        }*/
+        if (numNum > 30 && numNum <= 45) {
+            choiceText = "Forest";
+            choice1Text = "Forest";
+            choice1Result = function () { territory.forest.amount += 1; unlock('territory', 'forest'); eventList.pop(); };
+            choice1ResultText = "Forested";
+            choice2Text = "Stream";
+            choice2Result = function () { territory.stream.amount += 1; unlock('territory', 'stream'); eventList.pop(); };
+            choice2ResultText = "Streamed";
+            choice3Text = "Pond";
+            choice3Result = function () { territory.pond.amount += 1; unlock('territory', 'pond'); eventList.pop(); };
+            choice3ResultText = "Pond";
+        }
+        if (numNum > 45 && numNum <= 60) {
+            choiceText = "Plain";
+            choice1Text = "Plain";
+            choice1Result = function () { territory.plain.amount += 1; unlock('territory', 'plain'); eventList.pop(); };
+            choice1ResultText = "Plained";
+            choice2Text = "Swamp";
+            choice2Result = function () { territory.swamp.amount += 1; unlock('territory', 'swamp'); eventList.pop(); };
+            choice2ResultText = "Swamped";
+            choice3Text = "Beach";
+            choice3Result = function () { territory.beach.amount += 1; unlock('territory', 'beach'); eventList.pop(); };
+            choice3ResultText = "Beach";
+        }
+        if (numNum > 60 && numNum <= 75) {
+            choiceText = "Plain 2";
+            choice1Text = "Lake";
+            choice1Result = function () { territory.lake.amount += 1; unlock('territory', 'lake'); eventList.pop(); };
+            choice1ResultText = "Laked";
+            choice2Text = "Hill";
+            choice2Result = function () { territory.hill.amount += 1; unlock('territory', 'hill'); eventList.pop(); };
+            choice2ResultText = "Hilled";
+            choice3Text = "River";
+            choice3Result = function () { territory.river.amount += 1; unlock('territory', 'river'); eventList.pop(); };
+            choice3ResultText = "Rivered";
+        }
+        if (numNum > 75 && numNum <= 90) {
+            choiceText = "Water";
+            choice1Text = "Ocean";
+            choice1Result = function () { territory.ocean.amount += 1; unlock('territory', 'ocean'); eventList.pop(); };
+            choice1ResultText = "Oceaned";
+            choice2Text = "Island";
+            choice2Result = function () { territory.island.amount += 1; unlock('territory', 'island'); eventList.pop(); };
+            choice2ResultText = "Islanded";
+            choice3Text = "Bay";
+            choice3Result = function () { territory.bay.amount += 1; unlock('territory', 'bay'); eventList.pop(); };
+            choice3ResultText = "Bayed";
+        }
+        if (numNum > 90 && numNum <= 95) {
+            choiceText = "Special";
+            choice1Text = "Spring";
+            choice1Result = function () { territory.spring.amount += 1; unlock('territory', 'spring'); eventList.pop(); };
+            choice1ResultText = "Springed";
+            choice2Text = "Grove";
+            choice2Result = function () { territory.grove.amount += 1; unlock('territory', 'grove'); eventList.pop(); };
+            choice2ResultText = "Groved";
+            choice3Text = "Delta";
+            choice3Result = function () { territory.delta.amount += 1; unlock('territory', 'delta'); eventList.pop(); };
+            choice3ResultText = "Deltaed";
+        }
+        if (numNum > 95 && numNum <= 100) {
+            choiceText = "Special 2";
+            choice1Text = "Spring";
+            choice1Result = function () { territory.spring.amount += 1; unlock('territory', 'spring'); eventList.pop(); };
+            choice1ResultText = "Sprung";
+            choice2Text = "Glen";
+            choice2Result = function () { territory.glen.amount += 1; unlock('territory', 'glen'); eventList.pop(); };
+            choice2ResultText = "Glened";
+            choice3Text = "Cliff";
+            choice3Result = function () { territory.cliff.amount += 1; unlock('territory', 'cliff'); eventList.pop(); };
+            choice3ResultText = "Cliffed";
+        }
+        exploration.amount -= exploration.cost;
+        exploration.cost += totalTerritory;
+        choiceReady();
+        choicePrint(choiceText);
+        choice1Print(choice1Text, choice1Result, choice1ResultText);
+        choice2Print(choice2Text, choice2Result, choice2ResultText);
+        choice3Print(choice3Text, choice3Result, choice3ResultText);
+    }
+
+    
+    /*  Event Prototype
+    function eventName() {
+        var choiceText = ,
+            choice1Text = ,
+            choice1Result = function () {  },
+            choice1ResultText = ,
+            choice2Text = ,
+            choice2Result = function () {  },
+            choice2ResultText = ,
+            choice3Text = ,
+            choice3Result = function () {  },
+            choice3ResultText = ;
+        choiceReady();
+        choicePrint(choiceText);
+        choice1Print(choice1Text, choice1Result, choice1ResultText);
+        choice2Print(choice2Text, choice2Result, choice2ResultText);
+        choice3Print(choice3Text, choice3Result, choice3ResultText);
+    }*/
+    
+    function eventRun() {
+        //choiceReady();
+        if (eventName === 'firstChoice') { firstChoice(); }
+        if (eventName === 'secondChoice') { secondChoice(); }
+        if (eventName === 'thirdChoice') { thirdChoice(); }
+        if (eventName === 'specialFind') { specialFind(); }
+        if (eventName === 'needHome') { needHome(); }
+        if (eventName === 'freeFool') { freeFool(); }
+        if (eventName === 'wildPath') { wildPath(); }
+        if (eventName === 'findTerritory') { findTerritory(); }
     }
     
     function eventCheck() {
@@ -2599,12 +3000,16 @@
             eventName = 'freeFool';
             eventList.push(eventName);
             eventCounter += 1;
-        } else if (foodTotal <= 0.5 && wasItDone('firstChoice') < 0) {
+        } else if (wasItDone('firstChoice') < 0) {
             eventName = 'firstChoice';
             eventList.push(eventName);
             eventCounter += 1;
-        } else if (time.min >= 25 && wasItDone('bigHunt') < 0) {
-            eventName = 'bigHunt';
+        } else if (wasItDone('secondChoice') < 0) {
+            eventName = 'secondChoice';
+            eventList.push(eventName);
+            eventCounter += 1;
+        } else if (wasItDone('thirdChoice') < 0) {
+            eventName = 'thirdChoice';
             eventList.push(eventName);
             eventCounter += 1;
         } else if (foodTotal >= 10 && wasItDone('specialFind') < 0) {

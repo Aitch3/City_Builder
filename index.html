@@ -7,7 +7,7 @@
 	</head>
 	<body>
         <div id ="choiceHeader" class="fullScreenDiv">
-            <div id="choice"><span id="choiceText">Welcome to the game!</span></div>
+            <div id="choice"><span id="choiceText">Welcome to the game! You are sitting at your campfire.</span></div>
             <div id="option1" class="option"><button class="btn top" id="optionButton1" disabled><span id="optionText1"></span></button></div>
             <div id="option2" class="option"><button class="btn top" id="optionButton2" disabled><span id="optionText2"></span></button></div>
             <div id="option3" class="option"><button class="btn top" id="optionButton3" disabled><span id="optionText3"></span></button></div>
@@ -18,9 +18,6 @@
                 <div class="container">
                     <div class="occupation" id="peon">
                         <span id="peonTitle"></span>: <span id="peonAmount"></span>
-                    </div>
-                    <div class="occupation" id="animal">
-                        <span id="animalTitle"></span>: <span id="animalAmount"></span>
                     </div>
                     <div class="occupation" id="artist">
                         <button class="btn" id="artistPlus" disabled><span id="artistTitle"></span>: <span id="artistAmount"></span></button>
@@ -92,21 +89,68 @@
                         <button class="btn fire" id="woodsmanMinus" disabled>Fire</button>
                     </div>
                 </div>
-                <div id="actionsBox">
-                    <div class="header" title="Find people here"><span id="actionsBoxTitle"></span></div>            
-                    <div class="container">
-                        <div class="actions" id="sacredChant">
-                            <button class="btn" id="sacredChantDo" disabled>Sacred Chant</button>
-                            <div class ="cost"><span id="sacredChantCost"></span></div>
-                            <div class ="progressBar"><div id="sacredChantProgress"></div></div>
-                        </div>
-                        <div class="actions" id="roastMeat">
-                            <button class="btn" id="roastMeatDo" disabled>Roast Meat</button>
-                            <div class ="cost"><span id="roastMeatCost"></span></div>
-                            <div class ="progressBar"><div id="roastMeatProgress"></div></div>
-                        </div>
-                    </div>                
+            </div>
+            <div id="animalBox">
+                <div class="header" title="Cuddly Critters">Animals</div>            
+                <div class="container">
+                    <div class="occupation" id="alligator">
+                        <span id="alligatorTitle"></span>: <span id="alligatorAmount"></span>
+                    </div>
+                    <div class="occupation" id="bear">
+                        <span id="bearTitle"></span>: <span id="bearAmount"></span>
+                    </div>
+                    <div class="occupation" id="bird">
+                        <span id="birdTitle"></span>: <span id="birdAmount"></span>
+                    </div>
+                    <div class="occupation" id="buffalo">
+                        <span id="buffaloTitle"></span>: <span id="buffaloAmount"></span>
+                    </div>
+                    <div class="occupation" id="chickens">
+                        <span id="chickensTitle"></span>: <span id="chickensAmount"></span>
+                    </div>
+                    <div class="occupation" id="cow">
+                        <span id="cowTitle"></span>: <span id="cowAmount"></span>
+                    </div>
+                    <div class="occupation" id="horse">
+                        <span id="horseTitle"></span>: <span id="horseAmount"></span>
+                    </div>
+                    <div class="occupation" id="monkey">
+                        <span id="monkeyTitle"></span>: <span id="monkeyAmount"></span>
+                    </div>
+                    <div class="occupation" id="panther">
+                        <span id="pantherTitle"></span>: <span id="pantherAmount"></span>
+                    </div>
+                    <div class="occupation" id="pig">
+                        <span id="pigTitle"></span>: <span id="pigAmount"></span>
+                    </div>
+                    <div class="occupation" id="rabbit">
+                        <span id="rabbitTitle"></span>: <span id="rabbitAmount"></span>
+                    </div>
+                    <div class="occupation" id="sheep">
+                        <span id="sheepTitle"></span>: <span id="sheepAmount"></span>
+                    </div>
+                    <div class="occupation" id="squirrel">
+                        <span id="squirrelTitle"></span>: <span id="squirrelAmount"></span>
+                    </div>
+                    <div class="occupation" id="wolf">
+                        <span id="wolfTitle"></span>: <span id="wolfAmount"></span>
+                    </div>
                 </div>
+            </div>
+            <div id="actionsBox">
+                <div class="header" title="Find people here"><span id="actionsBoxTitle"></span></div>            
+                <div class="container">
+                    <div class="actions" id="sacredChant">
+                        <button class="btn" id="sacredChantDo" disabled>Sacred Chant</button>
+                        <div class ="cost"><span id="sacredChantCost"></span></div>
+                        <div class ="progressBar"><div id="sacredChantProgress"></div></div>
+                    </div>
+                    <div class="actions" id="roastMeat">
+                        <button class="btn" id="roastMeatDo" disabled>Roast Meat</button>
+                        <div class ="cost"><span id="roastMeatCost"></span></div>
+                        <div class ="progressBar"><div id="roastMeatProgress"></div></div>
+                    </div>
+                </div>                
             </div>
         </div>
         <div id="middleColumn" class="column">

@@ -1,0 +1,49 @@
+Choice breakdown
+
+Choice
+	*Text
+
+Option 1
+	*Text
+	^Requirement
+	^^Result A
+		*Condition
+		*Result
+		*Text
+	Result B
+		*Result
+		*Text	
+
+option 2
+	*Text
+	^Requirement
+	^^Result C
+		*Condition
+		*Result
+		*Text
+	Result D
+		*Result
+		*Text	
+
+Option 3
+	*Text
+	^^Result E
+		*Condition
+		*Result
+		*Text
+	Result F
+		*Result
+		*Text	
+
+
+* indicates a mandatory data point
+^ indicates an optional data point
+^^ indicates an optional data point that can be repeated with different info
+
+choiceReady();
+        if (eventName === 'firstChoice') {
+            choicePrint("You have no food and you are very hungry. What would you like to do?");
+            choice1Print("Go hunting deer", function () { workers.peon.population -= 1; workers.hunter.population += 1; unlock('workers', 'hunter'); unlock('actions', 'roastMeat'); lock('workers', 'peon'); }, "You are now on the path of the Hunter.");
+            choice2Print("Start gathering nuts and berries", function () { workers.peon.population -= 1; workers.gatherer.population += 1; unlock('workers', 'gatherer'); unlock('actions', 'sacredChant'); lock('workers', 'peon'); }, "You are now on the path of the Gatherer.");
+            choice3Print("Starve", function () { workers.peon.population -= 1; workers.fool.population += 1; traits.foolish.rating += 1; start.traits.foolish.rating += 1; unlock('workers', 'fool'); lock('workers', 'peon'); }, "You are a fool. You are starving to death.");
+        }

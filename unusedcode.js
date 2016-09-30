@@ -599,3 +599,214 @@ choice1Print("Go hunting deer", { peon.foodProd += 0.2; peon.explorationProd += 
         document.getElementById("buildQuarry").onclick = function () { build('quarry', 1); document.getElementById('buildQuarry').disabled = true; };*/
             
             
+           
+            choiceReady();
+        if (eventName === 'firstChoice') {
+            choicePrint("You have no food and you are very hungry. What would you like to do?");
+            choice1Print("Go hunting deer", function () { workers.peon.population -= 1; workers.hunter.population += 1; unlock('workers', 'hunter'); unlock('actions', 'roastMeat'); lock('workers', 'peon'); }, "You are now on the path of the Hunter.");
+            choice2Print("Start gathering nuts and berries", function () { workers.peon.population -= 1; workers.gatherer.population += 1; unlock('workers', 'gatherer'); unlock('actions', 'sacredChant'); lock('workers', 'peon'); }, "You are now on the path of the Gatherer.");
+            choice3Print("Starve", function () { workers.peon.population -= 1; workers.fool.population += 1; traits.foolish.rating += 1; start.traits.foolish.rating += 1; unlock('workers', 'fool'); lock('workers', 'peon'); }, "You are a fool. You are starving to death.");
+        } 
+            
+              
+    function choiceReady() {
+        gamePause = 1;
+        document.getElementById('optionButton1').disabled = false;
+        document.getElementById('optionButton2').disabled = false;
+        document.getElementById('optionButton3').disabled = false;
+        document.getElementById('option1').style.visibility = "visible";
+        document.getElementById('option2').style.visibility = "visible";
+        document.getElementById('option3').style.visibility = "visible";
+    }
+    
+    function choiceDone() {
+        document.getElementById('option1').style.visibility = "hidden";
+        document.getElementById('option2').style.visibility = "hidden";
+        document.getElementById('option3').style.visibility = "hidden";
+        document.getElementById('optionText1').innerHTML = "";
+        document.getElementById('optionText2').innerHTML = "";
+        document.getElementById('optionText3').innerHTML = "";
+        eventDelay = 10;
+        gamePause = 0;
+    }
+                
+    function choiceResult(result, resultText) {
+        document.getElementById('choiceText').innerHTML = resultText;
+        logSmall(resultText);
+        result();
+        eventName = "";
+        choiceDone();
+    }
+    
+    function choicePrint(text) {
+        document.getElementById('choiceText').innerHTML = text;
+        logNormal(text);
+    }
+    
+    function choice1Print(text1, result1, result1Text) {
+        document.getElementById('optionText1').innerHTML = text1;
+        document.getElementById('optionButton1').onclick = function () { choiceResult(result1, result1Text); };
+        
+    }
+    
+    function choice2Print(text2, result2, result2Text) {
+        document.getElementById('optionText2').innerHTML = text2;
+        document.getElementById('optionButton2').onclick = function () { choiceResult(result2, result2Text); };
+    }
+    
+    function choice3Print(text3, result3, result3Text) {
+        document.getElementById('optionText3').innerHTML = text3;
+        document.getElementById('optionButton3').onclick = function () { choiceResult(result3, result3Text); };
+    }
+            
+                        /*choicePrint("You have no food and you are very hungry. What would you like to do?");
+            choice1Print("Go hunting deer", function () { workers.peon.population -= 1; workers.hunter.population += 1; unlock('workers', 'hunter'); unlock('actions', 'roastMeat'); lock('workers', 'peon'); }, "You are now on the path of the Hunter.");
+            choice2Print("Start gathering nuts and berries", function () { workers.peon.population -= 1; workers.gatherer.population += 1; unlock('workers', 'gatherer'); unlock('actions', 'sacredChant'); lock('workers', 'peon'); }, "You are now on the path of the Gatherer.");
+            choice3Print("Starve", function () { workers.peon.population -= 1; workers.fool.population += 1; traits.foolish.rating += 1; start.traits.foolish.rating += 1; unlock('workers', 'fool'); lock('workers', 'peon'); }, "You are a fool. You are starving to death.");
+        }
+        if (eventName === 'bigHunt') {
+            choicePrint("You find a mammoth, there's good eating on one of those.");
+            choice1Print("Find a friend to help hunt it", function () { workers.hunter.population += 1; unlock('workers', 'hunter'); unlock('actions', 'roastMeat'); workers.hunter.meatProd += 0.025; }, "Your friend joins you and you can hunt much better.");
+            choice2Print("Chase it off a cliff", function () { foods.meat += 50; territory.cave.amount += 1; unlock('territory', 'cave'); }, "You successfully harvest a great deal of food, and in doing so, you find a cave.");
+            choice3Print("Try to talk to it", function () { traits.nature.rating += 1; }, "The mammoth teaches you its secrets.");
+        }
+        if (eventName === 'specialFind') {
+            choicePrint("Where would you like to gather food today?");
+            choice1Print("Off in the forest", function () { territory.forest.amount += 1; unlock('territory', 'forest'); traits.nature.rating += 1; }, "The forest is nice, perhaps you'll keep it.");
+            choice2Print("Up by the mountains", function () { territory.cave.amount += 1; unlock('territory', 'cave'); }, "In the mountains you find a cave full of bats.");
+            choice3Print("Down in the dirt", function () { foods.mushrooms += 5; goods.rocks += 10; }, "You spend the afternoon digging in the dirt. You find mushrooms and rocks.");
+        }*/
+            if (eventName === 'needHome') {
+            choicePrint("You don't have a place to stay and it's getting cold.");
+            choice1Print("Pile up sticks for warmth", function () { workers.gatherer.sticksProd += 0.025; unlock('building', 'hut'); building.hut.amount += 1; }, "You've learned how to build a hut.");
+            choice2Print("Look in the mountains", function () { workers.hunter.explorationProd += 0.005; territory.cave.amount += 1; unlock('territory', 'cave'); traits.mysticism += 1; }, "In the mountains you find a cave full of skeletons.");
+            choice3Print("Kill a tauntaun and climb inside", function () { eventList.pop(); }, "You stay warm for the night but you better find something that will last longer.");
+        }
+            if (eventName === 'freeFool') {
+            choicePrint("You have proceeded in your folly and have learned wisdom.");
+            choice1Print("Farm", function () { unlock('building', 'farm'); foods.grains += 5; goods.logs += 4; }, "You've learned how to build a farm.");
+            choice2Print("Lumbermill", function () { unlock('building', 'lumbermill'); goods.lumber += 5; }, "You've learned how to build a lumbermill.");
+            choice3Print("Quarry", function () { unlock('building', 'quarry'); goods.stone += 5; }, "You've learned how to build a quarry.");
+        }
+        if (eventName === 'wildPath') {
+            choicePrint("You are becoming one with the land. How do you want to continue?");
+            choice1Print("Talk with animals", function () { unlock('workers', 'animal'); workers.animal.title = "Wolves"; workers.animal.population += 1; }, "You can now run with the wolves.");
+            choice2Print("Talk with plants", function () { workers.peon.fruitProd += 1; workers.peon.explorationProd += 1; }, "You can speak with plants and make them grow.");
+            choice3Print("Turn your back on the wild", function () { traits.nature.rating = 0; unlock('building', 'lumbermill'); }, "You've given up the ways of nature. Time to chop it down!");
+        }
+    if (eventName === 'findTerritory') {
+            var numNum = random(1, 100);
+            //totalTerritory = territory.cave.amount + territory.forest.amount + territory.mountain.amount + territory.plain.amount + territory.swamp.amount + territory.stream.amount + territory.spring.amount + territory.beach.amount + territory.lake.amount + territory.pond.amount + territory.ocean.amount + territory.island.amount + territory.grove.amount + territory.glen.amount + territory.hill.amount + territory.canyon.amount + territory.river.amount + territory.delta.amount + territory.cliff.amount + territory.bay.amount;
+            if (numNum <= 15) {
+                choicePrint("Mountain");
+                choice1Print("Cave", function () { territory.cave.amount += 1; unlock('territory', 'cave'); eventList.pop(); }, "Caved");
+                choice2Print("Mountain", function () { territory.mountain.amount += 1; unlock('territory', 'mountain'); eventList.pop(); }, "Mountained");
+                choice3Print("Hill", function () { territory.hill.amount += 1; unlock('territory', 'hill'); eventList.pop(); }, "Hilled");
+            }
+            if (numNum > 15 && numNum <= 30) {
+                choicePrint("Mountain 2");
+                choice1Print("Lake", function () { territory.lake.amount += 1; unlock('territory', 'lake'); eventList.pop(); }, "Laked");
+                choice2Print("Canyon", function () { territory.canyon.amount += 1; unlock('territory', 'canyon'); eventList.pop(); }, "Canyoned");
+                choice3Print("River", function () { territory.river.amount += 1; unlock('territory', 'river'); eventList.pop(); }, "Rivered");
+            }
+            if (numNum > 30 && numNum <= 45) {
+                choicePrint("Forest");
+                choice1Print("Forest", function () { territory.forest.amount += 1; unlock('territory', 'forest'); eventList.pop(); }, "Forested");
+                choice2Print("Stream", function () { territory.stream.amount += 1; unlock('territory', 'stream'); eventList.pop(); }, "Streamed");
+                choice3Print("Pond", function () { territory.pond.amount += 1; unlock('territory', 'pond'); eventList.pop(); }, "Pond");
+            }
+            if (numNum > 45 && numNum <= 60) {
+                choicePrint("Plain");
+                choice1Print("Plain", function () { territory.plain.amount += 1; unlock('territory', 'plain'); eventList.pop(); }, "Plained");
+                choice2Print("Swamp", function () { territory.swamp.amount += 1; unlock('territory', 'swamp'); eventList.pop(); }, "Swamped");
+                choice3Print("Beach", function () { territory.beach.amount += 1; unlock('territory', 'beach'); eventList.pop(); }, "Beach");
+            }
+            if (numNum > 60 && numNum <= 75) {
+                choicePrint("Plain 2");
+                choice1Print("Lake", function () { territory.lake.amount += 1; unlock('territory', 'lake'); eventList.pop(); }, "Laked");
+                choice2Print("Hill", function () { territory.hill.amount += 1; unlock('territory', 'hill'); eventList.pop(); }, "Hilled");
+                choice3Print("River", function () { territory.river.amount += 1; unlock('territory', 'river'); eventList.pop(); }, "Rivered");
+            }
+            if (numNum > 75 && numNum <= 90) {
+                choicePrint("Water");
+                choice1Print("Ocean", function () { territory.ocean.amount += 1; unlock('territory', 'ocean'); eventList.pop(); }, "Oceaned");
+                choice2Print("Island", function () { territory.island.amount += 1; unlock('territory', 'island'); eventList.pop(); }, "Islanded");
+                choice3Print("Bay", function () { territory.bay.amount += 1; unlock('territory', 'bay'); eventList.pop(); }, "Bayed");
+            }
+            if (numNum > 90 && numNum <= 95) {
+                choicePrint("Special");
+                choice1Print("Spring", function () { territory.spring.amount += 1; unlock('territory', 'spring'); eventList.pop(); }, "Springed");
+                choice2Print("Grove", function () { territory.grove.amount += 1; unlock('territory', 'grove'); eventList.pop(); }, "Groved");
+                choice3Print("Delta", function () { territory.delta.amount += 1; unlock('territory', 'delta'); eventList.pop(); }, "Deltaed");
+            }
+            if (numNum > 95 && numNum <= 100) {
+                choicePrint("Special 2");
+                choice1Print("Spring", function () { territory.spring.amount += 1; unlock('territory', 'spring'); eventList.pop(); }, "Sprung");
+                choice2Print("Glen", function () { territory.glen.amount += 1; unlock('territory', 'glen'); eventList.pop(); }, "Glened");
+                choice3Print("Cliff", function () { territory.cliff.amount += 1; unlock('territory', 'cliff'); eventList.pop(); }, "Cliffed");
+            }
+            exploration.amount -= exploration.cost;
+            exploration.cost += totalTerritory;
+        }
+        /*Choice template
+        if (eventName === 'firstChoice') {   
+            choicePrint();
+            choice1Print(, function () { ; }, );
+            choice2Print(, function () { ; }, );
+            choice3Print(, function () { ; }, );
+         }
+        }*/
+            
+                    /*
+        foods.meat += ((animals.alligator.population * animals.alligator.meatProd) + (animals.bird.population * animals.bird.meatProd) + (animals.panther.population * animals.panther.meatProd) + (animals.wolf.population * animals.wolf.meatProd) + (workers.hunter.population * workers.hunter.meatProd));
+        foods.fish += ((animals.bear.population * animals.bear.fishProd) + (workers.fisher.population * workers.fisher.fishProd) + (workers.hunter.population * workers.hunter.fishProd));
+        foods.nuts += ((animals.squirrel.population * animals.squirrel.nutsProd) + (workers.gatherer.population * workers.gatherer.nutsProd));
+        foods.berries += ((animals.bear.population * animals.bear.berriesProd) + (workers.gatherer.population * workers.gatherer.berriesProd));
+        foods.fruit += ((animals.monkey.population * animals.monkey.fruitProd) + (workers.gatherer.population * workers.gatherer.fruitProd));
+        foods.vegetables += ((animals.rabbit.population * animals.rabbit.vegetablesProd) + (workers.farmer.population * workers.farmer.vegetablesProd));
+        foods.mushrooms += (animals.pig.population * animals.pig.mushroomsProd);
+        foods.grains += ((workers.farmer.population * workers.farmer.grainsProd));
+        foods.eggs += ((animals.chicken.population * animals.chicken.eggsProd) + (workers.farmer.population * workers.farmer.eggsProd));
+        foods.milk += ((animals.cow.population * animals.cow.milkProd) + (workers.farmer.population * workers.farmer.milkProd));
+        foods.cheese += 0;
+        goods.furs += ((workers.hunter.population * workers.hunter.fursProd));
+        goods.leather += 0;
+        goods.bones += ((workers.hunter.population * workers.hunter.bonesProd));
+        goods.sticks += ((workers.gatherer.population * workers.gatherer.sticksProd) + (workers.woodsman.population * workers.woodsman.sticksProd));
+        goods.logs += ((workers.woodsman.population * workers.woodsman.logsProd) + (workers.laborer.population * workers.laborer.logsProd));
+        goods.lumber += ((workers.carpenter.population * workers.carpenter.lumberProd));
+        goods.rocks += ((workers.gatherer.population * workers.gatherer.rocksProd));
+        goods.flint += 0;
+        goods.clay += 0;
+        goods.stone += ((workers.mason.population * workers.mason.stoneProd));
+        goods.ore += 0;
+        goods.water += 0;
+        goods.oil += 0;
+        goods.copper += 0;
+        goods.tin += 0;
+        goods.bronze += 0;
+        goods.iron += 0;
+        goods.steel += 0;
+        goods.silver += 0;
+        goods.gold += 0;
+        goods.gems += 0;
+        goods.crystals += 0;
+        goods.money += 0;
+        goods.mana += ((workers.magic.population * workers.magic.manaProd));
+        goods.herbs += ((workers.druid.population * workers.druid.herbsProd));
+        goods.wool += (animals.sheep.population * animals.sheep.woolProd);
+        goods.linen += 0;
+        goods.cotton += 0;
+        goods.cloth += 0;
+        goods.papyrus += 0;
+        goods.paper += 0;
+        goods.paint += 0;
+        goods.ink += 0;
+        goods.charcoal += 0;
+        goods.coal += 0;
+        goods.salt += 0;
+        goods.saltpeter += 0;
+        goods.gunpowder += 0;
+        goods.glass += 0;
+        goods.concrete += 0;
+        exploration.amount += (workers.hunter.population * workers.hunter.explorationProd) + (workers.gatherer.population * workers.gatherer.explorationProd);*/
